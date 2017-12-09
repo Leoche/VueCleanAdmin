@@ -19,10 +19,10 @@
            <div class="card-content">
             <div class="content">
               <b-field>
-                <b-input placeholder="Email" type="email" icon="email-outline"></b-input>
+                <b-input placeholder="Email" type="email" icon="email-outline" v-model="vemail"></b-input>
               </b-field>
               <b-field>
-                <b-input placeholder="Mot de passe" type="password" icon="key"></b-input>
+                <b-input placeholder="Mot de passe" type="password" icon="key" v-model="vpassword" password-reveal autocomplete="off"></b-input>
               </b-field>
               <div class="field">
                 <b-switch v-model="remember">
@@ -31,8 +31,8 @@
               </div>
               <b-field grouped position="is-right">
                 <p class="control">
-                  <button class="button is-light">Annuler</button>
-                  <button class="button is-primary">Connexion</button>
+                  <button class="button is-light" @click="clear">Annuler</button>
+                  <button class="button is-primary" @click="login" loading>Connexion</button>
                 </p>
               </b-field>
             </div>
@@ -41,15 +41,37 @@
       </div>
     </div>
   </section>
+  <b-loading :active.sync="isLoading"></b-loading>
 </div>
 </template>
 
 <script>
 export default {
   name: 'app',
-  data: function () {
+  data: () => {
     return {
-      remember: false
+      isLoading: false,
+      remember: false,
+      vemail: '',
+      vpassword: ''
+    }
+  },
+  methods: {
+    login () {
+      const vm = this
+      vm.isLoading = true
+      setTimeout(() => {
+        vm.isLoading = false
+        vm.$toast.open({
+          message: 'Mauvais identifiants',
+          type: 'is-danger',
+          position: 'is-bottom'
+        })
+      }, 1 * 1000)
+    },
+    clear () {
+      this.vemail = ''
+      this.vpassword = ''
     }
   }
 }
@@ -64,16 +86,16 @@ $pink-color:#FC2D79;
 $yellow-color:#ffb52a;
 
 $colors: (
-    "white": ($white, $black),
-    "black": ($black, $white),
-    "light": ($light, $light-invert),
-    "dark": ($dark, $dark-invert),
-    "primary": ($primary, $primary-invert),
-    "info": ($info, $info-invert),
-    "success": ($success, $success-invert),
-    "warning": ($warning, $warning-invert),
-    "danger": ($danger, $danger-invert),
-);
+  "white": ($white, $black),
+  "black": ($black, $white),
+  "light": ($light, $light-invert),
+  "dark": ($dark, $dark-invert),
+  "primary": ($primary, $primary-invert),
+  "info": ($info, $info-invert),
+  "success": ($success, $success-invert),
+  "warning": ($warning, $warning-invert),
+  "danger": ($danger, $danger-invert),
+  );
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -82,7 +104,7 @@ $colors: (
   background-color:#ccd;
   background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAF0lEQVQYV2PU1NT8z4AEGEkTeP36NQMA8G0IrhzLffYAAAAASUVORK5CYII=);
   & .card{
-    width: 400px;
+    width: 500px;
     margin: 0 auto;
     border-radius: .25rem;
   }
