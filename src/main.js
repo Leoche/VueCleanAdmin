@@ -4,10 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Buefy from 'buefy'
+import { AuthPlugin } from './auth/AuthPlugin'
 Vue.config.productionTip = false
 
 Vue.use(Buefy)
-
+Vue.use(AuthPlugin, {
+  router: router
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
