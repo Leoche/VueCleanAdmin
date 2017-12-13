@@ -21,10 +21,10 @@
               <b-input placeholder="Email" type="email" icon="email-outline" v-model="vemail"></b-input>
             </b-field>
             <b-field>
-              <b-input placeholder="Mot de passe" type="password" icon="key" v-model="vpassword" password-reveal autocomplete="off"></b-input>
+              <b-input placeholder="Mot de passe" type="password" icon="key" @keyup.enter.native="login" v-model="vpassword" password-reveal autocomplete="off"></b-input>
             </b-field>
             <div class="field">
-              <b-switch v-model="remember">
+              <b-switch v-model="$localStorage.remember">
                 Se souvenir de moi
               </b-switch>
             </div>
@@ -48,9 +48,14 @@ export default {
   data: () => {
     return {
       isLoading: false,
-      remember: false,
       vemail: '',
       vpassword: ''
+    }
+  },
+  localStorage: {
+    remember: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -59,6 +64,10 @@ export default {
       vm.isLoading = true
       let user = this.$auth.login(this.vemail, this.vpassword)
       if (user) {
+        if (this.$localStorage.get('remember', false)) {
+          this.$localStorage.set('vemail', this.vemail)
+          this.$localStorage.set('vpassword', this.vpassword)
+        }
         this.$session.set('user', user)
         vm.isLoading = false
         vm.$toast.open({
@@ -79,6 +88,15 @@ export default {
     clear () {
       this.vemail = ''
       this.vpassword = ''
+    }
+  },
+  mounted () {
+    if (this.$localStorage.get('remember', false)) {
+      this.vemail = this.$localStorage.get('vemail', '')
+      this.vpassword = this.$localStorage.get('vpassword', '')
+    } else {
+      this.vemail = this.$localStorage.set('vemail', '')
+      this.vpassword = this.$localStorage.set('vpassword', '')
     }
   }
 }

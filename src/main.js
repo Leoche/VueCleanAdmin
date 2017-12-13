@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueSession from 'vue-session'
+import VueLocalStorage from 'vue-localstorage'
 import App from './App'
 import router from './router'
 import Buefy from 'buefy'
@@ -10,6 +11,7 @@ Vue.config.productionTip = false
 
 Vue.use(Buefy)
 Vue.use(VueSession)
+Vue.use(VueLocalStorage)
 Vue.use(Auth, {
   router: router
 })
