@@ -31,4 +31,7 @@ $colors: (
   );
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
+html{
+  overflow-y: auto;
+}
 </style>

@@ -57,10 +57,12 @@ export default {
     login () {
       const vm = this
       vm.isLoading = true
-      if (this.$auth.login()) {
+      let user = this.$auth.login(this.vemail, this.vpassword)
+      if (user) {
+        this.$session.set('user', user)
         vm.isLoading = false
         vm.$toast.open({
-          message: 'Bienvenue ' + this.$auth.user.name,
+          message: 'Bienvenue ' + this.$session.get('user').name,
           type: 'is-success',
           position: 'is-bottom'
         })
@@ -86,6 +88,8 @@ export default {
 .hero.is-login{
   background-color:#ccd;
   background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAF0lEQVQYV2PU1NT8z4AEGEkTeP36NQMA8G0IrhzLffYAAAAASUVORK5CYII=);
+  background:url(https:////wallpapertag.com/wallpaper/middle/3/2/7/347905-free-download-blurred-background-1920x1200-computer.jpg);
+  background-size: cover;
   & .card{
     width: 500px;
     margin: 0 auto;
