@@ -17,7 +17,6 @@ export default {
   },
   methods: {
     logout () {
-      console.log('de')
       this.$session.destroy()
       this.$router.push('/login')
     }
