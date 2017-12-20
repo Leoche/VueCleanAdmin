@@ -1,19 +1,41 @@
 <template>
-  <section class="hero is-login is-fullheight">
-    <div class="hello">
-      <h1>{{ msg }} {{ $session.get('user').name }}</h1>
-      <button class="button is-danger" @click="logout()">Déconnexion</button>
+  <div>
+    <Navbar></Navbar>
+    <div class="container is-widescreen is-fluid">
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <Sidebar></Sidebar>
+        </div>
+        <div class="column column-content">
+          <h1>{{ msg }}</h1>
+          <button class="button is-danger" @click="logout()">Déconnexion</button>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
+import Sidebar from './Sidebar'
+import Navbar from './Navbar'
+
 export default {
-  name: 'HelloWorld',
+  name: 'Dashboard',
   data () {
     return {
       msg: 'Welcome'
     }
+  },
+  components: {
+    Sidebar,
+    Navbar
   },
   methods: {
     logout () {
@@ -25,5 +47,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.column-content{
+  margin-top:16px
+}
 </style>
