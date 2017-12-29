@@ -92,12 +92,13 @@ export default {
   },
   mounted () {
     // Remove margin html
-    let className = "has-navbar-fixed-top"
+    let className = 'has-navbar-fixed-top'
     let el = document.documentElement
-    if (el.classList)
-      el.classList.remove(className);
-    else
+    if (el.classList) {
+      el.classList.remove(className)
+    } else {
       el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ')
+    }
 
     if (this.$localStorage.get('remember', false)) {
       this.vemail = this.$localStorage.get('vemail', '')
@@ -109,12 +110,13 @@ export default {
   },
   destroyed () {
     // Add margin html
-    let className = "has-navbar-fixed-top"
+    let className = 'has-navbar-fixed-top'
     let el = document.documentElement
-    if (el.classList)
-      el.classList.add(className);
-    else
-      el.className += ' ' + className;
+    if (el.classList) {
+      el.classList.add(className)
+    } else {
+      el.className += ' ' + className
+    }
   }
 }
 </script>

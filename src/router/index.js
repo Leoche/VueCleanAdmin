@@ -17,6 +17,14 @@ let router = new Router({
       }
     },
     {
+      path: '/:page',
+      name: 'Dashboard',
+      component: Dashboard,
+      meta: {
+        auth: true
+      }
+    },
+    {
       path: '/login',
       name: 'Login',
       component: Login

@@ -55,7 +55,7 @@ export default {
   },
   data () {
     return {
-      open:false,
+      open: false,
       msg: 'Welcome to Your Vue.js App'
     }
   }

@@ -7,15 +7,8 @@
           <Sidebar></Sidebar>
         </div>
         <div class="column column-content">
-          <h1>{{ msg }}</h1>
-          <button class="button is-danger" @click="logout()">Déconnexion</button>
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          ({{ $route.params.path }})
+          <ModelManager v-if="$route.params.page === 'model'"></ModelManager>
         </div>
       </div>
     </div>
@@ -23,8 +16,10 @@
 </template>
 
 <script>
-import Sidebar from './Sidebar'
-import Navbar from './Navbar'
+import Sidebar from './ui/Sidebar'
+import Navbar from './ui/Navbar'
+import MaterialDesign from './inputs/MaterialDesign'
+import ModelManager from './ModelManager'
 
 export default {
   name: 'Dashboard',
@@ -35,7 +30,13 @@ export default {
   },
   components: {
     Sidebar,
-    Navbar
+    Navbar,
+    MaterialDesign,
+    ModelManager
+  },
+  mounted () {
+    // eslint-disable-next-line
+    console.log($route.params)
   },
   methods: {
     logout () {
