@@ -4,23 +4,21 @@
       Adminitration
     </p>
     <ul class="menu-list">
-      <li><router-link to="/">Accueil</router-link></li>
+      <li><router-link to="/" exact-active-class="is-active">Accueil</router-link></li>
       <li><a>Lien</a></li>
     </ul>
     <p class="menu-label">
       Super Administration
     </p>
     <ul class="menu-list">
-      <li><router-link to="/model">Model</router-link></li>
+      <li><router-link to="/model" exact-active-class="is-active">Model</router-link></li>
     </ul>
   </aside>
 </template>
 
 <script>
 export default {
-  name: 'Sidebar',
-  data () {
-  }
+  name: 'Sidebar'
 }
 </script>
 
