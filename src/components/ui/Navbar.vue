@@ -16,28 +16,15 @@
   </div>
   <div class="navbar-menu" :class="{ 'is-active': open }">
    <div class="navbar-end">
-    <a class="navbar-item" href="https://bulma.io">
-      <i class="mdi mdi-account-circle mdi-24px"></i> {{ $session.get('user').name }}
-    </a>
     <div class="navbar-item has-dropdown is-hoverable">
       <a class="navbar-link">
-        Docs
+        <i class="mdi mdi-account-circle mdi-24px"></i> {{ $session.get('user').name }}
       </a>
 
       <div class="navbar-dropdown is-right">
-        <a class="navbar-item">
-          Overview
+        <a class="navbar-item" @click.prevent='logout'>
+          Déconnexion
         </a>
-        <a class="navbar-item">
-          Elements
-        </a>
-        <a class="navbar-item">
-          Components
-        </a>
-        <hr class="navbar-divider">
-        <div class="navbar-item">
-          Version 0.6.1
-        </div>
       </div>
     </div>
   </div>
@@ -51,12 +38,15 @@ export default {
   methods: {
     toggle () {
       this.open = !this.open
+    },
+    logout () {
+      this.$session.destroy()
+      location.reload()
     }
   },
   data () {
     return {
-      open: false,
-      msg: 'Welcome to Your Vue.js App'
+      open: false
     }
   }
 }
