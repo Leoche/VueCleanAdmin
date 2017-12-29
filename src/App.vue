@@ -1,12 +1,33 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <template v-if="isLogged()">
+      <Dashboard></Dashboard>
+    </template>
+    <template v-else>
+      <Login></Login>
+    </template>
   </div>
 </template>
 
 <script>
+import Dashboard from './components/Dashboard'
+import Login from './components/Login'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Dashboard,
+    Login
+  },
+  mounted () {
+  // eslint-disable-next-line
+    console.log(this.isLogged())
+  },
+  methods: {
+    isLogged () {
+      return this.$session.has('user')
+    }
+  }
 }
 </script>
 

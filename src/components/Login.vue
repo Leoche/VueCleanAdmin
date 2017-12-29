@@ -75,7 +75,7 @@ export default {
           type: 'is-success',
           position: 'is-bottom'
         })
-        this.$router.push('/')
+        location.reload()
       } else {
         vm.isLoading = false
         vm.$toast.open({

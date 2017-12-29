@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
+import Home from '@/components/Home'
+import ModelManager from '@/components/ModelManager'
 
 Vue.use(Router)
 
@@ -10,16 +11,16 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Dashboard',
-      component: Dashboard,
+      name: 'Home',
+      component: Home,
       meta: {
         auth: true
       }
     },
     {
-      path: '/:page',
-      name: 'Dashboard',
-      component: Dashboard,
+      path: '/model',
+      name: 'ModelManager',
+      component: ModelManager,
       meta: {
         auth: true
       }

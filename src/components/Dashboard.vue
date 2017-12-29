@@ -7,8 +7,7 @@
           <Sidebar></Sidebar>
         </div>
         <div class="column column-content">
-          ({{ $route.params.path }})
-          <ModelManager v-if="$route.params.page === 'model'"></ModelManager>
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -35,8 +34,6 @@ export default {
     ModelManager
   },
   mounted () {
-    // eslint-disable-next-line
-    console.log($route.params)
   },
   methods: {
     logout () {
