@@ -1,0 +1,22 @@
+[
+   {
+      "name":"presentation",
+      "label":"Texte de présentation",
+      "type":"text"
+   },
+   {
+      "name":"workdate",
+      "label":"Date des travaux",
+      "type":"date"
+   },
+   {
+      "name":"def",
+      "label":"Date des travaux",
+      "type":"tag"
+   },
+   {
+      "name":"fsdf",
+      "label":"Date des travaux",
+      "type":"sub"
+   }
+]
