@@ -3,7 +3,7 @@
     <Navbar></Navbar>
     <div class="container is-widescreen is-fluid">
       <div class="columns">
-        <div class="column is-one-quarter">
+        <div class="column is-one-fifth">
           <Sidebar></Sidebar>
         </div>
         <div class="column column-content">
