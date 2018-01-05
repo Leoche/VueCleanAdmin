@@ -1,0 +1,34 @@
+[
+   {
+      "name":"text",
+      "label":"Texte"
+   },
+   {
+      "name":"date",
+      "label":"Date"
+   },
+   {
+      "name":"image",
+      "label":"Image"
+   },
+   {
+      "name":"numeric",
+      "label":"Nombre"
+   },
+   {
+      "name":"location",
+      "label":"Emplacement"
+   },
+   {
+      "name":"boolean",
+      "label":"Boolean"
+   },
+   {
+      "name":"tags",
+      "label":"Tags"
+   },
+   {
+      "name":"sub",
+      "label":"Sous Champ"
+   }
+]
