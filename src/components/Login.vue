@@ -89,34 +89,6 @@ export default {
       this.vemail = ''
       this.vpassword = ''
     }
-  },
-  mounted () {
-    // Remove margin html
-    let className = 'has-navbar-fixed-top'
-    let el = document.documentElement
-    if (el.classList) {
-      el.classList.remove(className)
-    } else {
-      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ')
-    }
-
-    if (this.$localStorage.get('remember', false)) {
-      this.vemail = this.$localStorage.get('vemail', '')
-      this.vpassword = this.$localStorage.get('vpassword', '')
-    } else {
-      this.vemail = this.$localStorage.set('vemail', '')
-      this.vpassword = this.$localStorage.set('vpassword', '')
-    }
-  },
-  destroyed () {
-    // Add margin html
-    let className = 'has-navbar-fixed-top'
-    let el = document.documentElement
-    if (el.classList) {
-      el.classList.add(className)
-    } else {
-      el.className += ' ' + className
-    }
   }
 }
 </script>

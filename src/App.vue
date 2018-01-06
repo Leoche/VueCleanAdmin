@@ -19,10 +19,6 @@ export default {
     Dashboard,
     Login
   },
-  mounted () {
-  // eslint-disable-next-line
-    console.log(this.isLogged())
-  },
   methods: {
     isLogged () {
       return this.$session.has('user')
