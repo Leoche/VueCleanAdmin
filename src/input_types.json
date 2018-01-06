@@ -1,7 +1,22 @@
 [
    {
       "name":"text",
-      "label":"Texte"
+      "label":"Texte",
+      "settings":[
+         {
+            "name":"length",
+            "label":"Longueur du texte",
+            "component":"input-group-radio",
+            "default":"line",
+            "options":[{
+               "name":"line",
+               "label":"Une ligne"
+            },{
+               "name":"multiline",
+               "label":"Paragraphe"
+            }]
+         }
+      ]
    },
    {
       "name":"date",
