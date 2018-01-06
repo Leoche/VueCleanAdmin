@@ -8,7 +8,9 @@ export default {
   props: ['parent'],
   methods: {
     change () {
-      this.$emit('setOptions', this.$data)
+      let op = {}
+      op[this.name] = this.value
+      this.$emit('setOptions', op)
     }
   }
 }
