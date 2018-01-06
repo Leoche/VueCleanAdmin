@@ -71,13 +71,20 @@ export default {
       if (this.path === '') return this.rawData
       else return this.rawData[path]
     },
-    selectInput (args) {
-      console.log(args)
+    selectInput (input) {
       this.rawData.push({
-        'name': 'default',
-        'label': 'Label par defaut',
-        'type': args
+        'name': this.slug(input.name),
+        'label': input.name,
+        'type': input.type
       })
+    },
+    slug (str) {
+      return str.toString().toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w-]+/g, '')
+      .replace(/--+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '')
     }
   },
   mounted () {

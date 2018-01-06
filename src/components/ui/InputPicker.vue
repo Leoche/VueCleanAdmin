@@ -86,10 +86,9 @@ export default {
       this.selected.options = args
     },
     pick () {
-      console.log(Object.assign({}, this.selected))
-      console.log(JSON.parse(JSON.stringify(this.selected)))
-      // this.$emit('newInput', type)
-      // this.$parent.close()
+      let finalInput = JSON.parse(JSON.stringify(this.selected))
+      this.$emit('newInput', finalInput)
+      this.$parent.close()
     }
   },
   computed: {
