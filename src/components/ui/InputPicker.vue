@@ -2,10 +2,14 @@
   <form action="">
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Ajout d'un champ</p>
+        <p v-if="selectedType === null" class="modal-card-title">Ajout d'un champ</p>
+        <p v-else class="modal-card-title">
+          <IconInput :icon="inputsTypes[selectedType].name"></IconInput> Ajout d'un champ: {{ inputsTypes[selectedType].label }}
+        </p>
         <button class="delete" aria-label="close" @click.prevent="$parent.close()"></button>
       </header>
       <section class="modal-card-body">
+        <!-- Boxes -->
         <div v-if="selectedType === null" class="columns">
           <div v-for="(set, i) in inputsTypesChunked" class="column">
             <a v-for="(input, j) in set" class="button button-large" @click.prevent="selectInput(input.name, i*2 + j)">
@@ -16,24 +20,26 @@
             </a>
           </div>
         </div>
+        <!-- Options -->
         <div v-else>
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title"><IconInput :icon="inputsTypes[selectedType].name"></IconInput> {{ inputsTypes[selectedType].label }} <b-tag rounded>{{ inputsTypes[selectedType].name }}</b-tag></p>
-            </div>
-            <div class="card-content"  v-if="inputsTypes[selectedType].settings">
-              <div class="content"><h6>Options</h6></div>
-              <component v-for="setting in inputsTypes[selectedType].settings"
-                :parent="inputsTypes[selectedType].name"
-                :key="setting.name"
-                :defaultvalue="setting.default"
-                is="InputGroupRadio"
-                :name="setting.name"
-                :label="setting.label"
-                :options="setting.options"
-                v-on:setOptions="setOptions"
-              ></component>
-            </div>
+          <!-- Name input -->
+          <b-field label="Nom du champ">
+            <b-input v-model="selected.name" placeholder="Nom..."></b-input>
+          </b-field>
+          <div class="content" v-if="inputsTypes[selectedType].settings">
+            <h6>Options</h6>
+            <component
+            v-for="setting in inputsTypes[selectedType].settings"
+            issettings="true"
+            :is="setting.component"
+            :parent="inputsTypes[selectedType].name"
+            :key="setting.name"
+            :defaultvalue="setting.default"
+            :name="setting.name"
+            :label="setting.label"
+            :options="setting.options"
+            v-on:setOptions="setOptions"
+            ></component>
           </div>
         </div>
       </section>
@@ -42,7 +48,7 @@
           <b-icon icon="chevron-left"></b-icon>
           <span>Retour</span>
         </button>
-        <button class="button is-primary" :disabled="selectedType === null" @click.prevent="pick">
+        <button class="button is-primary" :disabled="!validate" @click.prevent="pick">
           <b-icon icon="check"></b-icon>
           <span>Valider</span>
         </button>
@@ -73,10 +79,8 @@ export default {
   },
   methods: {
     selectInput (type, i) {
-      this.selected.name = type
+      this.selected.type = type
       this.selectedType = i
-      // this.$emit('newInput', type)
-      // this.$parent.close()
     },
     setOptions (args) {
       this.selected.options = args
@@ -84,11 +88,13 @@ export default {
     pick () {
       console.log(Object.assign({}, this.selected))
       console.log(JSON.parse(JSON.stringify(this.selected)))
+      // this.$emit('newInput', type)
+      // this.$parent.close()
     }
   },
   computed: {
     validate () {
-
+      return this.selected.type && this.selected.name.length > 3
     }
   },
   mounted () {
