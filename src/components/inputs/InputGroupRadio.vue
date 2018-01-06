@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import InputOption from '@/components/inputs/InputOption'
+import InputBase from '@/components/inputs/InputBase'
 
 export default {
   name: 'InputGroupRadio',
-  extends: InputOption,
+  extends: InputBase,
   data () {
     return {
       radioButton: null
