@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-tabs v-model="activeTab">
+    <b-tabs v-model="activeTab" position="is-centered">
       <b-tab-item label="Model" icon="file-tree">
 
         <nav class="level">
@@ -19,10 +19,27 @@
           </div>
         </nav>
 
-        <div class="card" v-for="input in rawData">
+        <div class="card" v-for="(input, i) in rawData">
           <div class="card-header">
             <p class="card-header-title"><IconInput :icon="input.type"></IconInput> {{ input.label }} <b-tag rounded>{{ input.name }}</b-tag></p>
-            <a class="card-header-icon"><b-Icon icon="settings"></b-Icon></a>
+            <a class="card-header-icon">
+              <b-dropdown position="is-top-left">
+                <b-Icon icon="settings" slot="trigger"></b-Icon>
+
+                <b-dropdown-item @click="moveInput(i, -1)" v-if="i !== 0">
+                  <b-Icon icon="chevron-up" size="is-small"></b-Icon>
+                  <span>Monter</span>
+                </b-dropdown-item>
+                <b-dropdown-item @click="moveInput(i, 1)" v-if="i !== rawData.length - 1">
+                  <b-Icon icon="chevron-down" size="is-small"></b-Icon>
+                  <span>Descendre</span>
+                </b-dropdown-item>
+                <b-dropdown-item @click="removeInput(i)">
+                  <b-Icon icon="delete" size="is-small"></b-Icon>
+                  <span>Supprimer</span>
+                </b-dropdown-item>
+              </b-dropdown>
+            </a>
           </div>
         </div>
       </b-tab-item>
@@ -68,8 +85,11 @@ export default {
   },
   methods: {
     getContents (path) {
-      if (this.path === '') return this.rawData
-      else return this.rawData[path]
+      if (this.path === '') {
+        return this.rawData
+      } else {
+        return this.rawData[path]
+      }
     },
     selectInput (input) {
       this.rawData.push({
@@ -78,6 +98,16 @@ export default {
         'type': input.type,
         'options': input.options
       })
+    },
+    removeInput (index) {
+      this.rawData.splice(index, 1)
+    },
+    moveInput (index, direction) {
+      let tmpData = JSON.parse(JSON.stringify(this.rawData))
+      let tmp = tmpData[index]
+      tmpData[index] = tmpData[index + direction]
+      tmpData[index + direction] = tmp
+      this.rawData = tmpData
     },
     slug (str) {
       return str.toString().toLowerCase()
@@ -103,5 +133,11 @@ export default {
   .tag{
     margin-left: 10px;
   }
+}
+.b-tabs .tab-content{
+  overflow: auto;
+}
+.tab-content{
+  overflow: auto;
 }
 </style>

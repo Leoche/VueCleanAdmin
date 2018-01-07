@@ -16,17 +16,18 @@
   </div>
   <div class="navbar-menu" :class="{ 'is-active': open }">
    <div class="navbar-end">
-    <div class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link">
+    <b-dropdown position="is-bottom-left">
+      <a class="navbar-item" slot="trigger">
         <i class="mdi mdi-account-circle mdi-24px"></i> {{ $session.get('user').name }}
+        <b-icon icon="menu-down"></b-icon>
       </a>
 
-      <div class="navbar-dropdown is-right">
+      <b-dropdown-item custom paddingless>
         <a class="navbar-item" @click.prevent='logout'>
           Déconnexion
         </a>
-      </div>
-    </div>
+      </b-dropdown-item>
+    </b-dropdown>
   </div>
 </div>
 </nav>
