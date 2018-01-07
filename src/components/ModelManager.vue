@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-tabs type="is-boxed" expanded v-model="activeTab">
+    <b-tabs v-model="activeTab">
       <b-tab-item label="Model" icon="file-tree">
 
         <nav class="level">
@@ -75,7 +75,8 @@ export default {
       this.rawData.push({
         'name': this.slug(input.name),
         'label': input.name,
-        'type': input.type
+        'type': input.type,
+        'options': input.options
       })
     },
     slug (str) {
