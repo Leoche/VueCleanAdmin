@@ -19,6 +19,7 @@
           </div>
         </nav>
 
+        <!-- Liste des inputs -->
         <div class="card" v-for="(input, i) in rawData">
           <div class="card-header">
             <p class="card-header-title"><IconInput :icon="input.type"></IconInput> {{ input.label }} <b-tag rounded>{{ input.name }}</b-tag></p>
@@ -44,6 +45,7 @@
         </div>
       </b-tab-item>
 
+      <!-- Json preview block -->
       <b-tab-item label="Json Preview" icon="json">
         <div class="columns">
           <div class="column has-text-centered">
