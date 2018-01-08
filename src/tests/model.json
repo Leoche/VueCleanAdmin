@@ -12,7 +12,7 @@
    {
       "name":"def",
       "label":"Date des travaux",
-      "type":"tag"
+      "type":"tags"
    },
    {
       "name":"fsdf",
