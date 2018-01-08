@@ -17,6 +17,7 @@
    {
       "name":"fsdf",
       "label":"Date des travaux",
-      "type":"sub"
+      "type":"sub",
+      "inputs":[]
    }
 ]

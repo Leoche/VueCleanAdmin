@@ -5,11 +5,14 @@
 
         <nav class="level">
           <div class="level-left">
-            <button v-if="path!==''" class="button" @click.prevent="path=''">
+            <button v-if="path!==''" class="button button-back" @click.prevent="path=''">
               <b-Icon icon="chevron-left" size="is-small"></b-Icon>
               <span>Retour</span>
             </button>
-            <h3>Model Manager</h3>
+            <h3>
+              <span>Model Manager</span>
+              <span v-if="path !== ''">: {{ path }}</span>
+            </h3>
           </div>
           <div class="level-right">
             <button class="button is-info is-pulled-right" @click.prevent="isInputPickerActive = true">
@@ -20,9 +23,10 @@
         </nav>
 
         <!-- Liste des inputs -->
-        <div class="card" v-for="(input, i) in rawData">
+        <div class="card" v-for="(input, i) in getInputByPath()">
           <div class="card-header">
-            <p class="card-header-title"><IconInput :icon="input.type"></IconInput> {{ input.label }} <b-tag rounded>{{ input.name }}</b-tag></p>
+            <p class="card-header-title" v-if="input.type !== 'sub'"><IconInput :icon="input.type"></IconInput> {{ input.label }} <b-tag rounded>{{ input.name }}</b-tag></p>
+            <p class="card-header-title" v-else><a href="#" @click.prevent="path = input.name"><IconInput :icon="input.type"></IconInput> {{ input.label }} <b-tag rounded>{{ input.name }}</b-tag></a></p>
             <a class="card-header-icon">
               <b-dropdown position="is-top-left">
                 <b-Icon icon="settings" slot="trigger"></b-Icon>
@@ -31,7 +35,7 @@
                   <b-Icon icon="chevron-up" size="is-small"></b-Icon>
                   <span>Monter</span>
                 </b-dropdown-item>
-                <b-dropdown-item @click="moveInput(i, 1)" v-if="i !== rawData.length - 1">
+                <b-dropdown-item @click="moveInput(i, 1)" v-if="i !== getInputByPath().length - 1">
                   <b-Icon icon="chevron-down" size="is-small"></b-Icon>
                   <span>Descendre</span>
                 </b-dropdown-item>
@@ -61,7 +65,7 @@
     </b-tabs>
 
     <b-modal :active.sync="isInputPickerActive" has-modal-card>
-      <InputPicker v-on:newInput="selectInput"></InputPicker>
+      <InputPicker v-on:newInput="selectInput" :cansub="path === ''"></InputPicker>
     </b-modal>
 
   </section>
@@ -86,30 +90,38 @@ export default {
     }
   },
   methods: {
-    getContents (path) {
-      if (this.path === '') {
-        return this.rawData
-      } else {
-        return this.rawData[path]
-      }
-    },
     selectInput (input) {
-      this.rawData.push({
+      let newInput = {
         'name': this.slug(input.name),
         'label': input.name,
         'type': input.type,
         'options': input.options
-      })
+      }
+      if (input.type === 'sub') newInput.inputs = []
+
+      if (this.path === '') {
+        return this.rawData.push(newInput)
+      } else {
+        console.log(this.getInputByPath())
+        return this.getInputByPath().push(newInput)
+      }
     },
     removeInput (index) {
-      this.rawData.splice(index, 1)
+      this.getInputByPath().splice(index, 1)
     },
     moveInput (index, direction) {
-      let tmpData = JSON.parse(JSON.stringify(this.rawData))
+      let tmpData = JSON.parse(JSON.stringify(this.getInputByPath()))
       let tmp = tmpData[index]
       tmpData[index] = tmpData[index + direction]
       tmpData[index + direction] = tmp
-      this.rawData = tmpData
+      this.rawData.filter(input => { if (input.name === this.path) return input })[0].inputs = tmpData
+    },
+    getInputByPath () {
+      if (this.path === '') {
+        return this.rawData
+      } else {
+        return this.rawData.filter(input => { if (input.name === this.path) return input })[0].inputs
+      }
     },
     slug (str) {
       return str.toString().toLowerCase()
@@ -141,5 +153,8 @@ export default {
 }
 .tab-content{
   overflow: auto;
+}
+.button-back{
+  margin-right: 16px;
 }
 </style>

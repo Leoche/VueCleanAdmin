@@ -63,6 +63,7 @@ import InputGroupRadio from '@/components/inputs/InputGroupRadio'
 
 export default {
   name: 'InputPicker',
+  props: ['cansub'],
   components: {
     IconInput,
     InputGroupRadio
