@@ -19,7 +19,7 @@
           case 'image': return 'image'
           case 'boolean': return 'toggle-switch-off'
           case 'tags': return 'tag'
-          case 'sub': return 'animation'
+          case 'sub': return 'subdirectory-arrow-right'
           default: return 'help'
         }
       }
