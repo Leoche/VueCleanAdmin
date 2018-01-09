@@ -101,7 +101,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.fromsub)
     let chunk = (r, j) => r.reduce((a, b, i, g) => !(i % j) ? a.concat([g.slice(i, i + j)]) : a, [])
     this.inputsTypes = require('@/input_types.json')
     this.inputsTypesChunked = chunk(this.inputsTypes, 2)

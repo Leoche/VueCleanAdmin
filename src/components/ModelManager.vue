@@ -5,14 +5,12 @@
 
         <nav class="level">
           <div class="level-left">
-            <button v-if="path!==''" class="button button-back" @click.prevent="path=''">
-              <b-Icon icon="chevron-left" size="is-small"></b-Icon>
-              <span>Retour</span>
-            </button>
-            <h3>
-              <span>Model Manager</span>
-              <span v-if="path !== ''">: {{ path }}</span>
-            </h3>
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+              <ul>
+                <li :class="{'is-active': path===''}"><a href="#" aria-current="page" @click.prevent="path=''">Model Manager</a></li>
+                <li v-if="path!==''" class='is-active'><a href="#">{{ getLabelByPath() }}</a></li>
+              </ul>
+            </nav>
           </div>
           <div class="level-right">
             <button class="button is-info is-pulled-right" @click.prevent="isInputPickerActive = true">
@@ -122,6 +120,9 @@ export default {
       } else {
         return this.rawData.filter(input => input.name === this.path)[0].inputs
       }
+    },
+    getLabelByPath () {
+      return this.rawData.filter(input => input.name === this.path)[0].label
     },
     slug (str) {
       return str.toString().toLowerCase()
