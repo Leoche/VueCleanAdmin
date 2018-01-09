@@ -141,6 +141,8 @@ export default {
       return this.rawData.filter(input => input.name === this.path)[0].label
     },
     save () {
+      // eslint-disable-next-line
+      let dataToSave = JSON.parse(JSON.stringify(this.rawData))
       // Todo send post request to save
       this.saved = true
     },
