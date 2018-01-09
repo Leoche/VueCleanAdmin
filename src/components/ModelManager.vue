@@ -19,7 +19,7 @@
             </button>
             <button class="button is-info" @click.prevent="isInputPickerActive = true">
               <b-Icon icon="plus"></b-Icon>
-              <span>Ajouter un contenu</span>
+              <span>Ajouter un champ</span>
             </button>
           </div>
         </nav>
