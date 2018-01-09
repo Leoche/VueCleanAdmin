@@ -65,7 +65,7 @@
     </b-tabs>
 
     <b-modal :active.sync="isInputPickerActive" has-modal-card>
-      <InputPicker v-on:newInput="selectInput" :cansub="path === ''"></InputPicker>
+      <InputPicker v-on:newInput="selectInput" :fromsub="path !== ''"></InputPicker>
     </b-modal>
 
   </section>
@@ -114,13 +114,13 @@ export default {
       let tmp = tmpData[index]
       tmpData[index] = tmpData[index + direction]
       tmpData[index + direction] = tmp
-      this.rawData.filter(input => { if (input.name === this.path) return input })[0].inputs = tmpData
+      this.rawData.filter(input => input.name === this.path)[0].inputs = tmpData
     },
     getInputByPath () {
       if (this.path === '') {
         return this.rawData
       } else {
-        return this.rawData.filter(input => { if (input.name === this.path) return input })[0].inputs
+        return this.rawData.filter(input => input.name === this.path)[0].inputs
       }
     },
     slug (str) {

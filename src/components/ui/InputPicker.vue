@@ -12,7 +12,7 @@
         <!-- Boxes -->
         <div v-if="selectedType === null" class="columns">
           <div v-for="(set, i) in inputsTypesChunked" class="column">
-            <a v-for="(input, j) in set" class="button button-large" @click.prevent="selectInput(input.name, i*2 + j)">
+            <a v-for="(input, j) in set" class="button button-large" @click.prevent="selectInput(input.name, i*2 + j)" v-if="canSub(input)">
               <div>
                 <div><IconInput :icon="input.name" size="is-medium"></IconInput></div>
                 <div>{{ input.label }}</div>
@@ -63,7 +63,7 @@ import InputGroupRadio from '@/components/inputs/InputGroupRadio'
 
 export default {
   name: 'InputPicker',
-  props: ['cansub'],
+  props: ['fromsub'],
   components: {
     IconInput,
     InputGroupRadio
@@ -90,6 +90,9 @@ export default {
       let finalInput = JSON.parse(JSON.stringify(this.selected))
       this.$emit('newInput', finalInput)
       this.$parent.close()
+    },
+    canSub (input) {
+      return input.name !== 'sub' || this.fromsub === false
     }
   },
   computed: {
@@ -98,6 +101,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.fromsub)
     let chunk = (r, j) => r.reduce((a, b, i, g) => !(i % j) ? a.concat([g.slice(i, i + j)]) : a, [])
     this.inputsTypes = require('@/input_types.json')
     this.inputsTypesChunked = chunk(this.inputsTypes, 2)
