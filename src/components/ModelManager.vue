@@ -13,7 +13,11 @@
             </nav>
           </div>
           <div class="level-right">
-            <button class="button is-info is-pulled-right" @click.prevent="isInputPickerActive = true">
+            <button class="button is-success" @click.prevent="save" :disabled="saved">
+              <b-Icon icon="content-save"></b-Icon>
+              <span>Sauvegarder</span>
+            </button>
+            <button class="button is-info" @click.prevent="isInputPickerActive = true">
               <b-Icon icon="plus"></b-Icon>
               <span>Ajouter un contenu</span>
             </button>
@@ -84,6 +88,7 @@ export default {
       activeTab: 0,
       isInputPickerActive: false,
       path: '',
+      saved: true,
       rawData: {}
     }
   },
@@ -97,15 +102,18 @@ export default {
       }
       if (input.type === 'sub') newInput.inputs = []
 
+      this.saved = false
+
       if (this.path === '') {
         return this.rawData.push(newInput)
       } else {
-        console.log(this.getInputByPath())
         return this.getInputByPath().push(newInput)
       }
     },
     removeInput (index) {
       this.getInputByPath().splice(index, 1)
+
+      this.saved = false
     },
     moveInput (index, direction) {
       let tmpData = JSON.parse(JSON.stringify(this.getInputByPath()))
@@ -113,6 +121,8 @@ export default {
       tmpData[index] = tmpData[index + direction]
       tmpData[index + direction] = tmp
       this.rawData.filter(input => input.name === this.path)[0].inputs = tmpData
+
+      this.saved = false
     },
     getInputByPath () {
       if (this.path === '') {
@@ -123,6 +133,10 @@ export default {
     },
     getLabelByPath () {
       return this.rawData.filter(input => input.name === this.path)[0].label
+    },
+    save () {
+      // Todo send post request to save
+      this.saved = true
     },
     slug (str) {
       return str.toString().toLowerCase()
@@ -155,7 +169,7 @@ export default {
 .tab-content{
   overflow: auto;
 }
-.button-back{
+.button.is-success{
   margin-right: 16px;
 }
 </style>
