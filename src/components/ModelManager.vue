@@ -49,6 +49,12 @@
             </a>
           </div>
         </div>
+        <div v-if="getInputByPath().length === 0">
+          <div class="notification has-text-centered">
+            <b-Icon icon="emoticon-poop" size="is-large"></b-Icon><br/>
+            Il n'y a rien ici!
+          </div>
+        </div>
       </b-tab-item>
 
       <!-- Json preview block -->
