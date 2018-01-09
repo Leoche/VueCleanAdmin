@@ -51,7 +51,7 @@
         </div>
         <div v-if="getInputByPath().length === 0">
           <div class="notification has-text-centered">
-            <b-Icon icon="emoticon-poop" size="is-large"></b-Icon><br/>
+            <b-Icon icon="emoticon-poop" custom-size="mdi-48px"></b-Icon><br/>
             Il n'y a rien ici!
           </div>
         </div>
@@ -126,7 +126,12 @@ export default {
       let tmp = tmpData[index]
       tmpData[index] = tmpData[index + direction]
       tmpData[index + direction] = tmp
-      this.rawData.filter(input => input.name === this.path)[0].inputs = tmpData
+
+      if (this.path === '') {
+        this.rawData = tmpData
+      } else {
+        this.rawData.filter(input => input.name === this.path)[0].inputs = tmpData
+      }
 
       this.saved = false
     },
