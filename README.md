@@ -1,6 +1,6 @@
-![Alt Logo](./src/assets/logo-color.svg)
+![Alt Logo](./src/assets/va-color.svg)
 <p align="center">
-<img src="./src/assets/logo-color.svg">
+<img src="./src/assets/va-color.svg">
 </p>
 
 # vuecleanadmin
