@@ -15,37 +15,36 @@
 </template>
 
 <script>
-import Sidebar from './ui/Sidebar'
-import Navbar from './ui/Navbar'
-import MaterialDesign from './inputs/MaterialDesign'
-import ModelManager from './ModelManager'
+  import Sidebar from './ui/Sidebar'
+  import Navbar from './ui/Navbar'
+  import MaterialDesign from './inputs/MaterialDesign'
+  import ModelManager from './ModelManager'
 
-export default {
-  name: 'Dashboard',
-  data () {
-    return {
-      msg: 'Welcome'
-    }
-  },
-  components: {
-    Sidebar,
-    Navbar,
-    MaterialDesign,
-    ModelManager
-  },
-  mounted () {
-  },
-  methods: {
-    logout () {
-      this.$session.destroy()
-      this.$router.push('/login')
+  export default {
+    name: 'Dashboard',
+    data () {
+      return {
+        msg: 'Welcome'
+      }
+    },
+    components: {
+      Sidebar,
+      Navbar,
+      MaterialDesign,
+      ModelManager
+    },
+    mounted () {},
+    methods: {
+      logout () {
+        this.$session.destroy()
+        this.$router.push('/login')
+      }
     }
   }
-}
 </script>
 
 <style scoped lang="scss">
-.column-content{
-  margin-top:16px
-}
+  .column-content {
+    margin-top: 16px
+  }
 </style>
