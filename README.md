@@ -1,3 +1,8 @@
+![Alt Logo](./src/assets/logo-color.svg)
+<p align="center">
+<img src="./src/assets/logo-color.svg">
+</p>
+
 # vuecleanadmin
 
 > A Vue.js project
