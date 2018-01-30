@@ -7,9 +7,7 @@ class VueCleanServer
    public function __construct()
    {
       // GET CONFIG
-      $this->configuration = @file_get_contents("../config.json");
-      if ($this->configuration === FALSE) $this->error("Can't access to the config.json");
-      else $this->configuration = json_decode($this->configuration);
+      $this->configuration = json_decode($this->retrieve_JSON('config'));
 
       // PROCEED ACTION
       if (!isset($_POST) || !isset($_POST["action"]) || $_POST["action"] === "") $this->error("Action not specified");
@@ -18,13 +16,22 @@ class VueCleanServer
             if($this->validAuth())
                $this->success("Succefully logged");
          break;
-         case "model":
+         case "getmodel":
+            if($this->validAuth())
+               echo $this->retrieve_JSON('model');
+            die();
+         break;
+         case "getcontent":
+            echo $this->retrieve_JSON('content');
+            die();
+         break;
+         case "setmodel":
             if($this->validAuth())
                if(!isset($_POST["body"]) || $_POST["body"] === "") $this->error("JSON not found");
                   if(!$this->save_JSON("model", $_POST["body"])) $this->error("JSON could not be saved");
                   else $this->success("Model saved");
          break;
-         case "content":
+         case "setcontent":
             if($this->validAuth())
                if(!isset($_POST["body"]) || $_POST["body"] === "") $this->error("JSON not found");
                   if(!$this->save_JSON("content", $_POST["body"])) $this->error("JSON could not be saved");
@@ -34,6 +41,11 @@ class VueCleanServer
             $this->error("Action not valid");
          break;
       }
+   }
+   private function retrieve_JSON($filename) {
+      $json = @file_get_contents("../".$filename.".json");
+      if ($json === FALSE) $this->error("Can't access to the ".$filename.".json");
+      else return $json;
    }
    private function save_JSON($filename, $body) {
       $json = json_decode($body);
