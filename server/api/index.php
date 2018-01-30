@@ -18,7 +18,28 @@ class VueCleanServer
             if($this->validAuth())
                $this->success("Succefully logged");
          break;
+         case "model":
+            if($this->validAuth())
+               if(!isset($_POST["body"]) || $_POST["body"] === "") $this->error("JSON not found");
+                  if(!$this->save_JSON("model", $_POST["body"])) $this->error("JSON could not be saved");
+                  else $this->success("Model saved");
+         break;
+         case "content":
+            if($this->validAuth())
+               if(!isset($_POST["body"]) || $_POST["body"] === "") $this->error("JSON not found");
+                  if(!$this->save_JSON("content", $_POST["body"])) $this->error("JSON could not be saved");
+                  else $this->success("Content saved");
+         break;
+         default:
+            $this->error("Action not valid");
+         break;
       }
+   }
+   private function save_JSON($filename, $body) {
+      $json = json_decode($body);
+      if (json_last_error() !== JSON_ERROR_NONE)  $this->error("Can't save a non JSON file");
+      if (@file_put_contents("../".$filename.".json", $body) === FALSE) $this->error("Can't save to ".$filename.".json");
+      else return true;
    }
    private function validAuth()
    {
