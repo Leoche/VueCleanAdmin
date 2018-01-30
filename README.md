@@ -1,9 +1,9 @@
-![Alt Logo](./src/assets/va-color.svg)
 <p align="center">
 <img src="./src/assets/va-color.svg">
 </p>
-
-# vuecleanadmin
+<p align="center">
+<h1>Vueclean Admin </h1>
+</p>
 
 > A Vue.js project
 
