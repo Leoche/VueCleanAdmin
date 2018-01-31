@@ -53,6 +53,8 @@ class VueCleanServer
          break;
       }
    }
+
+   // JSON MANAGE
    private function retrieve_JSON($filename) {
       $json = @file_get_contents("../".$filename.".json");
       if ($json === FALSE) $this->error("Can't access to the ".$filename.".json");
@@ -64,6 +66,8 @@ class VueCleanServer
       if (@file_put_contents("../".$filename.".json", $body) === FALSE) $this->error("Can't save to ".$filename.".json");
       else return true;
    }
+
+   // AUTH MANAGE
    private function validAuth()
    {
       if(!$this->validIp()) return $this->error("Invalid host");
@@ -116,11 +120,15 @@ class VueCleanServer
    {
       return md5($this->configuration->salt . $password . $this->configuration->salt);
    }
+
+   // HOST MANAGE
    private function validIp(){
       if($this->configuration->ip === "") return true;
       else if($this->configuration->ip !== $_SERVER["REMOTE_ADDR"]) return false;
       else return true;
    }
+
+   //RETURN HANDLERS
    private function success($message)
    {
       return $this->print_json("success", $message);
@@ -139,4 +147,4 @@ class VueCleanServer
    }
 }
 
-$perso = new VueCleanServer();
+new VueCleanServer();
