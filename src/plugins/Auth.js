@@ -4,15 +4,38 @@ class Auth {
     ApplyRouteGuard.call(this, options.router)
   }
 
-  login (email, password) {
+  login ($http, email, password) {
     if (process.env.NODE_ENV === 'development') {
-      return this.fakeLoggin(email, password)
+      return this.realLogin($http, email, password)
     } else {
-      // Todo real login
+      return this.realLogin($http, email, password)
     }
   }
 
-  fakeLoggin (email, password) {
+  realLogin ($http, email, password) {
+    return new Promise((resolve, reject) => {
+      let api = document.querySelector('meta[name=api]').content
+      if (email === '' || password === '') {
+        reject(new Error('error'))
+      }
+      $http.post(api, {
+        'action': 'auth',
+        'email': email,
+        'password': password
+      }, {
+        emulateJSON: true
+      }).then(res => {
+        if (res.data.state === 'success') {
+          resolve(res.data)
+        }
+        reject(new Error('error'))
+      }, response => {
+        reject(new Error('error'))
+      })
+    })
+  }
+
+  fakeLogin ($http, email, password) {
     if (email === '' || password === '') {
       return false
     }

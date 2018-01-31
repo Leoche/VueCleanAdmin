@@ -8,7 +8,6 @@ import App from './App'
 import router from './router'
 import Buefy from 'buefy'
 import Auth from './plugins/Auth'
-Vue.config.productionTip = false
 
 Vue.use(Buefy)
 Vue.use(VueSession)

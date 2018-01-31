@@ -48,8 +48,8 @@ export default {
   data: () => {
     return {
       isLoading: false,
-      vemail: '',
-      vpassword: ''
+      vemail: 'test@test.com',
+      vpassword: '0000'
     }
   },
   localStorage: {
@@ -62,8 +62,8 @@ export default {
     login () {
       const vm = this
       vm.isLoading = true
-      let user = this.$auth.login(this.vemail, this.vpassword)
-      if (user) {
+      this.$auth.login(this.$http, this.vemail, this.vpassword).then(user => {
+        user = JSON.parse(user.data)
         if (this.$localStorage.get('remember', false)) {
           this.$localStorage.set('vemail', this.vemail)
           this.$localStorage.set('vpassword', this.vpassword)
@@ -76,14 +76,15 @@ export default {
           position: 'is-bottom'
         })
         location.reload()
-      } else {
+      }).catch((err) => {
+        console.log(err)
         vm.isLoading = false
         vm.$toast.open({
           message: 'Mauvais identifiants',
           type: 'is-danger',
           position: 'is-bottom'
         })
-      }
+      })
     },
     clear () {
       this.vemail = ''
@@ -98,11 +99,11 @@ export default {
   background-color:#ccd;
   background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAF0lEQVQYV2PU1NT8z4AEGEkTeP36NQMA8G0IrhzLffYAAAAASUVORK5CYII=);
   background:url(https:////wallpapertag.com/wallpaper/middle/3/2/7/347905-free-download-blurred-background-1920x1200-computer.jpg);
-  background-size: cover;
-  & .card{
-    width: 500px;
-    margin: 0 auto;
-    border-radius: .25rem;
+    background-size: cover;
+    & .card{
+      width: 500px;
+      margin: 0 auto;
+      border-radius: .25rem;
+    }
   }
-}
-</style>
+  </style>
