@@ -1,6 +1,7 @@
 {
    "auth":[
       {
+         "name":"Test",
          "email":"test@test.com",
          "password":"99f8447105dadd1b689f30f9f380fd13"
       }
