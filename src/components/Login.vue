@@ -62,8 +62,8 @@ export default {
     login () {
       const vm = this
       vm.isLoading = true
-      this.$auth.login(this.$http, this.vemail, this.vpassword).then(user => {
-        user = JSON.parse(user.data)
+      this.$auth.login(this.$http, this.vemail, this.vpassword).then(data => {
+        let user = JSON.parse(data.body)
         if (this.$localStorage.get('remember', false)) {
           this.$localStorage.set('vemail', this.vemail)
           this.$localStorage.set('vpassword', this.vpassword)

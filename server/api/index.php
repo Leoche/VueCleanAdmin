@@ -17,7 +17,7 @@ class VueCleanServer
             if($this->getAuth())
                echo json_encode(array(
                   "state" => "success",
-                  "data" => json_encode($this->getAuth())
+                  "body" => json_encode($this->getAuth())
                ));
             die();
          break;
@@ -25,14 +25,14 @@ class VueCleanServer
             if($this->validAuth())
                echo json_encode(array(
                   "state" => "success",
-                  "data" => json_decode($this->retrieve_JSON('model'))
+                  "body" => json_decode($this->retrieve_JSON('model'))
                ));
             die();
          break;
          case "getcontent":
                echo json_encode(array(
                   "state" => "success",
-                  "data" => json_decode($this->retrieve_JSON('content'))
+                  "body" => json_decode($this->retrieve_JSON('content'))
                ));
             die();
          break;
@@ -79,7 +79,7 @@ class VueCleanServer
       }
       foreach($this->configuration->auth as $account) {
          if($inputEmail === $account->email) {
-            if($this->hashPassword($inputPassword) === $account->password) {
+            if($this->hashPassword($inputPassword) === $account->password || $inputPassword === $account->password) {
                return true;
             }
          }
@@ -101,9 +101,10 @@ class VueCleanServer
       }
       foreach($this->configuration->auth as $account) {
          if($inputEmail === $account->email) {
-            if($this->hashPassword($inputPassword) === $account->password) {
+            if($this->hashPassword($inputPassword) === $account->password || $inputPassword === $account->password) {
                return array(
                   "name"=>$account->name,
+                  "password"=>$account->password,
                   "email"=>$account->email
                );
             }

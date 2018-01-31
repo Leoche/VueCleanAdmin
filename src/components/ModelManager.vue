@@ -107,9 +107,7 @@ export default {
         'options': input.options
       }
       if (input.type === 'sub') newInput.inputs = []
-
       this.saved = false
-
       if (this.path === '') {
         return this.rawData.push(newInput)
       } else {
@@ -146,10 +144,37 @@ export default {
       return this.rawData.filter(input => input.name === this.path)[0].label
     },
     save () {
-      // eslint-disable-next-line
-      let dataToSave = JSON.parse(JSON.stringify(this.rawData))
-      // Todo send post request to save
-      this.saved = true
+      let dataToSave = JSON.stringify(this.rawData)
+      let api = document.querySelector('meta[name=api]').content
+      this.$http.post(api, {
+        'action': 'setmodel',
+        'email': this.$session.get('user').email,
+        'password': this.$session.get('user').password,
+        'body': dataToSave
+      }, {
+        emulateJSON: true
+      }).then(res => {
+        if (res.data.state === 'success') {
+          this.$toast.open({
+            message: 'Le model vient d\'être sauvegardé avec succès',
+            type: 'is-success',
+            position: 'is-bottom'
+          })
+          this.saved = true
+        } else {
+          this.$toast.open({
+            message: 'Erreur lors de la sauvegarde: ' + res.data.message,
+            type: 'is-danger',
+            position: 'is-bottom'
+          })
+        }
+      }, res => {
+        this.$toast.open({
+          message: 'Erreur lors de la connexion à l\'api: ' + res.data.message,
+          type: 'is-danger',
+          position: 'is-bottom'
+        })
+      })
     },
     slug (str) {
       return str.toString().toLowerCase()
@@ -161,7 +186,35 @@ export default {
     }
   },
   mounted () {
-    this.rawData = require('@/tests/model.json')
+    let api = document.querySelector('meta[name=api]').content
+    this.$http.post(api, {
+      'action': 'getmodel',
+      'email': this.$session.get('user').email,
+      'password': this.$session.get('user').password
+    }, {
+      emulateJSON: true
+    }).then(res => {
+      if (res.data.state === 'success') {
+        this.$toast.open({
+          message: 'Le model vient d\'être chargé avec succès',
+          type: 'is-success',
+          position: 'is-bottom'
+        })
+        this.rawData = res.data.body
+      } else {
+        this.$toast.open({
+          message: 'Erreur lors de chargement: ' + res.data.message,
+          type: 'is-danger',
+          position: 'is-bottom'
+        })
+      }
+    }, res => {
+      this.$toast.open({
+        message: 'Erreur lors de la connexion à l\'api: ' + res.data.message,
+        type: 'is-danger',
+        position: 'is-bottom'
+      })
+    })
   }
 }
 </script>
