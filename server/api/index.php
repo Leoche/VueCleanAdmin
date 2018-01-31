@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *');
 class VueCleanServer
 {
    private $configuration;
@@ -13,8 +14,12 @@ class VueCleanServer
       if (!isset($_POST) || !isset($_POST["action"]) || $_POST["action"] === "") $this->error("Action not specified");
       switch ($_POST["action"]) {
          case "auth":
-            if($this->validAuth())
-               $this->success("Succefully logged");
+            if($this->getAuth())
+               echo json_encode(array(
+                  "state" => "success",
+                  "data" => json_encode($this->getAuth())
+               ));
+            die();
          break;
          case "getmodel":
             if($this->validAuth())
@@ -76,6 +81,31 @@ class VueCleanServer
          if($inputEmail === $account->email) {
             if($this->hashPassword($inputPassword) === $account->password) {
                return true;
+            }
+         }
+      }
+      return $this->error("Invalid creditentials");
+   }
+   private function getAuth()
+   {
+      if(!$this->validIp()) return $this->error("Invalid host");
+      if(!isset($_POST["email"]) || $_POST["email"] === "" || !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+         return $this->error("Invalid email");
+      } else {
+         $inputEmail = $_POST["email"];
+      }
+      if(!isset($_POST["password"]) || $_POST["password"] === "") {
+         return $this->error("Invalid password");
+      } else {
+         $inputPassword = $_POST["password"];
+      }
+      foreach($this->configuration->auth as $account) {
+         if($inputEmail === $account->email) {
+            if($this->hashPassword($inputPassword) === $account->password) {
+               return array(
+                  "name"=>$account->name,
+                  "email"=>$account->email
+               );
             }
          }
       }
