@@ -2,8 +2,9 @@
    "auth":[
       {
          "email":"test@test.com",
-         "password":"aaaaaa7"
+         "password":"99f8447105dadd1b689f30f9f380fd13"
       }
    ],
-   "ip":"19"
+   "salt":"change_this_salt",
+   "ip":""
 }

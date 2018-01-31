@@ -18,11 +18,17 @@ class VueCleanServer
          break;
          case "getmodel":
             if($this->validAuth())
-               echo $this->retrieve_JSON('model');
+               echo json_encode(array(
+                  "state" => "success",
+                  "data" => json_decode($this->retrieve_JSON('model'))
+               ));
             die();
          break;
          case "getcontent":
-            echo $this->retrieve_JSON('content');
+               echo json_encode(array(
+                  "state" => "success",
+                  "data" => json_decode($this->retrieve_JSON('content'))
+               ));
             die();
          break;
          case "setmodel":
@@ -68,12 +74,16 @@ class VueCleanServer
       }
       foreach($this->configuration->auth as $account) {
          if($inputEmail === $account->email) {
-            if($inputPassword === $account->password) {
+            if($this->hashPassword($inputPassword) === $account->password) {
                return true;
             }
          }
       }
       return $this->error("Invalid creditentials");
+   }
+   private function hashPassword($password)
+   {
+      return md5($this->configuration->salt . $password . $this->configuration->salt);
    }
    private function validIp(){
       if($this->configuration->ip === "") return true;
