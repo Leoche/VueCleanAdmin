@@ -10,7 +10,7 @@ The serverside behind Vueclean admin //Todo
 
 ## Build Setup
 
-1. Just rename `server/config.json.example` into `server/config.json` and fill with your infos
+1. Just rename `server/config.example.json` into `server/config.json` and fill with your infos
 2. Point your php server to `/api/`
 3. Then specify in your vuecleanadmin config the adresse of the access point
 
