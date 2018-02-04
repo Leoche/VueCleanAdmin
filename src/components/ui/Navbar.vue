@@ -2,11 +2,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="https://bulma.io">
-        <svg width="35" height="10" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
-         <circle fill="#11CDC5" cx="5" cy="5" r="5" />
-         <circle fill="#FC2D79" cx="17.5" cy="5" r="5" />
-         <circle fill="#ffb52a" cx="30" cy="5" r="5" />
-       </svg>
+        <img src="/src/assets/va-color.svg" alt="Vuecleanadmin logo">
      </a>
      <div class="navbar-burger" :class="{ 'is-active': open }" @click="toggle">
       <span></span>

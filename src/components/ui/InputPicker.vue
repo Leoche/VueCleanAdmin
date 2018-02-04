@@ -63,7 +63,7 @@ import InputGroupRadio from '@/components/inputs/InputGroupRadio'
 
 export default {
   name: 'InputPicker',
-  props: ['fromsub'],
+  props: ['fromsub', 'editable'],
   components: {
     IconInput,
     InputGroupRadio
@@ -93,6 +93,19 @@ export default {
     },
     canSub (input) {
       return input.name !== 'sub' || this.fromsub === false
+    },
+    setValue (data) {
+      let jsonData = JSON.parse(JSON.stringify(this.editable))
+      console.log(jsonData)
+      let index = this.inputsTypes.findIndex((input) => input.name === jsonData.type)
+      this.selected = jsonData
+      this.selected.name = jsonData.label
+      this.selectedType = index
+      for (let index in this.inputsTypes[this.selectedType].settings) {
+        let setting = this.inputsTypes[this.selectedType].settings[index]
+        setting.default = jsonData.options[setting.name]
+        console.log(jsonData)
+      }
     }
   },
   computed: {
@@ -104,6 +117,8 @@ export default {
     let chunk = (r, j) => r.reduce((a, b, i, g) => !(i % j) ? a.concat([g.slice(i, i + j)]) : a, [])
     this.inputsTypes = require('@/input_types.json')
     this.inputsTypesChunked = chunk(this.inputsTypes, 2)
+
+    if (this.editable !== null) this.setValue()
   }
 }
 </script>

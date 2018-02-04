@@ -15,6 +15,19 @@
                "name":"multiline",
                "label":"Paragraphe"
             }]
+         },
+         {
+            "name":"test",
+            "label":"test du texte",
+            "component":"input-group-radio",
+            "default":"1",
+            "options":[{
+               "name":"1",
+               "label":"un"
+            },{
+               "name":"2",
+               "label":"deux"
+            }]
          }
       ]
    },

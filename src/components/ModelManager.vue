@@ -30,7 +30,7 @@
             <p class="card-header-title" v-if="input.type !== 'sub'"><IconInput :icon="input.type"></IconInput> {{ input.label }} <b-tag rounded>{{ input.name }}</b-tag></p>
             <p class="card-header-title" v-else><a href="#" @click.prevent="path = input.name"><IconInput :icon="input.type"></IconInput> {{ input.label }} <b-tag rounded>{{ input.name }}</b-tag></a></p>
             <a class="card-header-icon">
-              <b-dropdown position="is-top-left">
+              <b-dropdown position="is-bottom-left" :inline="true">
                 <b-Icon icon="settings" slot="trigger"></b-Icon>
 
                 <b-dropdown-item @click="moveInput(i, -1)" v-if="i !== 0">
@@ -40,6 +40,10 @@
                 <b-dropdown-item @click="moveInput(i, 1)" v-if="i !== getInputByPath().length - 1">
                   <b-Icon icon="chevron-down" size="is-small"></b-Icon>
                   <span>Descendre</span>
+                </b-dropdown-item>
+                <b-dropdown-item @click="editInput(i)">
+                  <b-Icon icon="pencil" size="is-small"></b-Icon>
+                  <span>Éditer</span>
                 </b-dropdown-item>
                 <b-dropdown-item @click="removeInput(i)">
                   <b-Icon icon="delete" size="is-small"></b-Icon>
@@ -73,7 +77,7 @@
     </b-tabs>
 
     <b-modal :active.sync="isInputPickerActive" has-modal-card>
-      <InputPicker v-on:newInput="selectInput" :fromsub="path !== ''"></InputPicker>
+      <InputPicker v-on:newInput="selectInput" :fromsub="path !== ''" :editable="editableInputData"></InputPicker>
     </b-modal>
 
   </section>
@@ -95,11 +99,13 @@ export default {
       isInputPickerActive: false,
       path: '',
       saved: true,
+      editableInputData: null,
       rawData: {}
     }
   },
   methods: {
     selectInput (input) {
+      console.log(input)
       let newInput = {
         'name': this.slug(input.name),
         'label': input.name,
@@ -113,6 +119,10 @@ export default {
       } else {
         return this.getInputByPath().push(newInput)
       }
+    },
+    editInput (index) {
+      this.editableInputData = this.rawData[index]
+      this.isInputPickerActive = true
     },
     removeInput (index) {
       this.getInputByPath().splice(index, 1)
@@ -219,7 +229,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .card-header-title{
   font-weight: normal;
   .icon{
@@ -229,11 +239,8 @@ export default {
     margin-left: 10px;
   }
 }
-.b-tabs .tab-content{
-  overflow: auto;
-}
 .tab-content{
-  overflow: auto;
+  padding-bottom: 150px !important;
 }
 .button.is-success{
   margin-right: 16px;
