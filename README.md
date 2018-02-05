@@ -1,9 +1,6 @@
 <p align="center">
-<img src="./src/assets/va-color.svg">
+<img src="./src/assets/va-color-color.svg">
 </p>
-<h1 align="center">
-Vueclean Admin
-</h1>
 <p align="center">
 A Vue.js project //Todo
 </p>
