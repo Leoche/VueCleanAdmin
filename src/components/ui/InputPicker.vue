@@ -84,11 +84,16 @@ export default {
       this.selectedType = i
     },
     setOptions (args) {
-      this.selected.options = args
+      this.selected.options = Object.assign(this.selected.options, args)
     },
     pick () {
       let finalInput = JSON.parse(JSON.stringify(this.selected))
-      this.$emit('newInput', finalInput)
+      if (this.editable === null) {
+        this.$emit('newInput', finalInput)
+      } else {
+        finalInput.index = this.editable.index
+        this.$emit('editInput', finalInput)
+      }
       this.$parent.close()
     },
     canSub (input) {
@@ -96,7 +101,6 @@ export default {
     },
     setValue (data) {
       let jsonData = JSON.parse(JSON.stringify(this.editable))
-      console.log(jsonData)
       let index = this.inputsTypes.findIndex((input) => input.name === jsonData.type)
       this.selected = jsonData
       this.selected.name = jsonData.label
@@ -104,7 +108,6 @@ export default {
       for (let index in this.inputsTypes[this.selectedType].settings) {
         let setting = this.inputsTypes[this.selectedType].settings[index]
         setting.default = jsonData.options[setting.name]
-        console.log(jsonData)
       }
     }
   },

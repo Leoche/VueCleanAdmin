@@ -17,7 +17,7 @@
               <b-Icon icon="content-save"></b-Icon>
               <span>Sauvegarder</span>
             </button>
-            <button class="button is-info" @click.prevent="isInputPickerActive = true">
+            <button class="button is-info" @click.prevent="openInputPicker">
               <b-Icon icon="plus"></b-Icon>
               <span>Ajouter un champ</span>
             </button>
@@ -77,7 +77,7 @@
     </b-tabs>
 
     <b-modal :active.sync="isInputPickerActive" has-modal-card>
-      <InputPicker v-on:newInput="selectInput" :fromsub="path !== ''" :editable="editableInputData"></InputPicker>
+      <InputPicker v-on:newInput="saveNewInput" v-on:editInput="saveEditInput" :fromsub="path !== ''" :editable="editableInputData"></InputPicker>
     </b-modal>
 
   </section>
@@ -104,8 +104,7 @@ export default {
     }
   },
   methods: {
-    selectInput (input) {
-      console.log(input)
+    saveNewInput (input) {
       let newInput = {
         'name': this.slug(input.name),
         'label': input.name,
@@ -120,8 +119,18 @@ export default {
         return this.getInputByPath().push(newInput)
       }
     },
+    saveEditInput (input) {
+      let newInput = {
+        'name': this.slug(input.name),
+        'label': input.name,
+        'type': input.type,
+        'options': input.options
+      }
+      this.rawData[input.index] = newInput
+    },
     editInput (index) {
       this.editableInputData = this.rawData[index]
+      this.editableInputData.index = index
       this.isInputPickerActive = true
     },
     removeInput (index) {
@@ -152,6 +161,10 @@ export default {
     },
     getLabelByPath () {
       return this.rawData.filter(input => input.name === this.path)[0].label
+    },
+    openInputPicker () {
+      this.isInputPickerActive = true
+      this.editableInputData = null
     },
     save () {
       let dataToSave = JSON.stringify(this.rawData)
