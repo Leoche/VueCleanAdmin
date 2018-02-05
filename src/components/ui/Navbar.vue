@@ -2,28 +2,32 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="https://bulma.io">
-        <img src="/src/assets/va-color.svg" alt="Vuecleanadmin logo">
-     </a>
-     <div class="navbar-burger" :class="{ 'is-active': open }" @click="toggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+        <img src="/src/assets/va-color-full.svg" alt="Vuecleanadmin logo">
+      </a>
+      <a class="navbar-item" href="https://bulma.io">
+        <b-icon icon="arrow-left" size="is-small"></b-icon> Retour au site
+      </a>
+      <div class="navbar-burger" :class="{ 'is-active': open }" @click="toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
   </div>
   <div class="navbar-menu" :class="{ 'is-active': open }">
    <div class="navbar-end">
-    <b-dropdown position="is-bottom-left">
-      <a class="navbar-item" slot="trigger">
-        <i class="mdi mdi-account-circle mdi-24px"></i> {{ $session.get('user').name }}
-        <b-icon icon="menu-down"></b-icon>
-      </a>
-
-      <b-dropdown-item custom paddingless>
-        <a class="navbar-item" @click.prevent='logout'>
-          Déconnexion
+      <b-dropdown position="is-bottom-left">
+        <a class="navbar-item" slot="trigger">
+          <img class="menu-avatar" :src="'https://www.gravatar.com/avatar/' + $session.get('user').avatar + '.jpg?s=30&avatar'" :alt="$session.get('user').name + 'gravatar'">
+          <span>Mon compte</span>
+          <b-icon icon="menu-down"></b-icon>
         </a>
-      </b-dropdown-item>
-    </b-dropdown>
+
+        <b-dropdown-item custom paddingless>
+          <a class="navbar-item" @click.prevent='logout'>
+            Déconnexion
+          </a>
+        </b-dropdown-item>
+      </b-dropdown>
   </div>
 </div>
 </nav>
@@ -50,10 +54,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.menu-avatar{
+  border-radius: 50%;
+  margin-right:8px;
+}
 nav{
   box-shadow:0 0 5px rgba(0,0,0,.25)
 }
-.navbar-item i{
-  margin-right:4px;
+.navbar-brand img{
+  max-height: 2.5rem;
+}
+.navbar-brand .navbar-item span{
+  margin-right:8px;
+}
+.navbar-menu .navbar-item span{
+  margin-left:8px;
 }
 </style>

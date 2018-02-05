@@ -109,7 +109,8 @@ class VueCleanServer
                return array(
                   "name"=>$account->name,
                   "password"=>$account->password,
-                  "email"=>$account->email
+                  "email"=>$account->email,
+                  "avatar"=>md5(strtolower(trim($account->email)))
                );
             }
          }
