@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./src/assets/va-color-color.svg">
+<img src="./src/assets/va-color-full.svg">
 </p>
 <p align="center">
 A Vue.js project //Todo
