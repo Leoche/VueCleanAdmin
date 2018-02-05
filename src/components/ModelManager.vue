@@ -25,12 +25,20 @@
         </nav>
 
         <!-- Liste des inputs -->
-        <div class="card" v-for="(input, i) in getInputByPath()">
+        <div class="card" v-for="(input, i) in getInputByPath()" :class="'card--'+input.type">
           <div class="card-header">
-            <p class="card-header-title" v-if="input.type !== 'sub'"><IconInput :icon="input.type"></IconInput> {{ input.label }} <b-tag rounded>{{ input.name }}</b-tag></p>
-            <p class="card-header-title" v-else><a href="#" @click.prevent="path = input.name"><IconInput :icon="input.type"></IconInput> {{ input.label }} <b-tag rounded>{{ input.name }}</b-tag></a></p>
+            <p class="card-header-title" v-if="input.type !== 'sub'">
+              <IconInput :icon="input.type"></IconInput> {{ input.label }}
+              <b-tag rounded>{{ input.name }}</b-tag>
+            </p>
+            <p class="card-header-title" v-else>
+              <a href="#" @click.prevent="path = input.name">
+                <IconInput :icon="input.type"></IconInput> {{ input.label }}
+                <b-tag rounded>{{ input.name }}</b-tag>
+              </a>
+            </p>
             <a class="card-header-icon">
-              <b-dropdown position="is-bottom-left" :inline="true">
+              <b-dropdown position="is-bottom-left">
                 <b-Icon icon="settings" slot="trigger"></b-Icon>
 
                 <b-dropdown-item @click="moveInput(i, -1)" v-if="i !== 0">
@@ -52,6 +60,13 @@
               </b-dropdown>
             </a>
           </div>
+            <div class="card-content" v-if="input.type === 'sub'">
+                <div class="content is-small">
+                  <ul class="">
+                    <li v-for="subinput in input.inputs"><IconInput size="is-small" :icon="subinput.type"></IconInput> {{ subinput.name }}</li>
+                  </ul>
+                </div>
+            </div>
         </div>
         <div v-if="getInputByPath().length === 0">
           <div class="notification has-text-centered">
@@ -251,6 +266,14 @@ export default {
 </script>
 
 <style lang="scss">
+.card--sub{
+  .card-header{
+    box-shadow: none;
+  }
+  .card-content{
+    padding-top: 0;
+  }
+}
 .card-header-title{
   font-weight: normal;
   .icon{
