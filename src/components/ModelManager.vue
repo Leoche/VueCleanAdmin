@@ -112,12 +112,12 @@ export default {
         'options': input.options
       }
       if (input.type === 'sub') newInput.inputs = []
-      this.saved = false
       if (this.path === '') {
-        return this.rawData.push(newInput)
+        this.rawData.push(newInput)
       } else {
-        return this.getInputByPath().push(newInput)
+        this.getInputByPath().push(newInput)
       }
+      this.saved = false
     },
     saveEditInput (input) {
       let newInput = {
@@ -126,10 +126,18 @@ export default {
         'type': input.type,
         'options': input.options
       }
-      this.rawData[input.index] = newInput
+      if (this.path === '') {
+        if (input.type === 'sub') {
+          newInput.inputs = this.rawData[input.index].inputs
+        }
+        this.rawData[input.index] = newInput
+      } else {
+        this.getInputByPath()[input.index] = newInput
+      }
+      this.saved = false
     },
     editInput (index) {
-      this.editableInputData = this.rawData[index]
+      this.editableInputData = this.getInputByPath()[index]
       this.editableInputData.index = index
       this.isInputPickerActive = true
     },
