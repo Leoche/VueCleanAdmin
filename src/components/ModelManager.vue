@@ -25,7 +25,8 @@
         </nav>
 
         <!-- Liste des inputs -->
-        <div class="card" v-for="(input, i) in getInputByPath()" :class="'card--'+input.type">
+        <transition-group name="fadeleft" tag="p">
+        <div class="card card--list" v-for="(input, i) in getInputByPath()" v-bind:key="i" :class="'card--'+input.type">
           <div class="card-header">
             <p class="card-header-title" v-if="input.type !== 'sub'">
               <IconInput :icon="input.type"></IconInput> {{ input.label }}
@@ -68,6 +69,7 @@
                 </div>
             </div>
         </div>
+        </transition-group>
         <div v-if="getInputByPath().length === 0">
           <div class="notification has-text-centered">
             <b-Icon icon="emoticon-poop" custom-size="mdi-48px"></b-Icon><br/>

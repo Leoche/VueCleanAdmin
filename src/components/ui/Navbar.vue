@@ -62,7 +62,16 @@ nav{
   box-shadow:0 0 5px rgba(0,0,0,.25)
 }
 .navbar-brand img{
-  max-height: 2.5rem;
+  height: 40px;
+  width: 256px;
+  max-width: none;
+  max-height: none;
+}
+@media only screen and (max-width: 900px) {
+  .navbar-brand .navbar-item:first-child {
+    overflow: hidden;
+    width: 84px;
+  }
 }
 .navbar-brand .navbar-item span{
   margin-right:8px;

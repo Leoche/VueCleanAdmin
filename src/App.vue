@@ -48,4 +48,24 @@ $colors: (
   );
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
+
+.fadedown-enter-active, .fadedown-leave-active, .fadeleft-enter-active, .fadeleft-leave-active {
+  transition: all .5s ease;
+}
+.fadedown-enter, .fadedown-leave-to {
+  opacity: 0;
+  transform: translateY(-50px)
+}
+.fadeleft-enter, .fadeleft-leave-to {
+  opacity: 0;
+  transform: translateX(50px)
+}
+.card--list {
+  transition: all 0.9s ease;
+}
+@for $i from 1 through 9 {
+  .card--list:nth-child(#{$i}) {
+    transition: all #{$i/10}s ease;
+  }
+}
 </style>

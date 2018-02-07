@@ -2,17 +2,14 @@
   <section class="hero is-login is-fullheight">
     <div class="hero-body">
       <div class="container">
+        <transition appear name="fadedown">
         <div class="card">
           <header class="card-header">
             <p class="card-header-title">
               Connexion Administration
             </p>
             <span class="card-header-icon">
-              <svg width="35" height="10" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
-               <circle fill="#11CDC5" cx="5" cy="5" r="5" />
-               <circle fill="#FC2D79" cx="17.5" cy="5" r="5" />
-               <circle fill="#ffb52a" cx="30" cy="5" r="5" />
-             </svg>
+              <img src="/src/assets/va-color.svg" alt="Vuecleanadmin logo">
            </span>
          </header>
          <div class="card-content">
@@ -37,6 +34,7 @@
           </div>
         </div>
       </div>
+      </transition>
     </div>
   </div>
 </section>
@@ -97,8 +95,7 @@ export default {
 <style scoped lang="scss">
 .hero.is-login{
   background-color:#ccd;
-  background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAF0lEQVQYV2PU1NT8z4AEGEkTeP36NQMA8G0IrhzLffYAAAAASUVORK5CYII=);
-  background:url(https:////wallpapertag.com/wallpaper/middle/3/2/7/347905-free-download-blurred-background-1920x1200-computer.jpg);
+  background:url(https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?ixlib=rb-0.3.5&s=a74bf61666c5e84b8cd8687ff8f4fa27&auto=format&fit=crop&w=1867&q=80);
     background-size: cover;
     & .card{
       width: 500px;
