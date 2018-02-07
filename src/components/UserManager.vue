@@ -20,8 +20,20 @@
                     <p class="subtitle is-6 has-text-grey">{{ user.email }}</p>
                   </div>
                   <div class="media-right">
-                    <b-icon size="is-large" v-if="user.role==='admin'" icon="account-star"></b-icon>
-                    <b-icon size="is-large" v-else icon="account"></b-icon>
+
+                    <a class="card-header-icon">
+                      <b-dropdown position="is-bottom-left">
+                        <b-Icon icon="settings" slot="trigger"></b-Icon>
+                        <b-dropdown-item @click="editInput(i)">
+                          <b-Icon icon="pencil" size="is-small"></b-Icon>
+                          <span>Éditer</span>
+                        </b-dropdown-item>
+                        <b-dropdown-item @click="removeInput(i)">
+                          <b-Icon icon="delete" size="is-small"></b-Icon>
+                          <span>Supprimer</span>
+                        </b-dropdown-item>
+                      </b-dropdown>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -108,9 +120,6 @@ export default {
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(10, 10, 10, 0.1), 0 10px 6px 1px rgba(10, 10, 10, 0.03);
-  .card-content{
-    padding-top: 15%;
-  }
   .card-image{
     background-color: #8EC5FC;
     background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
