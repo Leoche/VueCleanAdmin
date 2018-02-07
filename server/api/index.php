@@ -33,6 +33,14 @@ class VueCleanServer
                      $this->response->success($this->ressource->getJSON('content'));
                break;
 
+               case "getusers":
+                  if ($this->auth->admin($_POST))
+                     $this->response->success($this->configuration->auth);
+               break;
+               case "setusers":
+                     $this->response->success($this->ressource->getJSON('content'));
+               break;
+
                case "setmodel":
                   if ($this->auth->admin($_POST))
                      if(!isset($_POST["body"]) || $_POST["body"] === "") throw new Exception("JSON not found");
