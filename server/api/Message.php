@@ -1,18 +1,19 @@
 <?php
 class Message{
-   public function success($message)
+   public function success($body)
    {
-      return $this->print_json("success", $message);
+      return $this->print_json("success", $body, null);
    }
    public function error($message)
    {
-      return $this->print_json("error", $message);
+      return $this->print_json("error", null, $message);
    }
-   private function print_json($state, $message)
+   private function print_json($state, $body, $message)
    {
       echo json_encode(array(
          "state"=>$state,
-         "message"=>$message
+         "message"=>$message,
+         "body"=>$body
       ));
       exit();
    }

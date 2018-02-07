@@ -12,54 +12,45 @@ class VueCleanServer
    public function __construct()
    {
       // GET CONFIG
+      $this->response = new Message();
       $this->ressource = new Ressource();
       $this->configuration = $this->ressource->getJSON('config');
       $this->auth = new Auth($this->configuration);
 
-      print_r($this->configuration);
-      return;
       // PROCEED ACTION
-      if (!isset($_POST) || !isset($_POST["action"]) || $_POST["action"] === "") $this->error("Action not specified");
-      switch ($_POST["action"]) {
-         case "auth":
-            if($this->getAuth())
-               echo json_encode(array(
-                  "state" => "success",
-                  "body" => json_encode($this->getAuth())
-               ));
-            die();
-         break;
-         case "getmodel":
-            if($this->validAuth())
-               echo json_encode(array(
-                  "state" => "success",
-                  "body" => json_decode($this->retrieve_JSON('model'))
-               ));
-            die();
-         break;
-         case "getcontent":
-               echo json_encode(array(
-                  "state" => "success",
-                  "body" => json_decode($this->retrieve_JSON('content'))
-               ));
-            die();
-         break;
-         case "setmodel":
-            if($this->validAuth())
-               if(!isset($_POST["body"]) || $_POST["body"] === "") $this->error("JSON not found");
-                  if(!$this->save_JSON("model", $_POST["body"])) $this->error("JSON could not be saved");
-                  else $this->success("Model saved");
-         break;
-         case "setcontent":
-            if($this->validAuth())
-               if(!isset($_POST["body"]) || $_POST["body"] === "") $this->error("JSON not found");
-                  if(!$this->save_JSON("content", $_POST["body"])) $this->error("JSON could not be saved");
-                  else $this->success("Content saved");
-         break;
-         default:
-            $this->error("Action not valid");
-         break;
-      }
+      if (!isset($_POST) || !isset($_POST["action"]) || $_POST["action"] === "") $this->response->error("Action not specified");
+         try{
+            switch ($_POST["action"]) {
+               case "auth":
+                  $this->response->success($this->auth->user($_POST));
+               break;
+
+               case "getmodel":
+                  if ($this->auth->admin($_POST))
+                     $this->response->success($this->ressource->getJSON('model'));
+               break;
+               case "getcontent":
+                     $this->response->success($this->ressource->getJSON('content'));
+               break;
+
+               case "setmodel":
+                  if ($this->auth->admin($_POST))
+                     if(!isset($_POST["body"]) || $_POST["body"] === "") throw new Exception("JSON not found");
+                        if($this->ressource->saveJSON("model", $_POST["body"])) $this->response->success("Model saved");
+               break;
+               case "setcontent":
+                  if ($this->auth->user($_POST))
+                     if(!isset($_POST["body"]) || $_POST["body"] === "") throw new Exception("JSON not found");
+                        if($this->ressource->saveJSON("content", $_POST["body"])) $this->response->success("Content saved");
+               break;
+
+               default:
+                  throw new Exception("Action not valid");
+               break;
+            }
+         } catch (Exception $error) {
+            $this->response->error($error->getMessage());
+         }
    }
 }
 new VueCleanServer();
