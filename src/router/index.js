@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
 import ModelManager from '@/components/ModelManager'
+import UserManager from '@/components/UserManager'
 
 Vue.use(Router)
 
@@ -21,6 +22,14 @@ let router = new Router({
       path: '/model',
       name: 'ModelManager',
       component: ModelManager,
+      meta: {
+        auth: true
+      }
+    },
+    {
+      path: '/users',
+      name: 'UserManager',
+      component: UserManager,
       meta: {
         auth: true
       }

@@ -49,23 +49,24 @@ $colors: (
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
 
-.fadedown-enter-active, .fadedown-leave-active, .fadeleft-enter-active, .fadeleft-leave-active {
+.fadedown-enter-active, .fadedown-leave-active, .fadeleft-enter-active, .fadeleft-leave-active, .fadeup-enter-active, .fadeup-leave-active {
   transition: all .5s ease;
 }
 .fadedown-enter, .fadedown-leave-to {
   opacity: 0;
   transform: translateY(-50px)
 }
+.fadeup-enter, .fadeup-leave-to {
+  opacity: 0;
+  transform: translateY(50px)
+}
 .fadeleft-enter, .fadeleft-leave-to {
   opacity: 0;
   transform: translateX(50px)
 }
-.card--list {
-  transition: all 0.9s ease;
-}
-@for $i from 1 through 9 {
-  .card--list:nth-child(#{$i}) {
-    transition: all #{$i/10}s ease;
+@for $i from 0 through 9 {
+  .columns .column .card--list:nth-child(#{$i}), .columns .column--card:nth-child(#{$i}) .card--list {
+    transition: all .5s ease #{$i/10}s;
   }
 }
 </style>

@@ -34,8 +34,12 @@ class VueCleanServer
                break;
 
                case "getusers":
-                  if ($this->auth->admin($_POST))
+                  if ($this->auth->admin($_POST)){
+                     foreach ($this->configuration->auth as $key => $value) {
+                        $value->avatar = md5(strtolower(trim($value->email)));
+                     }
                      $this->response->success($this->configuration->auth);
+                  }
                break;
                case "setusers":
                      $this->response->success($this->ressource->getJSON('content'));
