@@ -4,7 +4,7 @@
       <b-tab-item label="Utilisateurs" icon="account-multiple">
         <div class="columns">
           <div v-for="(user, i) in this.rawData" v-bind:key="i" class="column column--card">
-            <ProfileCard :user="user" :index="i"></ProfileCard>
+            <ProfileCard :user="user" :index="i" v-on:profileAction="profileAction"></ProfileCard>
           </div>
         </div>
       </b-tab-item>
@@ -45,6 +45,10 @@ export default {
     }
   },
   methods: {
+    profileAction (action, index) {
+      console.log('action', action)
+      console.log('index', index)
+    },
     save () {
       // TODO
     }

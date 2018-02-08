@@ -20,11 +20,11 @@
             <a v-if="user.role==='user'">
               <b-dropdown position="is-bottom-left">
                 <b-Icon icon="settings" slot="trigger"></b-Icon>
-                <b-dropdown-item @click="edit(index)">
+                <b-dropdown-item @click="action('edit', index)">
                   <b-Icon icon="pencil" size="is-small"></b-Icon>
                   <span>Éditer</span>
                 </b-dropdown-item>
-                <b-dropdown-item @click="remove(index)">
+                <b-dropdown-item @click="action('remove', index)">
                   <b-Icon icon="delete" size="is-small"></b-Icon>
                   <span>Supprimer</span>
                 </b-dropdown-item>
@@ -42,17 +42,9 @@ export default {
   name: 'ProfileCard',
   props: ['user', 'index'],
   methods: {
-    edit (index) {
-      console.log('edit', index)
-    },
-    remove (index) {
-      console.log('remove', index)
+    action (action, index) {
+      this.$emit('profileAction', action, index)
     }
-  },
-  data () {
-  },
-  mounted () {
-    console.log('user', this.user)
   }
 }
 </script>
