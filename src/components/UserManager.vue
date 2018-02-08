@@ -4,7 +4,7 @@
       <b-tab-item label="Utilisateurs" icon="account-multiple">
         <div class="columns">
           <div v-for="(user, i) in this.rawData" v-bind:key="i" class="column column--card">
-            <ProfileCard :user="user" :index="i" v-on:profileAction="profileAction"></ProfileCard>
+            <UserCard :user="user" :index="i" v-on:profileAction="profileAction"></UserCard>
           </div>
         </div>
       </b-tab-item>
@@ -24,20 +24,20 @@
       </b-tab-item>
     </b-tabs>
     <b-modal :active.sync="isProfileEditorActive" has-modal-card>
-      <ProfileEditor :user="profileEditorData"></ProfileEditor>
+      <UserCard :user="profileEditorData"></UserCard>
     </b-modal>
   </section>
 </template>
 
 <script>
-import ProfileCard from '@/components/ui/ProfileCard'
-import ProfileEditor from '@/components/ui/ProfileEditor'
+import UserCard from '@/components/ui/UserCard'
+import UserEditor from '@/components/ui/UserEditor'
 
 export default {
   name: 'UserManager',
   components: {
-    ProfileCard,
-    ProfileEditor
+    UserCard,
+    UserEditor
   },
   data () {
     return {

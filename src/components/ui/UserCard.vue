@@ -17,7 +17,7 @@
           <div class="media-right">
             <b-Icon v-if="user.role==='admin'" icon="account-star"></b-Icon>
             <b-Icon v-else icon="account"></b-Icon>
-            <a v-if="user.role==='user'">
+            <a v-if="user.role!=='usser'">
               <b-dropdown position="is-bottom-left">
                 <b-Icon icon="settings" slot="trigger"></b-Icon>
                 <b-dropdown-item @click="action('edit', index)">
@@ -39,11 +39,11 @@
 
 <script>
 export default {
-  name: 'ProfileCard',
+  name: 'UserCard',
   props: ['user', 'index'],
   methods: {
     action (action, index) {
-      this.$emit('profileAction', action, index)
+      this.$emit('userAction', action, index)
     }
   }
 }
