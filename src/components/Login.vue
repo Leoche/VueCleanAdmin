@@ -3,41 +3,41 @@
     <div class="hero-body">
       <div class="container">
         <transition appear name="fadedown">
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title">
-              Connexion Administration
-            </p>
-            <span class="card-header-icon">
-              <img src="/src/assets/va-color.svg" alt="Vuecleanadmin logo">
-           </span>
-         </header>
-         <div class="card-content">
-          <div class="content">
-            <b-field>
-              <b-input placeholder="Email" type="email" icon="email-outline" v-model="vemail"></b-input>
-            </b-field>
-            <b-field>
-              <b-input placeholder="Mot de passe" type="password" icon="key" @keyup.enter.native="login" v-model="vpassword" password-reveal autocomplete="off"></b-input>
-            </b-field>
-            <div class="field">
-              <b-switch v-model="$localStorage.remember">
-                Se souvenir de moi
-              </b-switch>
-            </div>
-            <b-field grouped position="is-right">
-              <p class="control">
-                <button class="button is-light" @click="clear">Annuler</button>
-                <button class="button is-primary" @click="login" v-bind:class="{ 'is-loading': isLoading }">Connexion</button>
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                Connexion Administration
               </p>
-            </b-field>
+              <span class="card-header-icon">
+                <img src="/src/assets/va-color.svg" alt="Vuecleanadmin logo">
+              </span>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <b-field>
+                  <b-input placeholder="Email" type="email" icon="email-outline" v-model="vemail"></b-input>
+                </b-field>
+                <b-field>
+                  <b-input placeholder="Mot de passe" type="password" icon="key" @keyup.enter.native="login" v-model="vpassword" password-reveal autocomplete="off"></b-input>
+                </b-field>
+                <div class="field">
+                  <b-switch v-model="$localStorage.remember">
+                    Se souvenir de moi
+                  </b-switch>
+                </div>
+                <b-field grouped position="is-right">
+                  <p class="control">
+                    <button class="button is-light" @click="clear">Annuler</button>
+                    <button class="button is-primary" @click="login" v-bind:class="{ 'is-loading': isLoading }">Connexion</button>
+                  </p>
+                </b-field>
+              </div>
+            </div>
           </div>
-        </div>
+        </transition>
       </div>
-      </transition>
     </div>
-  </div>
-</section>
+  </section>
 </template>
 
 <script>
@@ -94,13 +94,13 @@ export default {
 
 <style scoped lang="scss">
 .hero.is-login{
-  background-color:#ccd;
-  background:url(https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?ixlib=rb-0.3.5&s=a74bf61666c5e84b8cd8687ff8f4fa27&auto=format&fit=crop&w=1867&q=80);
-    background-size: cover;
-    & .card{
-      width: 500px;
-      margin: 0 auto;
-      border-radius: .25rem;
-    }
+  background-color: #21D4FD;
+  background-image: linear-gradient(0deg, #21D4FD 0%, #5221ff 100%);
+
+  & .card{
+    width: 500px;
+    margin: 0 auto;
+    border-radius: .25rem;
   }
-  </style>
+}
+</style>
