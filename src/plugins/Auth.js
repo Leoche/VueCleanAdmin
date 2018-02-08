@@ -28,9 +28,10 @@ class Auth {
         if (res.data.state === 'success') {
           resolve(res.data)
         }
-        reject(new Error('error'))
+        reject(new Error('bad.credentials'))
       }, response => {
-        reject(new Error('error'))
+        console.log('response', response)
+        reject(new Error('unreachable'))
       })
     })
   }

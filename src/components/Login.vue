@@ -75,7 +75,7 @@ export default {
         })
         location.reload()
       }).catch((err) => {
-        console.log(err)
+        console.log('err', err)
         vm.isLoading = false
         vm.$toast.open({
           message: 'Mauvais identifiants',
