@@ -23,29 +23,36 @@
         </pre>
       </b-tab-item>
     </b-tabs>
+    <b-modal :active.sync="isProfileEditorActive" has-modal-card>
+      <ProfileEditor :user="profileEditorData"></ProfileEditor>
+    </b-modal>
   </section>
 </template>
 
 <script>
 import ProfileCard from '@/components/ui/ProfileCard'
+import ProfileEditor from '@/components/ui/ProfileEditor'
 
 export default {
   name: 'UserManager',
   components: {
-    ProfileCard
+    ProfileCard,
+    ProfileEditor
   },
   data () {
     return {
       activeTab: 0,
-      isInputPickerActive: false,
-      path: '',
-      saved: true,
-      editableInputData: null,
+      isProfileEditorActive: false,
+      profileEditorData: null,
       rawData: {}
     }
   },
   methods: {
     profileAction (action, index) {
+      if (action === 'edit') {
+        this.isProfileEditorActive = true
+        this.profileEditorData = this.rawData[index]
+      }
       console.log('action', action)
       console.log('index', index)
     },
