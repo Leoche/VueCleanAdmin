@@ -23,12 +23,13 @@
             </b-field>
           </div>
         </div>
-        <b-field label="Mot de passe">
-            <b-input type="password" v-model="user.newpassword" placeholder="Laissez vide pour ne pas changer"></b-input>
-        </b-field>
         <b-field label="Role">
             <b-input placeholder="Role" disabled value="Utilisateur"></b-input>
         </b-field>
+        <b-field label="Mot de passe" v-show="isPasswordActive">
+            <b-input type="password" v-model="user.newpassword" placeholder="Laissez vide pour ne pas changer"></b-input>
+        </b-field>
+        <button v-show="!isPasswordActive" @click.prevent="isPasswordActive = true" class="button">Changer le mot de passe</button>
       </section>
       <footer class="modal-card-foot">
         <button class="button is-primary" @click.prevent="save">
@@ -45,7 +46,7 @@
     props: ['user'],
     data () {
       return {
-        msg: 'Welcome'
+        isPasswordActive: false
       }
     },
     components: {
