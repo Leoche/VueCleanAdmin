@@ -20,8 +20,9 @@
                     <p class="subtitle is-6 has-text-grey">{{ user.email }}</p>
                   </div>
                   <div class="media-right">
-
-                    <a class="card-header-icon">
+                    <b-Icon v-if="user.role==='admin'" icon="account-star"></b-Icon>
+                    <b-Icon v-else icon="account"></b-Icon>
+                    <a>
                       <b-dropdown position="is-bottom-left">
                         <b-Icon icon="settings" slot="trigger"></b-Icon>
                         <b-dropdown-item @click="editInput(i)">
@@ -117,8 +118,6 @@ export default {
 
 <style scoped lang="scss">
 .card{
-  overflow: hidden;
-  border-radius: 10px;
   box-shadow: 0 2px 6px rgba(10, 10, 10, 0.1), 0 10px 6px 1px rgba(10, 10, 10, 0.03);
   .card-image{
     background-color: #8EC5FC;
@@ -144,5 +143,8 @@ export default {
     background-color: #FBDA61;
     background-image: linear-gradient(45deg, #FBDA61 0%, #FF5ACD 100%);
   }
+}
+.column{
+  padding-bottom: 50px;
 }
 </style>
