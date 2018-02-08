@@ -4,7 +4,7 @@
       <b-tab-item label="Utilisateurs" icon="account-multiple">
         <div class="columns">
           <div v-for="(user, i) in this.rawData" v-bind:key="i" class="column column--card">
-            <UserCard :user="user" :index="i" v-on:profileAction="profileAction"></UserCard>
+            <UserCard :user="user" :index="i" v-on:userAction="userAction"></UserCard>
           </div>
         </div>
       </b-tab-item>
@@ -23,8 +23,8 @@
         </pre>
       </b-tab-item>
     </b-tabs>
-    <b-modal :active.sync="isProfileEditorActive" has-modal-card>
-      <UserCard :user="profileEditorData"></UserCard>
+    <b-modal :active.sync="isUserEditorActive" has-modal-card>
+      <UserEditor v-on:userSave="userSave" :user="userEditorData"></UserEditor>
     </b-modal>
   </section>
 </template>
@@ -42,22 +42,23 @@ export default {
   data () {
     return {
       activeTab: 0,
-      isProfileEditorActive: false,
-      profileEditorData: null,
+      isUserEditorActive: false,
+      userEditorData: null,
       rawData: {}
     }
   },
   methods: {
-    profileAction (action, index) {
+    userAction (action, index) {
       if (action === 'edit') {
-        this.isProfileEditorActive = true
-        this.profileEditorData = this.rawData[index]
+        this.isUserEditorActive = true
+        this.userEditorData = this.rawData[index]
       }
       console.log('action', action)
       console.log('index', index)
     },
-    save () {
-      // TODO
+    userSave (user, index) {
+      console.log('user', user)
+      console.log('index', index)
     }
   },
   mounted () {
