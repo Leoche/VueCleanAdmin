@@ -17,7 +17,7 @@
               <b-Icon icon="content-save"></b-Icon>
               <span>Sauvegarder</span>
             </button>
-            <button class="button is-info" @click.prevent="openInputPicker">
+            <button class="button is-info" @click.prevent="openInputEditor">
               <b-Icon icon="plus"></b-Icon>
               <span>Ajouter un champ</span>
             </button>
@@ -93,8 +93,8 @@
       </b-tab-item>
     </b-tabs>
 
-    <b-modal :active.sync="isInputPickerActive" has-modal-card>
-      <InputPicker v-on:newInput="saveNewInput" v-on:editInput="saveEditInput" :fromsub="path !== ''" :editable="editableInputData"></InputPicker>
+    <b-modal :active.sync="isInputEditorActive" has-modal-card>
+      <InputEditor v-on:newInput="saveNewInput" v-on:editInput="saveEditInput" :fromsub="path !== ''" :editable="editableInputData"></InputEditor>
     </b-modal>
 
   </section>
@@ -102,18 +102,18 @@
 
 <script>
 import IconInput from '@/components/inputs/IconInput'
-import InputPicker from '@/components/ui/InputPicker'
+import InputEditor from '@/components/ui/InputEditor'
 
 export default {
   name: 'ModelManager',
   components: {
     IconInput,
-    InputPicker
+    InputEditor
   },
   data () {
     return {
       activeTab: 0,
-      isInputPickerActive: false,
+      isInputEditorActive: false,
       path: '',
       saved: true,
       editableInputData: null,
@@ -156,7 +156,7 @@ export default {
     editInput (index) {
       this.editableInputData = this.getInputByPath()[index]
       this.editableInputData.index = index
-      this.isInputPickerActive = true
+      this.isInputEditorActive = true
     },
     removeInput (index) {
       this.getInputByPath().splice(index, 1)
@@ -187,8 +187,8 @@ export default {
     getLabelByPath () {
       return this.rawData.filter(input => input.name === this.path)[0].label
     },
-    openInputPicker () {
-      this.isInputPickerActive = true
+    openInputEditor () {
+      this.isInputEditorActive = true
       this.editableInputData = null
     },
     save () {
