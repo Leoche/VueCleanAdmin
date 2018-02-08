@@ -69,4 +69,10 @@ $colors: (
     transition: all .5s ease #{$i/10}s;
   }
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
 </style>
