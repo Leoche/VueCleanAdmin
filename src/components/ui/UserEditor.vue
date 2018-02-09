@@ -43,7 +43,7 @@
 <script>
   export default {
     name: 'UserEditor',
-    props: ['user'],
+    props: ['user','index'],
     data () {
       return {
         isPasswordActive: false
@@ -54,6 +54,7 @@
     methods: {
       save () {
         this.$emit('userSave', this.user, this.index)
+        this.$parent.close()
       }
     }
   }

@@ -24,7 +24,7 @@
       </b-tab-item>
     </b-tabs>
     <b-modal :active.sync="isUserEditorActive" has-modal-card>
-      <UserEditor v-on:userSave="userSave" :user="userEditorData"></UserEditor>
+      <UserEditor v-on:userSave="userSave" :user="userEditorData" :index="userEditorIndex"></UserEditor>
     </b-modal>
   </section>
 </template>
@@ -44,6 +44,7 @@ export default {
       activeTab: 0,
       isUserEditorActive: false,
       userEditorData: null,
+      userEditorIndex: null,
       rawData: {}
     }
   },
@@ -51,14 +52,17 @@ export default {
     userAction (action, index) {
       if (action === 'edit') {
         this.isUserEditorActive = true
+        this.userEditorIndex = index
         this.userEditorData = this.rawData[index]
+      } else {
+
       }
-      console.log('action', action)
-      console.log('index', index)
     },
     userSave (user, index) {
       console.log('user', user)
       console.log('index', index)
+      this.rawData[index].name = user.name
+      this.rawData[index].email = user.email
     }
   },
   mounted () {
