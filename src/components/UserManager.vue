@@ -50,12 +50,41 @@ export default {
   },
   methods: {
     userAction (action, index) {
+      let api = document.querySelector('meta[name=api]').content
       if (action === 'edit') {
         this.isUserEditorActive = true
         this.userEditorIndex = index
         this.userEditorData = this.rawData[index]
-      } else {
-
+      } else if (action === 'remove') {
+        this.$http.post(api, {
+          'action': 'removeuser',
+          'email': this.$session.get('user').email,
+          'useremail': this.rawData[index].email,
+          'password': this.$session.get('user').password
+        }, {
+          emulateJSON: true
+        }).then(res => {
+          if (res.data.state === 'success') {
+            this.$toast.open({
+              message: 'L\'utilisateur vient d\'être supprimé avec succès',
+              type: 'is-success',
+              position: 'is-bottom'
+            })
+            this.rawData.splice(index, 1)
+          } else {
+            this.$toast.open({
+              message: 'Erreur lors de chargement: ' + res.data.message,
+              type: 'is-danger',
+              position: 'is-bottom'
+            })
+          }
+        }, res => {
+          this.$toast.open({
+            message: 'Erreur lors de la connexion à l\'api: ' + res.data.message,
+            type: 'is-danger',
+            position: 'is-bottom'
+          })
+        })
       }
     },
     userSave (user, index) {

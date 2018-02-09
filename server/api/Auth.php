@@ -9,29 +9,16 @@ class Auth
       $this->configuration = $configuration;
    }
 
-   public function user($email, $password=null)
+   public function user()
    {
-      if ($password === null) {
-         if (!isset($_POST["email"]) || !isset($_POST["password"])) {
-            throw new Exception('Email or password not found');
-         } else {
-            $email = $_POST["email"];
-            $password = $_POST["password"];
-         }
-      }
+      $user = Validator::user();
 
       if (!$this->validIp())
          throw new Exception('Invalid host');
 
-      if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-         throw new Exception('Invalid email');
-
-      if ($password === "")
-         throw new Exception('Invalid password');
-
       foreach ($this->configuration->auth as $account) {
-         if ($email === $account->email) {
-            if ($this->hashPassword($password) === $account->password || $password === $account->password) {
+         if ($user->email === $account->email) {
+            if ($this->hashPassword($user->password) === $account->password || $user->password === $account->password) {
                return array(
                   "name"=>$account->name,
                   "password"=>$account->password,
@@ -44,11 +31,22 @@ class Auth
       }
       throw new Exception('Invalid creditentials');
    }
-   public function admin($email, $password=null)
+   public function admin()
    {
-      $user = $this->user($email, $password);
+      $user = $this->user();
       if ($user["role"] === "admin") return true;
       throw new Exception('Invalid permissions');
+   }
+   public function addUser($name, $email, $password)
+   {
+      $user = $this->user($email, $password);
+      $newUser = array(
+         "name"=>$name,
+         "password"=>$password,
+         "email"=>$email,
+         "role"=>"user",
+         "avatar"=>md5(strtolower(trim($email)))
+      );
    }
    private function hashPassword($password)
    {

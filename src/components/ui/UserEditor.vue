@@ -43,7 +43,7 @@
 <script>
   export default {
     name: 'UserEditor',
-    props: ['user','index'],
+    props: ['user', 'index'],
     data () {
       return {
         isPasswordActive: false
