@@ -2,9 +2,8 @@
 <form action="">
     <div class="modal-card">
       <header class="modal-card-head">
-         <p class="modal-card-title">
-            Édition de {{ user.name }}
-         </p>
+         <p v-if="index === -1" class="modal-card-title">Nouvel utilisateur</p>
+         <p v-else class="modal-card-title">Édition de {{ user.name }}</p>
         <button class="delete" aria-label="close" @click.prevent="$parent.close()"></button>
       </header>
       <section class="modal-card-body">
@@ -26,10 +25,10 @@
         <b-field label="Role">
             <b-input placeholder="Role" disabled value="Utilisateur"></b-input>
         </b-field>
-        <b-field label="Mot de passe" v-show="isPasswordActive">
-            <b-input type="password" v-model="user.newpassword" placeholder="Laissez vide pour ne pas changer"></b-input>
+        <b-field label="Mot de passe" v-show="isPasswordActive || index === -1">
+            <b-input type="password" v-model="user.newpassword" placeholder="Mot de passe..."></b-input>
         </b-field>
-        <button v-show="!isPasswordActive" @click.prevent="isPasswordActive = true" class="button">Changer le mot de passe</button>
+        <button v-show="!isPasswordActive && index !== -1" @click.prevent="isPasswordActive = true" class="button">Changer le mot de passe</button>
       </section>
       <footer class="modal-card-foot">
         <button class="button is-primary" @click.prevent="save">
@@ -53,7 +52,11 @@
     },
     methods: {
       save () {
-        this.$emit('userSave', this.user, this.index)
+        if (this.index === -1) {
+          this.$emit('userSave', this.user)
+        } else {
+          this.$emit('userEdit', this.user, this.index)
+        }
         this.$parent.close()
       }
     }

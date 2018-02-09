@@ -48,7 +48,7 @@ class Auth
          "avatar"=>md5(strtolower(trim($email)))
       );
    }
-   private function hashPassword($password)
+   public function hashPassword($password)
    {
       return md5($this->configuration->salt . $password . $this->configuration->salt);
    }

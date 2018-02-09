@@ -45,6 +45,14 @@ class VueCleanServer
                case "setusers":
                      $this->response->success($this->ressource->getJSON('content'));
                break;
+               case "adduser":
+                  $user = Validator::userregister();
+                  $user->avatar = md5(strtolower(trim($user->email)));
+                  $user->password = $this->auth->hashPassword($user->password);
+                  $user->role = "user";
+                  array_push($this->configuration->auth, $user);
+                  $this->response->success($this->ressource->saveJSON('config', $this->configuration));
+               break;
                case "removeuser":
                   $email = Validator::useremail();
                   if ($this->auth->admin()){

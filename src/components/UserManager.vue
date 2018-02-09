@@ -1,5 +1,14 @@
 <template>
   <section>
+    <nav class="level">
+      <div class="level-right">
+        <button class="button is-info" @click.prevent="isUserEditorActive = true">
+          <b-Icon icon="plus"></b-Icon>
+          <span>Ajouter un utilisateur</span>
+        </button>
+      </div>
+    </nav>
+
     <b-tabs v-model="activeTab" position="is-centered">
       <b-tab-item label="Utilisateurs" icon="account-multiple">
         <div class="columns">
@@ -24,7 +33,7 @@
       </b-tab-item>
     </b-tabs>
     <b-modal :active.sync="isUserEditorActive" has-modal-card>
-      <UserEditor v-on:userSave="userSave" :user="userEditorData" :index="userEditorIndex"></UserEditor>
+      <UserEditor v-on:userSave="userSave" v-on:userEdit="userEdit" :user="userEditorData" :index="userEditorIndex"></UserEditor>
     </b-modal>
   </section>
 </template>
@@ -43,8 +52,8 @@ export default {
     return {
       activeTab: 0,
       isUserEditorActive: false,
-      userEditorData: null,
-      userEditorIndex: null,
+      userEditorData: {},
+      userEditorIndex: -1,
       rawData: {}
     }
   },
@@ -87,11 +96,52 @@ export default {
         })
       }
     },
-    userSave (user, index) {
-      console.log('user', user)
-      console.log('index', index)
+    userEdit (user, index) {
       this.rawData[index].name = user.name
       this.rawData[index].email = user.email
+    },
+    userSave (user) {
+      let api = document.querySelector('meta[name=api]').content
+      this.$http.post(api, {
+        'action': 'adduser',
+        'email': this.$session.get('user').email,
+        'password': this.$session.get('user').password,
+        'useremail': user.email,
+        'username': user.name,
+        'userpassword': user.newpassword
+      }, {
+        emulateJSON: true
+      }).then(res => {
+        if (res.data.state === 'success') {
+          this.$toast.open({
+            message: 'L\'utilisateur vient d\'être ajouté avec succès',
+            type: 'is-success',
+            position: 'is-bottom'
+          })
+          this.rawData = res.data.body
+        } else {
+          this.$toast.open({
+            message: 'Erreur lors de chargement: ' + res.data.message,
+            type: 'is-danger',
+            position: 'is-bottom'
+          })
+        }
+      }, res => {
+        this.$toast.open({
+          message: 'Erreur lors de la connexion à l\'api: ' + res.data.message,
+          type: 'is-danger',
+          position: 'is-bottom'
+        })
+      })
+    },
+    userNew () {
+      this.userEditorIndex = -1
+      this.userEditorData = {
+        'name': '',
+        'email': '',
+        'password': ''
+      }
+      this.isUserEditorActive = true
     }
   },
   mounted () {
