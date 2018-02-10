@@ -12,7 +12,7 @@
             <small v-if="user.role==='admin'" class="has-text-grey-light is-uppercase has-text-weight-light">Administrateur</small>
             <small v-else class="has-text-grey-light is-uppercase has-text-weight-light">Utilisateur</small>
             <p class="title is-4">{{ user.name }}</p>
-            <p class="subtitle is-6 has-text-grey">{{ user.email }}</p>
+            <p class="subtitle is-6 has-text-grey"><small>{{ user.email }}</small></p>
           </div>
           <div class="media-right">
             <b-Icon v-if="user.role==='admin'" icon="account-star"></b-Icon>
