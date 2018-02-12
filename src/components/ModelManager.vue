@@ -7,7 +7,7 @@
           <div class="level-left">
             <nav class="breadcrumb" aria-label="breadcrumbs">
               <ul>
-                <li :class="{'is-active': path===''}"><a href="#" aria-current="page" @click.prevent="path=''">Model Manager</a></li>
+                <li :class="{'is-active': path===''}"><a href="#" aria-current="page" @click.prevent="setPath('')">Model Manager</a></li>
                 <li v-if="path!==''" class='is-active'><a href="#">{{ getLabelByPath() }}</a></li>
               </ul>
             </nav>
@@ -25,51 +25,54 @@
         </nav>
 
         <!-- Liste des inputs -->
-        <transition-group name="fadeleft" tag="p">
-        <div class="card card--list" v-for="(input, i) in getInputByPath()" v-bind:key="i" :class="'card--'+input.type">
-          <div class="card-header">
-            <p class="card-header-title" v-if="input.type !== 'sub'">
-              <IconInput :icon="input.type"></IconInput> {{ input.label }}
-              <b-tag rounded>{{ input.name }}</b-tag>
-            </p>
-            <p class="card-header-title" v-else>
-              <a href="#" @click.prevent="path = input.name">
+        <draggable v-model="inputByPath" @end="onDrag" :options="{handle:'.handle'}">
+          <transition-group name="fadeleft" tag="p">
+          <div class="card card--list" v-for="(input, i) in inputByPath" v-bind:key="i" :class="'card--'+input.type">
+            <div class="card-header">
+              <p class="card-header-title" v-if="input.type !== 'sub'">
                 <IconInput :icon="input.type"></IconInput> {{ input.label }}
                 <b-tag rounded>{{ input.name }}</b-tag>
-              </a>
-            </p>
-            <a class="card-header-icon">
-              <b-dropdown position="is-bottom-left">
-                <b-Icon icon="settings" slot="trigger"></b-Icon>
+              </p>
+              <p class="card-header-title" v-else>
+                <a href="#" @click.prevent="setPath(input.name)">
+                  <IconInput :icon="input.type"></IconInput> {{ input.label }}
+                  <b-tag rounded>{{ input.name }}</b-tag>
+                </a>
+              </p>
+              <div class="card-header-icon">
+                <div><b-Icon icon="arrow-all" class="handle"></b-Icon></div>
+                <b-dropdown position="is-bottom-left">
+                  <b-Icon icon="settings" slot="trigger"></b-Icon>
 
-                <b-dropdown-item @click="moveInput(i, -1)" v-if="i !== 0">
-                  <b-Icon icon="chevron-up" size="is-small"></b-Icon>
-                  <span>Monter</span>
-                </b-dropdown-item>
-                <b-dropdown-item @click="moveInput(i, 1)" v-if="i !== getInputByPath().length - 1">
-                  <b-Icon icon="chevron-down" size="is-small"></b-Icon>
-                  <span>Descendre</span>
-                </b-dropdown-item>
-                <b-dropdown-item @click="editInput(i)">
-                  <b-Icon icon="pencil" size="is-small"></b-Icon>
-                  <span>Éditer</span>
-                </b-dropdown-item>
-                <b-dropdown-item @click="removeInput(i)">
-                  <b-Icon icon="delete" size="is-small"></b-Icon>
-                  <span>Supprimer</span>
-                </b-dropdown-item>
-              </b-dropdown>
-            </a>
-          </div>
-            <div class="card-content" v-if="input.type === 'sub'">
-                <div class="content is-small">
-                  <ul class="">
-                    <li v-for="subinput in input.inputs"><IconInput size="is-small" :icon="subinput.type"></IconInput> {{ subinput.name }}</li>
-                  </ul>
-                </div>
+                  <b-dropdown-item @click="moveInput(i, -1)" v-if="i !== 0">
+                    <b-Icon icon="chevron-up" size="is-small"></b-Icon>
+                    <span>Monter</span>
+                  </b-dropdown-item>
+                  <b-dropdown-item @click="moveInput(i, 1)" v-if="i !== inputByPath.length - 1">
+                    <b-Icon icon="chevron-down" size="is-small"></b-Icon>
+                    <span>Descendre</span>
+                  </b-dropdown-item>
+                  <b-dropdown-item @click="editInput(i)">
+                    <b-Icon icon="pencil" size="is-small"></b-Icon>
+                    <span>Éditer</span>
+                  </b-dropdown-item>
+                  <b-dropdown-item @click="removeInput(i)">
+                    <b-Icon icon="delete" size="is-small"></b-Icon>
+                    <span>Supprimer</span>
+                  </b-dropdown-item>
+                </b-dropdown>
+              </div>
             </div>
-        </div>
-        </transition-group>
+              <div class="card-content" v-if="input.type === 'sub'">
+                  <div class="content is-small">
+                    <ul class="">
+                      <li v-for="subinput in input.inputs"><IconInput size="is-small" :icon="subinput.type"></IconInput> {{ subinput.name }}</li>
+                    </ul>
+                  </div>
+              </div>
+          </div>
+          </transition-group>
+        </draggable>
         <div v-if="getInputByPath().length === 0">
           <div class="notification has-text-centered">
             <b-Icon icon="emoticon-poop" custom-size="mdi-48px"></b-Icon><br/>
@@ -88,6 +91,9 @@
           </div>
         </div>
         <pre>
+          <blockquote>{{ inputByPath }}</blockquote>
+        </pre>
+        <pre>
           <blockquote>{{ rawData }}</blockquote>
         </pre>
       </b-tab-item>
@@ -103,10 +109,12 @@
 <script>
 import IconInput from '@/components/inputs/IconInput'
 import InputEditor from '@/components/ui/InputEditor'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'ModelManager',
   components: {
+    draggable,
     IconInput,
     InputEditor
   },
@@ -117,10 +125,27 @@ export default {
       path: '',
       saved: true,
       editableInputData: null,
-      rawData: {}
+      rawData: {},
+      inputByPath: null
     }
   },
   methods: {
+    setPath (path) {
+      this.path = path
+      if (this.path === '') {
+        this.inputByPath = this.rawData
+      } else {
+        this.inputByPath = this.rawData.filter(input => input.name === this.path)[0].inputs
+      }
+    },
+    onDrag (evt) {
+      this.saved = evt.oldIndex === evt.newIndex && this.saved
+      if (this.path === '') {
+        this.rawData = this.inputByPath
+      } else {
+        this.rawData.filter(input => input.name === this.path)[0].inputs = this.inputByPath
+      }
+    },
     saveNewInput (input) {
       let newInput = {
         'name': this.slug(input.name),
@@ -249,6 +274,7 @@ export default {
           position: 'is-bottom'
         })
         this.rawData = res.data.body
+        this.inputByPath = this.rawData
       } else {
         this.$toast.open({
           message: 'Erreur lors de chargement: ' + res.data.message,
