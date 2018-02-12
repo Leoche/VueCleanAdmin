@@ -54,15 +54,15 @@ $colors: (
 }
 .fadedown-enter, .fadedown-leave-to {
   opacity: 0;
-  transform: translateY(-50px)
+  transform: translateY(-50px) scale(.8);
 }
 .fadeup-enter, .fadeup-leave-to {
   opacity: 0;
-  transform: translateY(50px)
+  transform: translateY(50px) scale(.8);
 }
 .fadeleft-enter, .fadeleft-leave-to {
   opacity: 0;
-  transform: translateX(50px)
+  transform: translateX(50px) scale(.8);
 }
 @for $i from 0 through 9 {
   .columns .column .card--list:nth-child(#{$i}), .columns .column--card:nth-child(#{$i}) .card--list {
