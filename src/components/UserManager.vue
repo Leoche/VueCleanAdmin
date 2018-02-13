@@ -121,7 +121,7 @@ export default {
           this.rawData.push({
             'name': user.name,
             'role': 'user',
-            'email': user.email,
+            'email': user.email
           })
         } else {
           this.$toast.open({
