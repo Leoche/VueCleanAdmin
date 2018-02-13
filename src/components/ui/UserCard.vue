@@ -23,10 +23,14 @@
         </figure>
       </div>
       <div class="card-content">
+        <div class="media">
+          <div class="media-content">
             <small v-if="user.role==='admin'" class="has-text-grey-light is-uppercase has-text-weight-light">Administrateur</small>
             <small v-else class="has-text-grey-light is-uppercase has-text-weight-light">Utilisateur</small>
             <p class="title is-4">{{ user.name }}</p>
             <p class="subtitle is-6 has-text-grey"><small>{{ user.email }}</small></p>
+          </div>
+        </div>
       </div>
     </div>
   </transition>
@@ -51,6 +55,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.media-content{
+  overflow: visible;
+}
 .card{
   box-shadow: 0 2px 6px rgba(10, 10, 10, 0.1), 0 10px 6px 1px rgba(10, 10, 10, 0.03);
   .card-image{
