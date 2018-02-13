@@ -2,7 +2,7 @@
   <section>
     <nav class="level">
       <div class="level-right">
-        <button class="button is-info" @click.prevent="isUserEditorActive = true">
+        <button class="button is-info" @click.prevent="userNew()">
           <b-Icon icon="plus"></b-Icon>
           <span>Ajouter un utilisateur</span>
         </button>
@@ -118,7 +118,11 @@ export default {
             type: 'is-success',
             position: 'is-bottom'
           })
-          this.rawData = res.data.body
+          this.rawData.push({
+            'name': user.name,
+            'role': 'user',
+            'email': user.email,
+          })
         } else {
           this.$toast.open({
             message: 'Erreur lors de chargement: ' + res.data.message,
