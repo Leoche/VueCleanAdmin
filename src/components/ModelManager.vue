@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-tabs v-model="activeTab" position="is-centered">
+    <b-tabs v-model="activeTab" type="is-toggle-rounded">
       <b-tab-item label="Model" icon="file-tree">
 
         <nav class="level">
@@ -13,11 +13,11 @@
             </nav>
           </div>
           <div class="level-right">
-            <button class="button is-success" @click.prevent="save" :disabled="saved">
+            <button class="button is-success is-rounded" @click.prevent="save" :disabled="saved">
               <b-Icon icon="content-save"></b-Icon>
               <span>Sauvegarder</span>
             </button>
-            <button class="button is-info" @click.prevent="openInputEditor">
+            <button class="button is-info is-rounded" @click.prevent="openInputEditor">
               <b-Icon icon="plus"></b-Icon>
               <span>Ajouter un champ</span>
             </button>

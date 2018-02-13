@@ -3,44 +3,45 @@
     <div class="card card--list">
       <div class="card-image" :class="{'is-admin': user.role==='admin'}">
         <figure class="image is-4by1">
-            <img  :src="'https://www.gravatar.com/avatar/' + user.avatar + '.jpg?s=256&avatar'" :alt="user.name + 'gravatar'">
+            <UserAvatar :user="user"/>
+            <div>
+              <a v-if="user.role!=='usser'">
+                <b-dropdown position="is-bottom-left">
+                  <b-Icon icon="settings" slot="trigger"></b-Icon>
+                  <b-dropdown-item @click="action('edit', index)">
+                    <b-Icon icon="pencil" size="is-small"></b-Icon>
+                    <span>Éditer</span>
+                  </b-dropdown-item>
+                  <b-dropdown-item @click="action('remove', index)">
+                    <b-Icon icon="delete" size="is-small"></b-Icon>
+                    <span>Supprimer</span>
+                  </b-dropdown-item>
+                </b-dropdown>
+              </a>
+            </div>
+            <!-- <img  :src="'https://www.gravatar.com/avatar/' + user.avatar + '.jpg?s=256&avatar'" :alt="user.name + 'gravatar'"> -->
         </figure>
       </div>
       <div class="card-content">
-        <div class="media">
-          <div class="media-content">
             <small v-if="user.role==='admin'" class="has-text-grey-light is-uppercase has-text-weight-light">Administrateur</small>
             <small v-else class="has-text-grey-light is-uppercase has-text-weight-light">Utilisateur</small>
             <p class="title is-4">{{ user.name }}</p>
             <p class="subtitle is-6 has-text-grey"><small>{{ user.email }}</small></p>
-          </div>
-          <div class="media-right">
-            <b-Icon v-if="user.role==='admin'" icon="account-star"></b-Icon>
-            <b-Icon v-else icon="account"></b-Icon>
-            <a v-if="user.role!=='usser'">
-              <b-dropdown position="is-bottom-left">
-                <b-Icon icon="settings" slot="trigger"></b-Icon>
-                <b-dropdown-item @click="action('edit', index)">
-                  <b-Icon icon="pencil" size="is-small"></b-Icon>
-                  <span>Éditer</span>
-                </b-dropdown-item>
-                <b-dropdown-item @click="action('remove', index)">
-                  <b-Icon icon="delete" size="is-small"></b-Icon>
-                  <span>Supprimer</span>
-                </b-dropdown-item>
-              </b-dropdown>
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   </transition>
 </template>
 
+
 <script>
+import UserAvatar from '@/components/ui/UserAvatar'
+
 export default {
   name: 'UserCard',
   props: ['user', 'index'],
+  components: {
+    UserAvatar
+  },
   methods: {
     action (action, index) {
       this.$emit('userAction', action, index)
@@ -69,6 +70,17 @@ export default {
           background:white;
           border: 5px solid white;
           box-shadow:0 2px 5px rgba(0,0,0,.1);
+        }
+        div{
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          & a .dropdown-trigger .icon{
+            color:rgba(255,255,255,.6);
+            &:hover{
+              color:rgba(255,255,255,1);
+            }
+          }
         }
       }
   }

@@ -17,7 +17,7 @@
    <div class="navbar-end">
       <b-dropdown position="is-bottom-left">
         <a class="navbar-item" slot="trigger">
-          <img class="menu-avatar" :src="'https://www.gravatar.com/avatar/' + $session.get('user').avatar + '.jpg?s=30&avatar'" :alt="$session.get('user').name + 'gravatar'">
+          <UserAvatar class="menu-avatar" :user="$session.get('user')" size="30" />
           <span>Mon compte</span>
           <b-icon icon="menu-down"></b-icon>
         </a>
@@ -34,8 +34,13 @@
 </template>
 
 <script>
+import UserAvatar from '@/components/ui/UserAvatar'
+
 export default {
   name: 'Navbar',
+  components: {
+    UserAvatar
+  },
   methods: {
     toggle () {
       this.open = !this.open
