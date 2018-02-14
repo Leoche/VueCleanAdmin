@@ -8,11 +8,13 @@ import App from './App'
 import router from './router'
 import Buefy from 'buefy'
 import Auth from './plugins/Auth'
+import Server from './plugins/Server'
 
 Vue.use(Buefy)
 Vue.use(VueSession)
 Vue.use(VueResource)
 Vue.use(VueLocalStorage)
+Vue.use(Server)
 Vue.use(Auth, {
   router: router
 })

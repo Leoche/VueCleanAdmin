@@ -65,34 +65,11 @@ export default {
         this.userEditorIndex = index
         this.userEditorData = this.rawData[index]
       } else if (action === 'remove') {
-        this.$http.post(api, {
+        this.$server.post(this, {
           'action': 'removeuser',
-          'email': this.$session.get('user').email,
           'useremail': this.rawData[index].email,
-          'password': this.$session.get('user').password
-        }, {
-          emulateJSON: true
-        }).then(res => {
-          if (res.data.state === 'success') {
-            this.$toast.open({
-              message: 'L\'utilisateur vient d\'être supprimé avec succès',
-              type: 'is-success',
-              position: 'is-bottom'
-            })
-            this.rawData.splice(index, 1)
-          } else {
-            this.$toast.open({
-              message: 'Erreur lors de chargement: ' + res.data.message,
-              type: 'is-danger',
-              position: 'is-bottom'
-            })
-          }
         }, res => {
-          this.$toast.open({
-            message: 'Erreur lors de la connexion à l\'api: ' + res.data.message,
-            type: 'is-danger',
-            position: 'is-bottom'
-          })
+          this.rawData.splice(index, 1)
         })
       }
     },
@@ -101,40 +78,16 @@ export default {
       this.rawData[index].email = user.email
     },
     userSave (user) {
-      let api = document.querySelector('meta[name=api]').content
-      this.$http.post(api, {
+      this.$server.post(this, {
         'action': 'adduser',
-        'email': this.$session.get('user').email,
-        'password': this.$session.get('user').password,
         'useremail': user.email,
         'username': user.name,
         'userpassword': user.newpassword
-      }, {
-        emulateJSON: true
-      }).then(res => {
-        if (res.data.state === 'success') {
-          this.$toast.open({
-            message: 'L\'utilisateur vient d\'être ajouté avec succès',
-            type: 'is-success',
-            position: 'is-bottom'
-          })
-          this.rawData.push({
-            'name': user.name,
-            'role': 'user',
-            'email': user.email
-          })
-        } else {
-          this.$toast.open({
-            message: 'Erreur lors de chargement: ' + res.data.message,
-            type: 'is-danger',
-            position: 'is-bottom'
-          })
-        }
       }, res => {
-        this.$toast.open({
-          message: 'Erreur lors de la connexion à l\'api: ' + res.data.message,
-          type: 'is-danger',
-          position: 'is-bottom'
+        this.rawData.push({
+          'name': user.name,
+          'role': 'user',
+          'email': user.email
         })
       })
     },
@@ -149,34 +102,8 @@ export default {
     }
   },
   mounted () {
-    let api = document.querySelector('meta[name=api]').content
-    this.$http.post(api, {
-      'action': 'getusers',
-      'email': this.$session.get('user').email,
-      'password': this.$session.get('user').password
-    }, {
-      emulateJSON: true
-    }).then(res => {
-      if (res.data.state === 'success') {
-        this.$toast.open({
-          message: 'Les utilisateurs viennent d\'être chargé avec succès',
-          type: 'is-success',
-          position: 'is-bottom'
-        })
-        this.rawData = res.data.body
-      } else {
-        this.$toast.open({
-          message: 'Erreur lors de chargement: ' + res.data.message,
-          type: 'is-danger',
-          position: 'is-bottom'
-        })
-      }
-    }, res => {
-      this.$toast.open({
-        message: 'Erreur lors de la connexion à l\'api: ' + res.data.message,
-        type: 'is-danger',
-        position: 'is-bottom'
-      })
+    this.$server.post(this, {action: 'getusers'}, res => {
+      this.rawData = res.data.body
     })
   }
 }
