@@ -59,15 +59,14 @@ export default {
   },
   methods: {
     userAction (action, index) {
-      let api = document.querySelector('meta[name=api]').content
       if (action === 'edit') {
-        this.isUserEditorActive = true
         this.userEditorIndex = index
         this.userEditorData = this.rawData[index]
+        this.isUserEditorActive = true
       } else if (action === 'remove') {
         this.$server.post(this, {
           'action': 'removeuser',
-          'useremail': this.rawData[index].email,
+          'useremail': this.rawData[index].email
         }, res => {
           this.rawData.splice(index, 1)
         })
