@@ -218,35 +218,11 @@ export default {
     },
     save () {
       let dataToSave = JSON.stringify(this.rawData)
-      let api = document.querySelector('meta[name=api]').content
-      this.$http.post(api, {
+      this.$server.post(this, {
         'action': 'setmodel',
-        'email': this.$session.get('user').email,
-        'password': this.$session.get('user').password,
         'body': dataToSave
-      }, {
-        emulateJSON: true
-      }).then(res => {
-        if (res.data.state === 'success') {
-          this.$toast.open({
-            message: 'Le model vient d\'être sauvegardé avec succès',
-            type: 'is-success',
-            position: 'is-bottom'
-          })
-          this.saved = true
-        } else {
-          this.$toast.open({
-            message: 'Erreur lors de la sauvegarde: ' + res.data.message,
-            type: 'is-danger',
-            position: 'is-bottom'
-          })
-        }
       }, res => {
-        this.$toast.open({
-          message: 'Erreur lors de la connexion à l\'api: ' + res.data.message,
-          type: 'is-danger',
-          position: 'is-bottom'
-        })
+        this.saved = true
       })
     },
     slug (str) {
@@ -259,35 +235,10 @@ export default {
     }
   },
   mounted () {
-    let api = document.querySelector('meta[name=api]').content
-    this.$http.post(api, {
-      'action': 'getmodel',
-      'email': this.$session.get('user').email,
-      'password': this.$session.get('user').password
-    }, {
-      emulateJSON: true
-    }).then(res => {
-      if (res.data.state === 'success') {
-        this.$toast.open({
-          message: 'Le model vient d\'être chargé avec succès',
-          type: 'is-success',
-          position: 'is-bottom'
-        })
-        this.rawData = res.data.body
-        this.inputByPath = this.rawData
-      } else {
-        this.$toast.open({
-          message: 'Erreur lors de chargement: ' + res.data.message,
-          type: 'is-danger',
-          position: 'is-bottom'
-        })
-      }
+    this.$server.post(this, {
+      'action': 'getmodel'
     }, res => {
-      this.$toast.open({
-        message: 'Erreur lors de la connexion à l\'api: ' + res.data.message,
-        type: 'is-danger',
-        position: 'is-bottom'
-      })
+      this.rawData = this.inputByPath = res.data.body
     })
   }
 }
