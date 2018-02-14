@@ -2,7 +2,7 @@
 class Message{
    public function success($body)
    {
-      return $this->print_json("success", $body, null);
+      return $this->print_json("success", $body, $_POST["action"] . " réussi");
    }
    public function error($message)
    {

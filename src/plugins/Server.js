@@ -18,7 +18,7 @@ class Server {
 
   success (vm, res) {
     vm.$toast.open({
-      message: 'Succès',
+      message: 'Succès! ' + res.data.message,
       type: 'is-success',
       position: 'is-bottom'
     })
