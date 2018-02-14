@@ -19,7 +19,11 @@ class VueCleanServer
       $this->auth = new Auth($this->configuration);
 
       // PROCEED ACTION
-      if (!isset($_POST) || !isset($_POST["action"])) $this->response->error("Action not specified");
+      if (!isset($_POST) || !isset($_POST["action"])){
+        $version = $this->configuration->version;
+        require("homepage.php");
+        exit();
+      }
          try{
             switch ($_POST["action"]) {
                case "auth":
