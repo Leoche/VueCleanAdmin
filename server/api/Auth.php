@@ -31,9 +31,10 @@ class Auth
       }
       throw new Exception('Invalid creditentials');
    }
-   public function admin()
+   public function admin($user = null)
    {
-      $user = $this->user();
+      if($user === null)
+        $user = $this->user();
       if ($user["role"] === "admin") return true;
       else return false;
    }
