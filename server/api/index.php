@@ -51,15 +51,12 @@ class VueCleanServer
                 if ($this->auth->admin()){
                     $user = Validator::useredit();
                     $i = $this->auth->getUserIndexByEmail($user->oldemail);
-                    $configuser = $this->configuration->auth[$i];
 
                     $this->configuration->auth[$i]->email = $user->email;
                     $this->configuration->auth[$i]->name = $user->name;
 
-                    if($user->password !== "") {
-                      $user->password = $this->auth->hashPassword($user->password);
-                      $this->configuration->auth[$i]->password = $user->password;
-                    }
+                    if($user->password !== "")
+                      $this->configuration->auth[$i]->password = $this->auth->hashPassword($user->password);
 
                     $this->response->success($this->ressource->saveJSON('config', $this->configuration));
                 }
