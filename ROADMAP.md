@@ -1,4 +1,5 @@
 # ROADMAP
+
 - [ ] i18n
 - [ ] resize images
 - [ ] better navbar
@@ -8,3 +9,4 @@
 - [ ] Dark theme
 - [ ] User settings
 - [ ] Move tab json to modal
+- [ ] Change enter events of form to match submiting form on editors
