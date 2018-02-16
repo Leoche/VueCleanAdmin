@@ -30,12 +30,37 @@ class Validator{
       if ($_POST["useremail"] === "")
          throw new Exception('Empty email');
       if ($_POST["username"] === "")
-         throw new Exception('Empty email');
+         throw new Exception('Empty name');
 
       if (!filter_var($_POST["useremail"], FILTER_VALIDATE_EMAIL))
          throw new Exception('Invalid useremail');
 
       $sanData->email = $_POST["useremail"];
+      $sanData->name = $_POST["username"];
+      $sanData->password = $_POST["userpassword"];
+
+      return $sanData;
+   }
+   public static function useredit(){
+      $sanData = new stdClass();
+
+      if (!isset($_POST["useremail"]) || !isset($_POST["useroldemail"]) || !isset($_POST["userpassword"]) || !isset($_POST["username"]))
+         throw new Exception('Email, name or password not found');
+
+      if ($_POST["useremail"] === "")
+         throw new Exception('Empty email');
+      if ($_POST["useroldemail"] === "")
+         throw new Exception('Empty old email');
+      if ($_POST["username"] === "")
+         throw new Exception('Empty name');
+
+      if (!filter_var($_POST["useremail"], FILTER_VALIDATE_EMAIL))
+         throw new Exception('Invalid useremail');
+      if (!filter_var($_POST["useroldemail"], FILTER_VALIDATE_EMAIL))
+         throw new Exception('Invalid useroldemail');
+
+      $sanData->email = $_POST["useremail"];
+      $sanData->oldemail = $_POST["useroldemail"];
       $sanData->name = $_POST["username"];
       $sanData->password = $_POST["userpassword"];
 

@@ -35,7 +35,23 @@ class Auth
    {
       $user = $this->user();
       if ($user["role"] === "admin") return true;
-      throw new Exception('Invalid permissions');
+      else return false;
+   }
+   public function getUserByEmail($email)
+   {
+      foreach ($this->configuration->auth as $account) {
+         if ($email === $account->email)
+          return $account;
+      }
+      throw new Exception("Can't find user for " . $email);
+   }
+   public function getUserIndexByEmail($email)
+   {
+      foreach ($this->configuration->auth as $key => $account) {
+         if ($email === $account->email)
+          return $key;
+      }
+      throw new Exception("Can't find user index for " . $email);
    }
    public function addUser($name, $email, $password)
    {

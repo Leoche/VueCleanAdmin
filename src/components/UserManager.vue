@@ -33,7 +33,7 @@
       </b-tab-item>
     </b-tabs>
     <b-modal :active.sync="isUserEditorActive" has-modal-card>
-      <UserEditor v-on:userSave="userSave" v-on:userEdit="userEdit" :user="userEditorData" :index="userEditorIndex"></UserEditor>
+      <UserEditor v-on:userSave="userSave" v-on:userEdit="userEdit" :olduser="userEditorData" :index="userEditorIndex"></UserEditor>
     </b-modal>
   </section>
 </template>
@@ -72,9 +72,18 @@ export default {
         })
       }
     },
-    userEdit (user, index) {
-      this.rawData[index].name = user.name
-      this.rawData[index].email = user.email
+    userEdit (user, index, olduser) {
+      console.log('user', user)
+      this.$server.post(this, {
+        'action': 'edituser',
+        'useremail': user.email,
+        'useroldemail': olduser.email,
+        'username': user.name,
+        'userpassword': user.newpassword || ''
+      }, res => {
+        this.rawData[index].name = user.name
+        this.rawData[index].email = user.email
+      })
     },
     userSave (user) {
       this.$server.post(this, {

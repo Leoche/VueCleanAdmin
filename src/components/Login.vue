@@ -94,8 +94,7 @@ export default {
 
 <style scoped lang="scss">
 .hero.is-login{
-  background-color: #21D4FD;
-  background-image: linear-gradient(0deg, #21D4FD 0%, #5221ff 100%);
+  background-color: #CCD;
 
   & .card{
     width: 500px;

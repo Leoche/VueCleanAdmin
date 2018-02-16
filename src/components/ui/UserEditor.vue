@@ -37,10 +37,12 @@
   import UserAvatar from '@/components/ui/UserAvatar'
   export default {
     name: 'UserEditor',
-    props: ['user', 'index'],
+    props: ['olduser', 'index'],
     data () {
       return {
-        isPasswordActive: false
+        isPasswordActive: false,
+        user: JSON.parse(JSON.stringify(this.olduser)),
+        newPassword: ''
       }
     },
     components: {
@@ -51,7 +53,7 @@
         if (this.index === -1) {
           this.$emit('userSave', this.user)
         } else {
-          this.$emit('userEdit', this.user, this.index)
+          this.$emit('userEdit', this.user, this.index, this.olduser)
         }
         this.$parent.close()
       }

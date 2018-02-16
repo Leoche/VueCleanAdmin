@@ -26,13 +26,14 @@ class VueCleanServer
       }
          try{
             switch ($_POST["action"]) {
-               case "auth":
+               case "auth":-
                   $this->response->success($this->auth->user($_POST));
                break;
 
                case "getmodel":
-                  if ($this->auth->admin())
+                  if ($this->auth->admin()) {
                      $this->response->success($this->ressource->getJSON('model'));
+                  } else throw new Exception('Invalid permissions');
                break;
                case "getcontent":
                      $this->response->success($this->ressource->getJSON('content'));
@@ -44,10 +45,24 @@ class VueCleanServer
                         $value->avatar = md5(strtolower(trim($value->email)));
                      }
                      $this->response->success($this->configuration->auth);
-                  }
+                  } else throw new Exception('Invalid permissions');
                break;
-               case "setusers":
-                     $this->response->success($this->ressource->getJSON('content'));
+               case "edituser":
+                if ($this->auth->admin()){
+                    $user = Validator::useredit();
+                    $i = $this->auth->getUserIndexByEmail($user->oldemail);
+                    $configuser = $this->configuration->auth[$i];
+
+                    $this->configuration->auth[$i]->email = $user->email;
+                    $this->configuration->auth[$i]->name = $user->name;
+
+                    if($user->password !== "") {
+                      $user->password = $this->auth->hashPassword($user->password);
+                      $this->configuration->auth[$i]->password = $user->password;
+                    }
+
+                    $this->response->success($this->ressource->saveJSON('config', $this->configuration));
+                }
                break;
                case "adduser":
                   $user = Validator::userregister();
@@ -67,12 +82,13 @@ class VueCleanServer
                         }
                      }
                      throw new Exception("User not found");
-                  }
+                  } else throw new Exception('Invalid permissions');
                break;
 
                case "setmodel":
-                  if ($this->auth->admin())
+                  if ($this->auth->admin()) {
                         if($this->ressource->saveJSON("model", Validator::content())) $this->response->success("Model saved");
+                  } else throw new Exception('Invalid permissions');
                break;
                case "setcontent":
                   if ($this->auth->user())
