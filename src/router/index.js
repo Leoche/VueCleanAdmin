@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
+import Editor from '@/components/Editor'
 import ModelManager from '@/components/ModelManager'
 import UserManager from '@/components/UserManager'
 
@@ -22,6 +23,15 @@ let router = new Router({
       path: '/model',
       name: 'ModelManager',
       component: ModelManager,
+      meta: {
+        auth: true
+      }
+    },
+    {
+      path: '/edit/:slug',
+      name: 'Editor',
+      component: Editor,
+      props: true,
       meta: {
         auth: true
       }
