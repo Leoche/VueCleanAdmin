@@ -9,6 +9,7 @@ import router from './router'
 import Buefy from 'buefy'
 import Auth from './plugins/Auth'
 import Server from './plugins/Server'
+import store from './store/index'
 
 Vue.use(Buefy)
 Vue.use(VueSession)
@@ -19,12 +20,15 @@ Vue.use(Auth, {
   router: router
 })
 
+global.store = store
+
 window['env'] = process.env.NODE_ENV
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
