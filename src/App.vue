@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <template v-if="isLogged()">
+    <template v-if="isLogged">
       <Dashboard></Dashboard>
     </template>
     <template v-else>
       <Login></Login>
     </template>
+    <pre>
+      {{ $session.get('user') }}
+    </pre>
   </div>
 </template>
 
@@ -19,10 +22,13 @@ export default {
     Dashboard,
     Login
   },
-  methods: {
+  computed: {
     isLogged () {
-      return this.$session.has('user')
+      return this.$store.getters.isLogged
     }
+  },
+  mounted () {
+    this.$store.dispatch('initSession', this.$session.get('user'))
   }
 }
 </script>

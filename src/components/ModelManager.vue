@@ -118,6 +118,7 @@ export default {
     IconInput,
     InputEditor
   },
+  props: ['model'],
   data () {
     return {
       activeTab: 0,
@@ -222,6 +223,7 @@ export default {
         'action': 'setmodel',
         'body': dataToSave
       }, res => {
+        this.$parent.setModel(dataToSave)
         this.saved = true
       })
     },
@@ -235,11 +237,8 @@ export default {
     }
   },
   mounted () {
-    this.$server.post(this, {
-      'action': 'getmodel'
-    }, res => {
-      this.rawData = this.inputByPath = res.data.body
-    })
+    this.rawData = this.inputByPath = this.$parent.model
+    console.log('this.model', this.model)
   }
 }
 </script>

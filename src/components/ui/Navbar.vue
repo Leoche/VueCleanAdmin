@@ -17,13 +17,13 @@
    <div class="navbar-end">
       <b-dropdown position="is-bottom-left">
         <a class="navbar-item" slot="trigger">
-          <UserAvatar class="menu-avatar" :user="$session.get('user')" size="30" />
+          <UserAvatar class="menu-avatar" :user="getUser" size="30" />
           <span>Mon compte</span>
           <b-icon icon="menu-down"></b-icon>
         </a>
 
         <b-dropdown-item custom paddingless>
-          <a class="navbar-item" @click.prevent='logout'>
+          <a class="navbar-item" @click.prevent="logout">
             Déconnexion
           </a>
         </b-dropdown-item>
@@ -41,13 +41,18 @@ export default {
   components: {
     UserAvatar
   },
+  computed: {
+    getUser () {
+      return this.$store.getters.getUser
+    }
+  },
   methods: {
     toggle () {
       this.open = !this.open
     },
     logout () {
       this.$session.destroy()
-      location.reload()
+      this.$store.dispatch('logout')
     }
   },
   data () {

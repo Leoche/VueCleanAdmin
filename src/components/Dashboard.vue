@@ -4,10 +4,10 @@
     <div class="container is-widescreen is-fluid">
       <div class="columns">
         <div class="column is-one-fifth">
-          <Sidebar></Sidebar>
+          <Sidebar :model="model"></Sidebar>
         </div>
         <div class="column column-content">
-          <router-view></router-view>
+          <router-view :model="model"></router-view>
         </div>
       </div>
     </div>
@@ -24,7 +24,7 @@
     name: 'Dashboard',
     data () {
       return {
-        msg: 'Welcome'
+        model: []
       }
     },
     components: {
@@ -33,8 +33,10 @@
       MaterialDesign,
       ModelManager
     },
-    mounted () {},
     methods: {
+      setModel (model) {
+        this.model = model
+      },
       logout () {
         this.$session.destroy()
         this.$router.push('/login')

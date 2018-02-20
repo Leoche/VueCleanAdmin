@@ -50,6 +50,9 @@ export default {
       vpassword: '0000'
     }
   },
+  vuex: {
+    actions: {}
+  },
   localStorage: {
     remember: {
       type: Boolean,
@@ -60,29 +63,40 @@ export default {
     login () {
       const vm = this
       vm.isLoading = true
-      this.$auth.login(this.$http, this.vemail, this.vpassword).then(data => {
-        let user = data.body
-        if (this.$localStorage.get('remember', false)) {
-          this.$localStorage.set('vemail', this.vemail)
-          this.$localStorage.set('vpassword', this.vpassword)
-        }
-        this.$session.set('user', user)
-        vm.isLoading = false
-        vm.$toast.open({
-          message: 'Bienvenue ' + this.$session.get('user').name,
-          type: 'is-success',
-          position: 'is-bottom'
-        })
-        location.reload()
+      this.$store.dispatch('login', {email: this.vemail, password: this.vpassword}).then(res => {
+        this.$session.set('user', res)
       }).catch((err) => {
         console.log('err', err)
         vm.isLoading = false
         vm.$toast.open({
-          message: 'Mauvais identifiants',
+          message: 'ERROR:' + err,
           type: 'is-danger',
           position: 'is-bottom'
         })
       })
+      // this.$auth.login(this.$http, this.vemail, this.vpassword).then(data => {
+      //   let user = data.body
+      //   if (this.$localStorage.get('remember', false)) {
+      //     this.$localStorage.set('vemail', this.vemail)
+      //     this.$localStorage.set('vpassword', this.vpassword)
+      //   }
+      //   this.$session.set('user', user)
+      //   vm.isLoading = false
+      //   vm.$toast.open({
+      //     message: 'Bienvenue ' + this.$session.get('user').name,
+      //     type: 'is-success',
+      //     position: 'is-bottom'
+      //   })
+      //   location.reload()
+      // }).catch((err) => {
+      //   console.log('err', err)
+      //   vm.isLoading = false
+      //   vm.$toast.open({
+      //     message: 'Mauvais identifiants',
+      //     type: 'is-danger',
+      //     position: 'is-bottom'
+      //   })
+      // })
     },
     clear () {
       this.vemail = ''

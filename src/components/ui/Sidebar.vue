@@ -5,9 +5,9 @@
     </p>
     <ul class="menu-list">
       <li><router-link to="/" exact-active-class="is-active">Accueil</router-link></li>
-      <li><a>Lien</a></li>
+      <li v-for="input in model"><a>Lien</a></li>
     </ul>
-    <template v-if="$session.get('user').role === 'admin'">
+    <template v-if="getUser.role === 'admin'">
     <p class="menu-label">
       Administration
     </p>
@@ -21,7 +21,13 @@
 
 <script>
 export default {
-  name: 'Sidebar'
+  name: 'Sidebar',
+  props: ['model'],
+  computed: {
+    getUser () {
+      return this.$store.getters.getUser
+    }
+  }
 }
 </script>
 
