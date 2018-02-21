@@ -166,7 +166,7 @@ export default {
           message: 'Succès: ' + res,
           type: 'is-success'
         })
-        }).catch(err => {
+      }).catch(err => {
         this.$toast.open({
           message: 'Error: ' + err,
           type: 'is-danger'
