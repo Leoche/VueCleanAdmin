@@ -38,7 +38,7 @@ const actions = {
       ).then(res => {
         if (res.data.state === 'success') {
           state.commit('SET_MODEL', res.data.body)
-          resolve(res.data.body)
+          resolve(res)
         } else {
           reject(new Error('bad.credentials'))
         }

@@ -17,7 +17,7 @@
               <b-Icon icon="content-save"></b-Icon>
               <span>Sauvegarder</span>
             </button>
-            <button class="button is-info is-rounded" @click.prevent="openInputEditor">
+            <button class="button is-info is-rounded" @click.prevent="launchNew">
               <b-Icon icon="plus"></b-Icon>
               <span>Ajouter un champ</span>
             </button>
@@ -52,7 +52,7 @@
                     <b-Icon icon="chevron-down" size="is-small"></b-Icon>
                     <span>Descendre</span>
                   </b-dropdown-item>
-                  <b-dropdown-item @click="editInput(i)">
+                  <b-dropdown-item @click="launchEdit(i)">
                     <b-Icon icon="pencil" size="is-small"></b-Icon>
                     <span>Éditer</span>
                   </b-dropdown-item>
@@ -97,7 +97,7 @@
     </b-tabs>
 
     <b-modal :active.sync="isInputEditorActive" has-modal-card>
-      <InputEditor v-on:newInput="saveNewInput" v-on:editInput="saveEditInput" :fromsub="path !== ''" :editable="editableInputData"></InputEditor>
+      <InputEditor v-on:newInput="newInput" v-on:editInput="editInput" :fromsub="path !== ''" :editable="editableInputData"></InputEditor>
     </b-modal>
 
   </section>
@@ -136,24 +136,27 @@ export default {
     })
   },
   methods: {
-    setPath (path) {
-      this.$store.commit('SET_PATH_TO_MODEL', path)
-    },
-    onDrag (evt) {
-      this.saved = evt.oldIndex === evt.newIndex && this.saved
-      if (this.path === '') {
-        this.rawData = this.inputByPath
-      } else {
-        this.rawData.filter(input => input.name === this.path)[0].inputs = this.inputByPath
-      }
-    },
-
-    saveNewInput (input) {
+    // DATA
+    newInput (input) {
       this.$store.commit('ADD_INPUT_TO_MODEL', input)
       this.saved = false
     },
-    saveEditInput (input) {
+    editInput (input) {
       this.$store.commit('EDIT_INPUT_TO_MODEL', {input})
+      this.saved = false
+    },
+    moveInput (index, direction) {
+      let tmpData = JSON.parse(JSON.stringify(this.getInputByPath()))
+      let tmp = tmpData[index]
+      tmpData[index] = tmpData[index + direction]
+      tmpData[index + direction] = tmp
+
+      if (this.path === '') {
+        this.rawData = tmpData
+      } else {
+        this.rawData.filter(input => input.name === this.path)[0].inputs = tmpData
+      }
+
       this.saved = false
     },
     removeInput (index) {
@@ -175,34 +178,32 @@ export default {
       this.save = true
     },
 
-    editInput (index) {
+    // UI
+    launchEdit (index) {
       this.editableInputData = this.inputs[index]
       this.editableInputData.index = index
       this.isInputEditorActive = true
     },
-    moveInput (index, direction) {
-      let tmpData = JSON.parse(JSON.stringify(this.getInputByPath()))
-      let tmp = tmpData[index]
-      tmpData[index] = tmpData[index + direction]
-      tmpData[index + direction] = tmp
-
-      if (this.path === '') {
-        this.rawData = tmpData
-      } else {
-        this.rawData.filter(input => input.name === this.path)[0].inputs = tmpData
-      }
-
-      this.saved = false
-    },
-    openInputEditor () {
+    launchNew () {
       this.isInputEditorActive = true
       this.editableInputData = null
+    },
+    setPath (path) {
+      this.$store.commit('SET_PATH_TO_MODEL', path)
+    },
+    onDrag (evt) {
+      this.saved = evt.oldIndex === evt.newIndex && this.saved
+      if (this.path === '') {
+        this.rawData = this.inputByPath
+      } else {
+        this.rawData.filter(input => input.name === this.path)[0].inputs = this.inputByPath
+      }
     }
   },
   mounted () {
     this.$store.dispatch('fetchModel', this.$session.get('user')).then(res => {
       this.$toast.open({
-        message: 'Succès: ' + res,
+        message: 'Succès: ' + res.data.message,
         type: 'is-success'
       })
     })

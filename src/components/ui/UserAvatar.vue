@@ -12,7 +12,6 @@ export default {
     }
   },
   mounted () {
-    console.log('this.user', this.user)
     let img = new Image()
     img.onload = evt => {
       this.fallback = this.gravatar
@@ -21,6 +20,4 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
