@@ -129,11 +129,18 @@ export default {
   },
   computed: {
     ...mapGetters({
-      inputs: 'getModel',
       rootinputs: 'getRootModel',
       path: 'getModelPath',
       pathlabel: 'getModelPathLabel'
-    })
+    }),
+    inputs: {
+      get () {
+        return this.$store.getters.getModel
+      },
+      set (value) {
+        this.$store.commit('SET_MODEL', value)
+      }
+    }
   },
   methods: {
     // DATA
@@ -143,20 +150,6 @@ export default {
     },
     editInput (input) {
       this.$store.commit('EDIT_INPUT_TO_MODEL', {input})
-      this.saved = false
-    },
-    moveInput (index, direction) {
-      let tmpData = JSON.parse(JSON.stringify(this.getInputByPath()))
-      let tmp = tmpData[index]
-      tmpData[index] = tmpData[index + direction]
-      tmpData[index + direction] = tmp
-
-      if (this.path === '') {
-        this.rawData = tmpData
-      } else {
-        this.rawData.filter(input => input.name === this.path)[0].inputs = tmpData
-      }
-
       this.saved = false
     },
     removeInput (index) {
@@ -175,7 +168,7 @@ export default {
           type: 'is-danger'
         })
       })
-      this.save = true
+      this.saved = true
     },
 
     // UI
@@ -193,11 +186,6 @@ export default {
     },
     onDrag (evt) {
       this.saved = evt.oldIndex === evt.newIndex && this.saved
-      if (this.path === '') {
-        this.rawData = this.inputByPath
-      } else {
-        this.rawData.filter(input => input.name === this.path)[0].inputs = this.inputByPath
-      }
     }
   },
   mounted () {

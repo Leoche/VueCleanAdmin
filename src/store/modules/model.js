@@ -54,7 +54,7 @@ const actions = {
         action: 'setmodel',
         email: user.email,
         password: user.password,
-        body: 'ds'
+        body: JSON.stringify(state.getters.getRootModel)
       },
         {
           headers: {
@@ -75,14 +75,18 @@ const actions = {
   }
 }
 const getters = {
-  getRootModel: state => state,
+  getRootModel: state => state.model,
   getModel: state => (state.path === '') ? state.model : state.model.filter(input => input.name === state.path)[0].inputs,
   getModelPath: state => state.path,
   getModelPathLabel: state => (state.path === '') ? '' : state.model.filter(input => input.name === state.path)[0].label
 }
 const mutations = {
   SET_MODEL (state, data) {
-    state.model = data
+    if (state.path === '') {
+      state.model = data
+    } else {
+      state.model.filter(input => input.name === state.path)[0].inputs = data
+    }
   },
   ADD_INPUT_TO_MODEL (state, input) {
     getInputs(state).push(generateInput(input))
