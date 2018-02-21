@@ -65,8 +65,7 @@ export default {
         vm.isLoading = false
         vm.$toast.open({
           message: 'Hello ' + res.name,
-          type: 'is-success',
-          position: 'is-bottom'
+          type: 'is-success'
         })
         this.$router.go('/')
       }).catch((err) => {
@@ -74,8 +73,7 @@ export default {
         vm.isLoading = false
         vm.$toast.open({
           message: 'ERROR:' + err,
-          type: 'is-danger',
-          position: 'is-bottom'
+          type: 'is-danger'
         })
       })
     },

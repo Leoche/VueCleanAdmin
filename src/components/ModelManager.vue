@@ -8,7 +8,7 @@
             <nav class="breadcrumb" aria-label="breadcrumbs">
               <ul>
                 <li :class="{'is-active': path===''}"><a href="#" aria-current="page" @click.prevent="setPath('')">Model Manager</a></li>
-                <li v-if="path!==''" class='is-active'><a href="#">{{ getLabelByPath() }}</a></li>
+                <li v-if="path!==''" class='is-active'><a href="#">{{ pathlabel }}</a></li>
               </ul>
             </nav>
           </div>
@@ -25,9 +25,9 @@
         </nav>
 
         <!-- Liste des inputs -->
-        <draggable v-model="inputByPath" @end="onDrag" :options="{handle:'.handle'}">
-          <transition-group name="fadeleft" tag="p">
-          <div class="card card--list" v-for="(input, i) in inputByPath" v-bind:key="i" :class="'card--'+input.type">
+        <draggable v-model="inputs" @end="onDrag" :options="{handle:'.handle'}">
+          <transition-group name="fadeup" tag="p">
+          <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
             <div class="card-header">
               <p class="card-header-title" v-if="input.type !== 'sub'">
                 <IconInput :icon="input.type"></IconInput> {{ input.label }}
@@ -48,7 +48,7 @@
                     <b-Icon icon="chevron-up" size="is-small"></b-Icon>
                     <span>Monter</span>
                   </b-dropdown-item>
-                  <b-dropdown-item @click="moveInput(i, 1)" v-if="i !== inputByPath.length - 1">
+                  <b-dropdown-item @click="moveInput(i, 1)" v-if="i !== inputs.length - 1">
                     <b-Icon icon="chevron-down" size="is-small"></b-Icon>
                     <span>Descendre</span>
                   </b-dropdown-item>
@@ -63,7 +63,7 @@
                 </b-dropdown>
               </div>
             </div>
-              <div class="card-content" v-if="input.type === 'sub'">
+              <div class="card-content" v-if="input.type === 'sub' && input.inputs.length !== 0">
                   <div class="content is-small">
                     <ul class="">
                       <li v-for="subinput in input.inputs"><IconInput size="is-small" :icon="subinput.type"></IconInput> {{ subinput.name }}</li>
@@ -73,7 +73,7 @@
           </div>
           </transition-group>
         </draggable>
-        <div v-if="getInputByPath().length === 0">
+        <div v-if="inputs.length === 0">
           <div class="notification has-text-centered">
             <b-Icon icon="emoticon-poop" custom-size="mdi-48px"></b-Icon><br/>
             Il n'y a rien ici!
@@ -91,10 +91,7 @@
           </div>
         </div>
         <pre>
-          <blockquote>{{ inputByPath }}</blockquote>
-        </pre>
-        <pre>
-          <blockquote>{{ rawData }}</blockquote>
+          <blockquote>{{ rootinputs }}</blockquote>
         </pre>
       </b-tab-item>
     </b-tabs>
@@ -107,6 +104,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import IconInput from '@/components/inputs/IconInput'
 import InputEditor from '@/components/ui/InputEditor'
 import draggable from 'vuedraggable'
@@ -123,21 +121,23 @@ export default {
     return {
       activeTab: 0,
       isInputEditorActive: false,
-      path: '',
       saved: true,
       editableInputData: null,
       rawData: {},
       inputByPath: null
     }
   },
+  computed: {
+    ...mapGetters({
+      inputs: 'getModel',
+      rootinputs: 'getRootModel',
+      path: 'getModelPath',
+      pathlabel: 'getModelPathLabel'
+    })
+  },
   methods: {
     setPath (path) {
-      this.path = path
-      if (this.path === '') {
-        this.inputByPath = this.rawData
-      } else {
-        this.inputByPath = this.rawData.filter(input => input.name === this.path)[0].inputs
-      }
+      this.$store.commit('SET_PATH_TO_MODEL', path)
     },
     onDrag (evt) {
       this.saved = evt.oldIndex === evt.newIndex && this.saved
@@ -147,47 +147,38 @@ export default {
         this.rawData.filter(input => input.name === this.path)[0].inputs = this.inputByPath
       }
     },
+
     saveNewInput (input) {
-      let newInput = {
-        'name': this.slug(input.name),
-        'label': input.name,
-        'type': input.type,
-        'options': input.options
-      }
-      if (input.type === 'sub') newInput.inputs = []
-      if (this.path === '') {
-        this.rawData.push(newInput)
-      } else {
-        this.getInputByPath().push(newInput)
-      }
+      this.$store.commit('ADD_INPUT_TO_MODEL', input)
       this.saved = false
     },
     saveEditInput (input) {
-      let newInput = {
-        'name': this.slug(input.name),
-        'label': input.name,
-        'type': input.type,
-        'options': input.options
-      }
-      if (this.path === '') {
-        if (input.type === 'sub') {
-          newInput.inputs = this.rawData[input.index].inputs
-        }
-        this.rawData[input.index] = newInput
-      } else {
-        this.getInputByPath()[input.index] = newInput
-      }
+      this.$store.commit('EDIT_INPUT_TO_MODEL', {input})
       this.saved = false
-    },
-    editInput (index) {
-      this.editableInputData = this.getInputByPath()[index]
-      this.editableInputData.index = index
-      this.isInputEditorActive = true
     },
     removeInput (index) {
-      this.getInputByPath().splice(index, 1)
-
+      this.$store.commit('REMOVE_INPUT_TO_MODEL', index)
       this.saved = false
+    },
+    save () {
+      this.$store.dispatch('saveModel', this.$session.get('user')).then(res => {
+        this.$toast.open({
+          message: 'Succès: ' + res,
+          type: 'is-success'
+        })
+        }).catch(err => {
+        this.$toast.open({
+          message: 'Error: ' + err,
+          type: 'is-danger'
+        })
+      })
+      this.save = true
+    },
+
+    editInput (index) {
+      this.editableInputData = this.inputs[index]
+      this.editableInputData.index = index
+      this.isInputEditorActive = true
     },
     moveInput (index, direction) {
       let tmpData = JSON.parse(JSON.stringify(this.getInputByPath()))
@@ -203,42 +194,18 @@ export default {
 
       this.saved = false
     },
-    getInputByPath () {
-      if (this.path === '') {
-        return this.rawData
-      } else {
-        return this.rawData.filter(input => input.name === this.path)[0].inputs
-      }
-    },
-    getLabelByPath () {
-      return this.rawData.filter(input => input.name === this.path)[0].label
-    },
     openInputEditor () {
       this.isInputEditorActive = true
       this.editableInputData = null
-    },
-    save () {
-      let dataToSave = JSON.stringify(this.rawData)
-      this.$server.post(this, {
-        'action': 'setmodel',
-        'body': dataToSave
-      }, res => {
-        this.$parent.setModel(dataToSave)
-        this.saved = true
-      })
-    },
-    slug (str) {
-      return str.toString().toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^\w-]+/g, '')
-      .replace(/--+/g, '-')
-      .replace(/^-+/, '')
-      .replace(/-+$/, '')
     }
   },
   mounted () {
-    this.rawData = this.inputByPath = this.$parent.model
-    console.log('this.model', this.model)
+    this.$store.dispatch('fetchModel', this.$session.get('user')).then(res => {
+      this.$toast.open({
+        message: 'Succès: ' + res,
+        type: 'is-success'
+      })
+    })
   }
 }
 </script>
