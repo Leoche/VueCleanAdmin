@@ -44,7 +44,7 @@ const getters = {
   isLogged: state => { return state.informations.email !== undefined }
 }
 const mutations = {
-  SET_ACCOUNT (store, user) {
+  SET_ACCOUNT (state, user) {
     state.informations = user
   },
   RESET_ACCOUNT (store) {

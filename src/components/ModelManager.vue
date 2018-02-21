@@ -25,8 +25,8 @@
         </nav>
 
         <!-- Liste des inputs -->
-        <draggable v-model="inputs" @end="onDrag" :options="{handle:'.handle'}">
-          <transition-group name="fadeup" tag="p">
+        <draggable v-model="inputs" @end="onDrag" :options="dragOptions">
+          <transition-group>
           <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
             <div class="card-header">
               <p class="card-header-title" v-if="input.type !== 'sub'">
@@ -43,15 +43,6 @@
                 <div><b-Icon icon="arrow-all" class="handle"></b-Icon></div>
                 <b-dropdown position="is-bottom-left">
                   <b-Icon icon="settings" slot="trigger"></b-Icon>
-
-                  <b-dropdown-item @click="moveInput(i, -1)" v-if="i !== 0">
-                    <b-Icon icon="chevron-up" size="is-small"></b-Icon>
-                    <span>Monter</span>
-                  </b-dropdown-item>
-                  <b-dropdown-item @click="moveInput(i, 1)" v-if="i !== inputs.length - 1">
-                    <b-Icon icon="chevron-down" size="is-small"></b-Icon>
-                    <span>Descendre</span>
-                  </b-dropdown-item>
                   <b-dropdown-item @click="launchEdit(i)">
                     <b-Icon icon="pencil" size="is-small"></b-Icon>
                     <span>Éditer</span>
@@ -122,9 +113,7 @@ export default {
       activeTab: 0,
       isInputEditorActive: false,
       saved: true,
-      editableInputData: null,
-      rawData: {},
-      inputByPath: null
+      editableInputData: null
     }
   },
   computed: {
@@ -139,6 +128,14 @@ export default {
       },
       set (value) {
         this.$store.commit('SET_MODEL', value)
+      }
+    },
+    dragOptions () {
+      return {
+        animation: 0,
+        group: 'description',
+        ghostClass: 'ghost',
+        handle: '.handle'
       }
     }
   },
@@ -200,6 +197,9 @@ export default {
 </script>
 
 <style lang="scss">
+.tab-item{
+  display: block;
+}
 .card--sub{
   .card-header{
     box-shadow: none;
@@ -208,8 +208,13 @@ export default {
     padding-top: 0;
   }
 }
+
+.card--list{
+  transition: all 1s;
+}
 .card-header-title{
   font-weight: normal;
+  transition: all .5s;
   .icon{
     margin-right: 10px;
   }
@@ -222,5 +227,10 @@ export default {
 }
 .button.is-success{
   margin-right: 16px;
+}
+.ghost .card-header-title{
+  padding-top:30px;
+  padding-bottom:30px;
+  box-shadow: inset 5px 0 0 #ffb52a;
 }
 </style>
