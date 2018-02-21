@@ -55,30 +55,7 @@ $colors: (
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
 
-.fadedown-enter-active, .fadedown-leave-active, .fadeleft-enter-active, .fadeleft-leave-active, .fadeup-enter-active, .fadeup-leave-active {
-  transition: all .5s ease;
-}
-.fadedown-enter, .fadedown-leave-to {
-  opacity: 0;
-  transform: translateY(-50px) scale(.8);
-}
-.fadeup-enter, .fadeup-leave-to {
-  opacity: 0;
-  transform: translateY(50px) scale(.8);
-}
-.fadeleft-enter, .fadeleft-leave-to {
-  opacity: 0;
-  transform: translateX(50px) scale(.8);
-}
-@for $i from 0 through 9 {
-  .columns .column .card--list:nth-child(#{$i}), .columns .column--card:nth-child(#{$i}) .card--list {
-    transition: all .5s ease #{$i/10}s;
-  }
-}
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
-}
+@import "assets/scss/transitions";
+@import "assets/scss/autofill-fix";
+@import "assets/scss/buefy-custom-buttons";
 </style>

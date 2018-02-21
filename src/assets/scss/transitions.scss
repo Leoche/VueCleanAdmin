@@ -1,0 +1,34 @@
+.fadedown-enter-active, .fadedown-leave-active, .slide-enter-active, .slide-leave-active, .fadeleft-enter-active, .fadeleft-leave-active, .fadeup-enter-active, .fadeup-leave-active {
+    transition: all .5s ease;
+}
+
+.fadedown-enter, .fadedown-leave-to {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.8);
+}
+
+.fadeup-enter, .fadeup-leave-to {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+}
+
+.fadeleft-enter, .fadeleft-leave-to {
+    opacity: 0;
+    transform: translateX(50px) scale(0.8);
+}
+
+.slide-enter, .slide-leave-to {
+    transform-origin: top;
+    opacity: 0;
+    transform: scaleY(0);
+}
+
+.slide-move {
+    transition: transform 0.5s;
+}
+
+@for $i from 0 through 9 {
+    .columns .column .card--list:nth-child(#{$i}), .columns .column--card:nth-child(#{$i}) .card--list {
+        transition: all 0.5s ease #{$i / 10}s;
+    }
+}
