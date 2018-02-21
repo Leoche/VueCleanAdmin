@@ -64,7 +64,14 @@ export default {
       const vm = this
       vm.isLoading = true
       this.$store.dispatch('login', {email: this.vemail, password: this.vpassword}).then(res => {
-        this.$session.set('user', res)
+        this.$session.set('user', JSON.parse(JSON.stringify(res)))
+        vm.isLoading = false
+        vm.$toast.open({
+          message: 'Hello ' + res.name,
+          type: 'is-success',
+          position: 'is-bottom'
+        })
+        this.$router.go('/')
       }).catch((err) => {
         console.log('err', err)
         vm.isLoading = false

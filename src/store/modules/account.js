@@ -6,7 +6,7 @@ const state = {
 const actions = {
   initSession (store, payload) {
     if (typeof payload === 'object') {
-      store.commit('set', payload)
+      store.commit('SET_ACCOUNT', payload)
     }
   },
   login (store, payload) {
@@ -26,7 +26,7 @@ const actions = {
       ).then(res => {
         if (res.data.state === 'success') {
           resolve(res.data.body)
-          store.commit('set', res.data.body)
+          store.commit('SET_ACCOUNT', res.data.body)
         } else {
           reject(new Error('bad.credentials'))
         }
@@ -36,7 +36,7 @@ const actions = {
     })
   },
   logout (store) {
-    store.commit('reset')
+    store.commit('RESET_ACCOUNT')
   }
 }
 const getters = {
@@ -44,10 +44,10 @@ const getters = {
   isLogged: state => { return state.informations.email !== undefined }
 }
 const mutations = {
-  set (store, user) {
+  SET_ACCOUNT (store, user) {
     state.informations = user
   },
-  reset (store) {
+  RESET_ACCOUNT (store) {
     state.informations = {}
   }
 }
