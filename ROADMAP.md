@@ -7,6 +7,7 @@
 - [ ] better success responses
 - [ ] show versions of client & version of server
 - [ ] Dark theme
+- [ ] Media & uploads
 - [ ] User settings
 - [ ] Move tab json to modal
 - [ ] Change enter events of form to match submiting form on editors
