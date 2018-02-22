@@ -112,7 +112,6 @@ export default {
   props: ['model'],
   data () {
     return {
-      activeTab: 0,
       isInputEditorActive: false,
       isJsonActive: false,
       saved: true,
