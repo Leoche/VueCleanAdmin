@@ -16,6 +16,7 @@ let router = new Router({
       name: 'Home',
       component: Home,
       meta: {
+        title: 'Accueil',
         auth: true
       }
     },
@@ -24,6 +25,7 @@ let router = new Router({
       name: 'ModelManager',
       component: ModelManager,
       meta: {
+        title: 'Model Editor',
         auth: true
       }
     },
@@ -41,15 +43,22 @@ let router = new Router({
       name: 'UserManager',
       component: UserManager,
       meta: {
+        title: 'Utilisateurs',
         auth: true
       }
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        title: 'Login'
+      }
     }
   ]
 })
-
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title + ' - vAdmin'
+  next()
+})
 export default router
