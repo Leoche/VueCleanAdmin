@@ -3,7 +3,7 @@
 }
 
 .slide-enter-active, .slide-leave-active {
-    transition: all 0.1s ease;
+    transition: all 0.2s ease;
 }
 
 .fadedown-enter, .fadedown-leave-to {
@@ -22,13 +22,5 @@
 }
 
 .slide-enter, .slide-leave-to {
-    transform-origin: top;
-    transform: scaleY(0);
-    background: #CCC;
-}
-
-@for $i from 0 through 9 {
-    .columns .column .card--list:nth-child(#{$i}), .columns .column--card:nth-child(#{$i}) .card--list {
-        transition: all 0.1s ease #{$i / 8}s;
-    }
+    opacity: 0;
 }

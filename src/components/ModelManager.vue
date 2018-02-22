@@ -28,7 +28,7 @@
 
     <!-- Liste des inputs -->
     <draggable v-model="inputs" @end="onDrag" :options="dragOptions">
-      <transition-group name="slide">
+      <transition-group appear name="slide">
         <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
           <div class="card-header">
             <p class="card-header-title" v-if="input.type !== 'sub'">
