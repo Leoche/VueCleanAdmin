@@ -62,7 +62,7 @@ export default {
       isUserEditorActive: false,
       isJsonActive: false,
       userEditorData: {},
-      userEditorIndex: -1,
+      userEditorIndex: -1
     }
   },
   computed: {
