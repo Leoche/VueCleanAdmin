@@ -1,39 +1,47 @@
 <template>
   <section>
     <nav class="level">
+      <div class="level-left">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li class="is-active"><a class="is-size-4 has-text-weight-bold" href="#" aria-current="page">User Manager</a></li>
+          </ul>
+        </nav>
+      </div>
       <div class="level-right">
-        <button class="button is-info" @click.prevent="userNew()">
+        <button class="button is-rounded is-shadowed" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
+          <b-Icon icon="plus"></b-Icon>
+          <span>JSON</span>
+        </button>
+        <button class="button is-info is-rounded is-shadowed" @click.prevent="userNew()">
           <b-Icon icon="plus"></b-Icon>
           <span>Ajouter un utilisateur</span>
         </button>
       </div>
     </nav>
+    <div class="columns">
+      <div v-for="(user, i) in this.rawData" v-bind:key="i" class="column column--card">
+        <UserCard :user="user" :index="i" v-on:userAction="userAction"></UserCard>
+      </div>
+    </div>
 
-    <b-tabs v-model="activeTab" position="is-centered">
-      <b-tab-item label="Utilisateurs" icon="account-multiple">
-        <div class="columns">
-          <div v-for="(user, i) in this.rawData" v-bind:key="i" class="column column--card">
-            <UserCard :user="user" :index="i" v-on:userAction="userAction"></UserCard>
-          </div>
-        </div>
-      </b-tab-item>
-
-      <!-- Json preview block -->
-      <b-tab-item label="Json Preview" icon="json">
-        <div class="columns">
-          <div class="column has-text-centered">
-            <div class="content">
-              <h3>JSON Preview</h3>
-            </div>
-          </div>
-        </div>
-        <pre>
-          <blockquote>{{ rawData }}</blockquote>
-        </pre>
-      </b-tab-item>
-    </b-tabs>
     <b-modal :active.sync="isUserEditorActive" has-modal-card>
       <UserEditor v-on:userSave="userSave" v-on:userEdit="userEdit" :olduser="userEditorData" :index="userEditorIndex"></UserEditor>
+    </b-modal>
+    <b-modal :active.sync="isJsonActive" has-modal-card>
+      <div class="modal-card card--json">
+        <div class="modal-card-head">
+          <p class="modal-card-title has-text-centered">
+            <b-Icon icon="json"></b-Icon> Code Json
+          </p>
+        </div>
+        <div class="modal-card-body">
+          <pre>
+            <blockquote>{{ rawData }}</blockquote>
+          </pre>
+        </div>
+        <footer class="modal-card-foot"></footer>
+      </div>
     </b-modal>
   </section>
 </template>
@@ -52,6 +60,7 @@ export default {
     return {
       activeTab: 0,
       isUserEditorActive: false,
+      isJsonActive: false,
       userEditorData: {},
       userEditorIndex: -1,
       rawData: {}
