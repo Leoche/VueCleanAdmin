@@ -8,7 +8,7 @@ export default {
   data () {
     return {
       gravatar: 'https://www.gravatar.com/avatar/' + this.user.avatar + '.jpg?s=256&d=404',
-      fallback: '/src/assets/avatar-' + this.user.role + '.svg'
+      fallback: '/src/assets/imgs/avatar-' + this.user.role + '.svg'
     }
   },
   mounted () {
