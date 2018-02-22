@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
+      <a class="navbar-item" href="/">
         <img src="/src/assets/imgs/newlogo/logo-color-dark.svg" alt="Vuecleanadmin logo">
       </a>
-      <a class="navbar-item" href="https://bulma.io">
+      <a class="navbar-item" href="/">
         <b-icon icon="arrow-left" size="is-small"></b-icon> Retour au site
       </a>
       <div class="navbar-burger" :class="{ 'is-active': open }" @click="toggle">
