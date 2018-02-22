@@ -6,12 +6,74 @@ body {
     height: 100vh;
 }
 
-.button {
+.button.is-shadowed {
+    $color: #fff;
+    $color-invert: rgba(0, 0, 0, 0.2);
+
+    transition: all .2s;
+    background: linear-gradient(-20deg, adjust-hue($color, -10%) 0%, $color 50%);
+    box-shadow: 0 5px 20px $color-invert;
+    border: 0;
+    transform: translateY(0);
+
+    &[disabled] {
+        box-shadow: 0 !important;
+        transform: translateY(0);
+    }
+
+    &:focus, &:focus:not(:active) {
+        box-shadow: 0 3px 13px $color-invert;
+        transform: translateY(0);
+
+        &[disabled] {
+            box-shadow: 0 !important;
+            transform: translateY(0);
+        }
+
+        &:hover {
+            box-shadow: 0 8px 25px $color-invert;
+            transform: translateY(-3px);
+
+            &[disabled] {
+                box-shadow: none !important;
+                transform: translateY(0);
+            }
+        }
+
+        &:active {
+            box-shadow: 0 6px 20px $color-invert;
+            transform: translateY(-1px);
+
+            &[disabled] {
+                box-shadow: none !important;
+                transform: translateY(0);
+            }
+        }
+    }
+
+    &:hover {
+        box-shadow: 0 8px 25px $color-invert;
+        transform: translateY(-3px);
+
+        &[disabled] {
+            box-shadow: none !important;
+            transform: translateY(0);
+        }
+    }
+
+    &:active {
+        box-shadow: 0 6px 20px $color-invert;
+        transform: translateY(-1px);
+
+        &[disabled] {
+            box-shadow: 0 !important;
+            transform: translateY(0);
+        }
+    }
+
     @each $name, $pair in $colors {
         $color: nth($pair, 1);
         $color-invert: rgba(0, 0, 0, 0.3);
-
-        transition: all .2s;
 
         &.is-#{$name} {
             background: linear-gradient(-20deg, adjust-hue(nth($pair, 1), -10%) 0%, $color 50%);

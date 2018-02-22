@@ -1,94 +1,96 @@
 <template>
   <section>
-    <b-tabs v-model="activeTab" type="is-toggle-rounded">
-      <b-tab-item label="Model" icon="file-tree">
 
-        <nav class="level">
-          <div class="level-left">
-            <nav class="breadcrumb" aria-label="breadcrumbs">
-              <ul>
-                <li :class="{'is-active': path===''}"><a href="#" aria-current="page" @click.prevent="setPath('')">Model Manager</a></li>
-                <li v-if="path!==''" class='is-active'><a href="#">{{ pathlabel }}</a></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="level-right">
-            <button class="button is-success is-rounded" @click.prevent="save" :disabled="saved">
-              <b-Icon icon="content-save"></b-Icon>
-              <span>Sauvegarder</span>
-            </button>
-            <button class="button is-info is-rounded" @click.prevent="launchNew">
-              <b-Icon icon="plus"></b-Icon>
-              <span>Ajouter un champ</span>
-            </button>
-          </div>
+    <nav class="level">
+      <div class="level-left">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li :class="{'is-active': path===''}"><a class="is-size-4 has-text-weight-bold" href="#" aria-current="page" @click.prevent="setPath('')">Model Manager</a></li>
+            <li v-if="path!==''" class='is-active'><a href="#">{{ pathlabel }}</a></li>
+          </ul>
         </nav>
+      </div>
+      <div class="level-right">
+        <button class="button is-success is-rounded" @click.prevent="save" :disabled="saved">
+          <b-Icon icon="content-save"></b-Icon>
+          <span>Sauvegarder</span>
+        </button>
+        <button class="button is-info is-rounded" @click.prevent="launchNew">
+          <b-Icon icon="plus"></b-Icon>
+          <span>Ajouter un champ</span>
+        </button>
+        <button class="button is-rounded" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
+          <b-Icon icon="plus"></b-Icon>
+          <span>JSON</span>
+        </button>
+      </div>
+    </nav>
 
-        <!-- Liste des inputs -->
-        <draggable v-model="inputs" @end="onDrag" :options="dragOptions">
-          <transition-group>
-          <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
-            <div class="card-header">
-              <p class="card-header-title" v-if="input.type !== 'sub'">
+    <!-- Liste des inputs -->
+    <draggable v-model="inputs" @end="onDrag" :options="dragOptions">
+      <transition-group name="fadeleft">
+        <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
+          <div class="card-header">
+            <p class="card-header-title" v-if="input.type !== 'sub'">
+              <IconInput :icon="input.type"></IconInput> {{ input.label }}
+              <b-tag rounded>{{ input.name }}</b-tag>
+            </p>
+            <p class="card-header-title" v-else>
+              <a href="#" @click.prevent="setPath(input.name)">
                 <IconInput :icon="input.type"></IconInput> {{ input.label }}
                 <b-tag rounded>{{ input.name }}</b-tag>
-              </p>
-              <p class="card-header-title" v-else>
-                <a href="#" @click.prevent="setPath(input.name)">
-                  <IconInput :icon="input.type"></IconInput> {{ input.label }}
-                  <b-tag rounded>{{ input.name }}</b-tag>
-                </a>
-              </p>
-              <div class="card-header-icon">
-                <div><b-Icon icon="arrow-all" class="handle"></b-Icon></div>
-                <b-dropdown position="is-bottom-left">
-                  <b-Icon icon="settings" slot="trigger"></b-Icon>
-                  <b-dropdown-item @click="launchEdit(i)">
-                    <b-Icon icon="pencil" size="is-small"></b-Icon>
-                    <span>Éditer</span>
-                  </b-dropdown-item>
-                  <b-dropdown-item @click="removeInput(i)">
-                    <b-Icon icon="delete" size="is-small"></b-Icon>
-                    <span>Supprimer</span>
-                  </b-dropdown-item>
-                </b-dropdown>
-              </div>
+              </a>
+            </p>
+            <div class="card-header-icon">
+              <div><b-Icon icon="arrow-all" class="handle"></b-Icon></div>
+              <b-dropdown position="is-bottom-left">
+                <b-Icon icon="settings" slot="trigger"></b-Icon>
+                <b-dropdown-item @click="launchEdit(i)">
+                  <b-Icon icon="pencil" size="is-small"></b-Icon>
+                  <span>Éditer</span>
+                </b-dropdown-item>
+                <b-dropdown-item @click="removeInput(i)">
+                  <b-Icon icon="delete" size="is-small"></b-Icon>
+                  <span>Supprimer</span>
+                </b-dropdown-item>
+              </b-dropdown>
             </div>
-              <div class="card-content" v-if="input.type === 'sub' && input.inputs.length !== 0">
-                  <div class="content is-small">
-                    <ul class="">
-                      <li v-for="subinput in input.inputs"><IconInput size="is-small" :icon="subinput.type"></IconInput> {{ subinput.name }}</li>
-                    </ul>
-                  </div>
-              </div>
           </div>
-          </transition-group>
-        </draggable>
-        <div v-if="inputs.length === 0">
-          <div class="notification has-text-centered">
-            <b-Icon icon="emoticon-poop" custom-size="mdi-48px"></b-Icon><br/>
-            Il n'y a rien ici!
-          </div>
-        </div>
-      </b-tab-item>
-
-      <!-- Json preview block -->
-      <b-tab-item label="Json Preview" icon="json">
-        <div class="columns">
-          <div class="column has-text-centered">
-            <div class="content">
-              <h3>JSON Preview</h3>
+          <div class="card-content" v-if="input.type === 'sub' && input.inputs.length !== 0">
+            <div class="content is-small">
+              <ul class="">
+                <li v-for="subinput in input.inputs"><IconInput size="is-small" :icon="subinput.type"></IconInput> {{ subinput.name }}</li>
+              </ul>
             </div>
           </div>
         </div>
-        <pre>
-          <blockquote>{{ rootinputs }}</blockquote>
-        </pre>
-      </b-tab-item>
-    </b-tabs>
+      </transition-group>
+    </draggable>
+    <div v-if="inputs.length === 0">
+      <div class="notification has-text-centered">
+        <b-Icon icon="emoticon-poop" custom-size="mdi-48px"></b-Icon><br/>
+        Il n'y a rien ici!
+      </div>
+    </div>
 
     <b-modal :active.sync="isInputEditorActive" has-modal-card>
       <InputEditor v-on:newInput="newInput" v-on:editInput="editInput" :fromsub="path !== ''" :editable="editableInputData"></InputEditor>
+    </b-modal>
+
+    <b-modal :active.sync="isJsonActive" has-modal-card>
+      <div class="modal-card card--json">
+        <div class="modal-card-head">
+          <p class="modal-card-title has-text-centered">
+            <b-Icon icon="json"></b-Icon> Code Json
+          </p>
+        </div>
+        <div class="modal-card-body">
+          <pre>
+            <blockquote>{{ rootinputs }}</blockquote>
+          </pre>
+        </div>
+        <footer class="modal-card-foot"></footer>
+      </div>
     </b-modal>
 
   </section>
@@ -112,6 +114,7 @@ export default {
     return {
       activeTab: 0,
       isInputEditorActive: false,
+      isJsonActive: false,
       saved: true,
       editableInputData: null
     }
@@ -208,6 +211,12 @@ export default {
     padding-top: 0;
   }
 }
+.card--json{
+  .card-content{
+    height: 600px;
+    overflow: scroll;
+  }
+}
 
 .card--list{
   transition: all 1s;
@@ -225,12 +234,20 @@ export default {
 .tab-content{
   padding-bottom: 150px !important;
 }
-.button.is-success{
-  margin-right: 16px;
+.level-right .button{
+  margin-left: 16px;
 }
 .ghost .card-header-title{
   padding-top:30px;
   padding-bottom:30px;
   box-shadow: inset 5px 0 0 #ffb52a;
+}
+pre{
+  background: #333;
+  color:#EEE;
+  padding: 0 30px;
+  border-radius: 5px;
+  font-size: 0.75em;
+  line-height: 1.2em;
 }
 </style>
