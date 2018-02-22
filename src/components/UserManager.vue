@@ -13,14 +13,14 @@
           <b-Icon icon="code-tags"></b-Icon>
           <span>JSON</span>
         </button>
-        <button class="button is-info is-rounded is-shadowed" @click.prevent="userNew()">
+        <button class="button is-info is-rounded is-shadowed" @click.prevent="userAction('add')">
           <b-Icon icon="plus"></b-Icon>
           <span>Ajouter un utilisateur</span>
         </button>
       </div>
     </nav>
     <div class="columns">
-      <div v-for="(user, i) in this.rawData" v-bind:key="i" class="column column--card">
+      <div v-for="(user, i) in users" v-bind:key="i" class="column column--card">
         <UserCard :user="user" :index="i" v-on:userAction="userAction"></UserCard>
       </div>
     </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="modal-card-body">
           <pre>
-            <blockquote>{{ rawData }}</blockquote>
+            <blockquote>{{ users }}</blockquote>
           </pre>
         </div>
         <footer class="modal-card-foot"></footer>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import UserCard from '@/components/ui/UserCard'
 import UserEditor from '@/components/ui/UserEditor'
 
@@ -58,69 +59,79 @@ export default {
   },
   data () {
     return {
-      activeTab: 0,
       isUserEditorActive: false,
       isJsonActive: false,
       userEditorData: {},
       userEditorIndex: -1,
-      rawData: {}
     }
+  },
+  computed: {
+    ...mapGetters({
+      users: 'getUsers'
+    })
   },
   methods: {
     userAction (action, index) {
       if (action === 'edit') {
         this.userEditorIndex = index
-        this.userEditorData = this.rawData[index]
+        this.userEditorData = this.$store.getters.getUsers[index]
+        this.isUserEditorActive = true
+      } else if (action === 'add') {
+        this.userEditorIndex = -1
+        this.userEditorData = {
+          'name': '',
+          'email': '',
+          'password': ''
+        }
         this.isUserEditorActive = true
       } else if (action === 'remove') {
-        this.$server.post(this, {
-          'action': 'removeuser',
-          'useremail': this.rawData[index].email
-        }, res => {
-          this.rawData.splice(index, 1)
+        this.$store.dispatch('removeUser', {user: this.$session.get('user'), index: index}).then(res => {
+          this.$toast.open({
+            message: 'Succès: ' + res.data.message,
+            type: 'is-success'
+          })
         })
       }
     },
     userEdit (user, index, olduser) {
-      console.log('user', user)
-      this.$server.post(this, {
-        'action': 'edituser',
-        'useremail': user.email,
-        'useroldemail': olduser.email,
-        'username': user.name,
-        'userpassword': user.newpassword || ''
-      }, res => {
-        this.rawData[index].name = user.name
-        this.rawData[index].email = user.email
-      })
-    },
-    userSave (user) {
-      this.$server.post(this, {
-        'action': 'adduser',
-        'useremail': user.email,
-        'username': user.name,
-        'userpassword': user.newpassword
-      }, res => {
-        this.rawData.push({
+      this.$store.dispatch('editUser', {
+        user: this.$session.get('user'),
+        newuser: {
+          'email': user.email,
+          'oldemail': olduser.email,
           'name': user.name,
-          'role': 'user',
-          'email': user.email
+          'password': user.newpassword || ''
+        },
+        index: index
+      }).then(res => {
+        this.$toast.open({
+          message: 'Succès: ' + res.data.message,
+          type: 'is-success'
         })
       })
     },
-    userNew () {
-      this.userEditorIndex = -1
-      this.userEditorData = {
-        'name': '',
-        'email': '',
-        'password': ''
-      }
-      this.isUserEditorActive = true
+    userSave (user) {
+      this.$store.dispatch('addUser', {
+        user: this.$session.get('user'),
+        newuser: {
+          email: user.email,
+          name: user.name,
+          password: user.newpassword
+        }
+      }).then(res => {
+        this.$toast.open({
+          message: 'Succès: ' + res.data.message,
+          type: 'is-success'
+        })
+      })
     }
   },
   mounted () {
-    this.$server.post(this, {action: 'getusers'}, res => {
-      this.rawData = res.data.body
+    this.$store.dispatch('fetchUsers', this.$session.get('user')).then(res => {
+      this.$toast.open({
+        message: 'Succès: ' + res.data.message,
+        type: 'is-success'
+      })
     })
   }
 }
