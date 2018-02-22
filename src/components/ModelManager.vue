@@ -11,7 +11,7 @@
         </nav>
       </div>
       <div class="level-right">
-        <button class="button is-rounded is-shadowed" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
+        <button class="button is-rounded" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
           <b-Icon icon="code-tags"></b-Icon>
           <span>JSON</span>
         </button>
@@ -28,7 +28,7 @@
 
     <!-- Liste des inputs -->
     <draggable v-model="inputs" @end="onDrag" :options="dragOptions">
-      <transition-group name="fadeleft">
+      <transition-group name="slide">
         <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
           <div class="card-header">
             <p class="card-header-title" v-if="input.type !== 'sub'">
@@ -200,6 +200,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .tab-item{
   display: block;
 }
@@ -216,10 +217,6 @@ export default {
     height: 600px;
     overflow: scroll;
   }
-}
-
-.card--list{
-  transition: all 1s;
 }
 .card-header-title{
   font-weight: normal;

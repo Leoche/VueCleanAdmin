@@ -9,7 +9,7 @@
         </nav>
       </div>
       <div class="level-right">
-        <button class="button is-rounded is-shadowed" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
+        <button class="button is-rounded" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
           <b-Icon icon="code-tags"></b-Icon>
           <span>JSON</span>
         </button>
