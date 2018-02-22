@@ -10,7 +10,7 @@
       </div>
       <div class="level-right">
         <button class="button is-rounded is-shadowed" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
-          <b-Icon icon="plus"></b-Icon>
+          <b-Icon icon="code-tags"></b-Icon>
           <span>JSON</span>
         </button>
         <button class="button is-info is-rounded is-shadowed" @click.prevent="userNew()">
