@@ -1,5 +1,5 @@
 <p align="center">
-<img src="../src/assets/va-server-animated.svg">
+<img src="../src/assets/imgs/newlogo/logo-dark.svg">
 </p>
 <h1 align="center">
 Vueclean Admin Server

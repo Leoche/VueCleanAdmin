@@ -4,16 +4,9 @@
       <div class="container">
         <transition appear name="fadedown">
           <div class="card">
-            <header class="card-header">
-              <p class="card-header-title">
-                Connexion Administration
-              </p>
-              <span class="card-header-icon">
-                <img src="/src/assets/va-color.svg" alt="Vuecleanadmin logo">
-              </span>
-            </header>
             <div class="card-content">
               <div class="content">
+                <img src="/src/assets/imgs/newlogo/logo-color-dark.svg" alt="Vuecleanadmin logo">
                 <b-field>
                   <b-input placeholder="Email" type="email" icon="email-outline" v-model="vemail"></b-input>
                 </b-field>
@@ -93,6 +86,11 @@ export default {
     width: 500px;
     margin: 0 auto;
     border-radius: .25rem;
+    img {
+      display: block;
+      margin:0 auto;
+      padding-bottom: 15px;
+    }
   }
 }
 </style>

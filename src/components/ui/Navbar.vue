@@ -2,7 +2,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="https://bulma.io">
-        <img src="/src/assets/va-color-full.svg" alt="Vuecleanadmin logo">
+        <img src="/src/assets/imgs/newlogo/logo-color-dark.svg" alt="Vuecleanadmin logo">
       </a>
       <a class="navbar-item" href="https://bulma.io">
         <b-icon icon="arrow-left" size="is-small"></b-icon> Retour au site
@@ -73,14 +73,14 @@ nav{
 }
 .navbar-brand img{
   height: 40px;
-  width: 256px;
+  width: 125px;
   max-width: none;
   max-height: none;
 }
 @media only screen and (max-width: 900px) {
   .navbar-brand .navbar-item:first-child {
     overflow: hidden;
-    width: 84px;
+    width: 50px;
   }
 }
 .navbar-brand .navbar-item span{
