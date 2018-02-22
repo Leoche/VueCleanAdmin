@@ -6,9 +6,6 @@
     <template v-else>
       <Login></Login>
     </template>
-    <pre>
-      {{ $session.get('user') }}
-    </pre>
   </div>
 </template>
 
