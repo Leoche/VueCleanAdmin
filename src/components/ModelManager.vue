@@ -11,17 +11,17 @@
         </nav>
       </div>
       <div class="level-right">
+        <button class="button is-rounded is-shadowed" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
+          <b-Icon icon="plus"></b-Icon>
+          <span>JSON</span>
+        </button>
         <button class="button is-success is-rounded" @click.prevent="save" :disabled="saved">
           <b-Icon icon="content-save"></b-Icon>
           <span>Sauvegarder</span>
         </button>
-        <button class="button is-info is-rounded" @click.prevent="launchNew">
+        <button class="button is-info is-rounded is-shadowed" @click.prevent="launchNew">
           <b-Icon icon="plus"></b-Icon>
           <span>Ajouter un champ</span>
-        </button>
-        <button class="button is-rounded" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
-          <b-Icon icon="plus"></b-Icon>
-          <span>JSON</span>
         </button>
       </div>
     </nav>
