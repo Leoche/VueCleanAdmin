@@ -33,7 +33,7 @@ class Auth
    }
    public function admin($user = null)
    {
-      if($user === null)
+      if ($user === null)
         $user = $this->user();
       if ($user["role"] === "admin") return true;
       else return false;

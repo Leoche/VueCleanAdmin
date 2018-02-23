@@ -67,7 +67,7 @@ class Validator{
       return $sanData;
    }
    public static function content(){
-      if(!isset($_POST["body"]) || $_POST["body"] === "") throw new Exception("JSON not found");
+      if (!isset($_POST["body"]) || $_POST["body"] === "") throw new Exception("JSON not found");
       return $_POST["body"];
    }
    public static function useremail(){

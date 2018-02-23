@@ -55,7 +55,7 @@ class VueCleanServer
                     $this->configuration->auth[$i]->email = $user->email;
                     $this->configuration->auth[$i]->name = $user->name;
 
-                    if($user->password !== "")
+                    if ($user->password !== "")
                       $this->configuration->auth[$i]->password = $this->auth->hashPassword($user->password);
 
                     $this->response->success($this->ressource->saveJSON('config', $this->configuration));
@@ -84,12 +84,12 @@ class VueCleanServer
 
                case "setmodel":
                   if ($this->auth->admin()) {
-                        if($this->ressource->saveJSON("model", Validator::content())) $this->response->success("Model saved");
+                        if ($this->ressource->saveJSON("model", Validator::content())) $this->response->success("Model saved");
                   } else throw new Exception('Invalid permissions');
                break;
                case "setcontent":
                   if ($this->auth->user())
-                     if($this->ressource->saveJSON("content", Validator::content())) $this->response->success("Content saved");
+                     if ($this->ressource->saveJSON("content", Validator::content())) $this->response->success("Content saved");
                break;
                case "debug":
                   echo $this->auth->hashPassword("0000");
