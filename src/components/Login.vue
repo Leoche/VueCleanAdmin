@@ -80,12 +80,13 @@ export default {
 
 <style scoped lang="scss">
 .hero.is-login{
-  background-color: #CCD;
+  background-color: #F2F6FA;
 
   & .card{
     width: 500px;
     margin: 0 auto;
     border-radius: .25rem;
+    box-shadow: 0 5px 35px rgba(0,0,0,.2);
     img {
       display: block;
       margin:0 auto;

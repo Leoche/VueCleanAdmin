@@ -1,12 +1,18 @@
 <template>
   <div>
-    test: {{ slug }}
+    <h1>Édition: {{ slug }}</h1>
+    test: {{ input }}
   </div>
 </template>
 <script>
   export default {
     name: 'Editor',
-    props: ['slug']
+    props: ['slug'],
+    computed: {
+      input () {
+        return this.$store.getters.getInputByLabel(this.slug)
+      }
+    }
   }
 </script>
 <style lang="scss" scoped>

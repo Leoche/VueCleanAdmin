@@ -4,10 +4,10 @@
       Mon Site
     </p>
     <ul class="menu-list">
-      <li><router-link to="/" exact-active-class="is-active">Accueil</router-link></li>
-      <li v-for="input in model"><a>Lien</a></li>
+      <li v-for="input in model">
+        <router-link :to="'/edit/' + input.name" exact-active-class="is-active"><IconInput :icon='input.type' size="is-small"></IconInput> {{ input.label }}</router-link></li>
     </ul>
-    <template v-if="getUser.role === 'admin'">
+    <template v-if="user.role === 'admin'">
     <p class="menu-label">
       Administration
     </p>
@@ -20,13 +20,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import IconInput from '@/components/inputs/IconInput'
+
 export default {
   name: 'Sidebar',
-  props: ['model'],
+  components: {
+    IconInput
+  },
   computed: {
-    getUser () {
-      return this.$store.getters.getUser
-    }
+    ...mapGetters({
+      user: 'getUser',
+      model: 'getRootModel'
+    })
+  },
+  mounted () {
+    this.$store.dispatch('fetchModel', this.$session.get('user')).then(res => {
+      this.$toast.open({
+        message: 'Succès: ' + res.data.message,
+        type: 'is-success'
+      })
+    })
   }
 }
 </script>
