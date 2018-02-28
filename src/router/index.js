@@ -35,6 +35,7 @@ let router = new Router({
       component: Editor,
       props: true,
       meta: {
+        title: 'Édition',
         auth: true
       }
     },
