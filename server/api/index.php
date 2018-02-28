@@ -91,6 +91,17 @@ class VueCleanServer
                   if ($this->auth->user())
                      if ($this->ressource->saveJSON("content", Validator::content())) $this->response->success("Content saved");
                break;
+
+               case "addcontent":
+                  $this->response->success("addcontent");
+               break;
+               case "editcontent":
+                  $this->response->success("editcontent");
+               break;
+               case "removecontent":
+                  $this->response->success("removecontent");
+               break;
+
                case "debug":
                   echo $this->auth->hashPassword("0000");
                break;

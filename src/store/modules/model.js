@@ -78,9 +78,16 @@ const getters = {
   getRootModel: state => state.model,
   getModel: state => (state.path === '') ? state.model : state.model.filter(input => input.name === state.path)[0].inputs,
   getModelPath: state => state.path,
-  getModelPathLabel: state => (state.path === '') ? '' : state.model.filter(input => input.name === state.path)[0].label
+  getModelPathLabel: state => (state.path === '') ? '' : state.model.filter(input => input.name === state.path)[0].label,
+  getInputByLabel: state => name => state.model.filter(input => input.name === name)[0]
 }
 const mutations = {
+  SET_ROOT_MODEL (state, data) {
+    state.model = []
+    data.forEach((item) => {
+      state.model.push(item)
+    })
+  },
   SET_MODEL (state, data) {
     if (state.path === '') {
       state.model = data
@@ -94,7 +101,8 @@ const mutations = {
   EDIT_INPUT_TO_MODEL (state, payload) {
     let newInput = generateInput(payload.input)
     if (state.path === '') {
-      state.model[payload.input.index] = newInput
+      state.model.splice(payload.input.index, 1)
+      state.model.splice(payload.input.index, 0, newInput)
     } else {
       state.model.filter(input => input.name === state.path)[0].inputs[payload.input.index] = newInput
     }
