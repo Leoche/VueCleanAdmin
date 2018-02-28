@@ -15,10 +15,6 @@
           <b-Icon icon="code-tags"></b-Icon>
           <span>JSON</span>
         </button>
-        <button class="button is-success is-rounded" @click.prevent="save" :disabled="saved">
-          <b-Icon icon="content-save"></b-Icon>
-          <span>Sauvegarder</span>
-        </button>
         <button class="button is-info is-rounded is-shadowed" @click.prevent="launchNew">
           <b-Icon icon="plus"></b-Icon>
           <span>Ajouter un champ</span>
@@ -130,6 +126,7 @@ export default {
       },
       set (value) {
         this.$store.commit('SET_MODEL', value)
+        this.save()
       }
     },
     dragOptions () {
@@ -146,14 +143,17 @@ export default {
     newInput (input) {
       this.$store.commit('ADD_INPUT_TO_MODEL', input)
       this.saved = false
+      this.save()
     },
     editInput (input) {
       this.$store.commit('EDIT_INPUT_TO_MODEL', {input})
       this.saved = false
+      this.save()
     },
     removeInput (index) {
       this.$store.commit('REMOVE_INPUT_TO_MODEL', index)
       this.saved = false
+      this.save()
     },
     save () {
       this.$store.dispatch('saveModel', this.$session.get('user')).then(res => {
@@ -186,14 +186,6 @@ export default {
     onDrag (evt) {
       this.saved = evt.oldIndex === evt.newIndex && this.saved
     }
-  },
-  mounted () {
-    this.$store.dispatch('fetchModel', this.$session.get('user')).then(res => {
-      this.$toast.open({
-        message: 'Succès: ' + res.data.message,
-        type: 'is-success'
-      })
-    })
   }
 }
 </script>
