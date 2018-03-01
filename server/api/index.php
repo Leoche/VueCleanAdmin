@@ -88,18 +88,13 @@ class VueCleanServer
                   } else throw new Exception('Invalid permissions');
                break;
                case "setcontent":
-                  if ($this->auth->user())
-                     if ($this->ressource->saveJSON("content", Validator::content())) $this->response->success("Content saved");
-               break;
-
-               case "addcontent":
-                  $this->response->success("addcontent");
-               break;
-               case "editcontent":
-                  $this->response->success("editcontent");
-               break;
-               case "removecontent":
-                  $this->response->success("removecontent");
+                  if ($this->auth->user()) {
+                    // Todo: check model
+                    $oldcontent = $this->ressource->getJSON('content');
+                    $content = json_decode(Validator::content());
+                    $oldcontent->{$content->name} = $content->value;
+                    if ($this->ressource->saveJSON("content", $oldcontent)) $this->response->success("Content saved");
+                  }
                break;
 
                case "debug":
