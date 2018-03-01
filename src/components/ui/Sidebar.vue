@@ -33,14 +33,6 @@ export default {
       user: 'getUser',
       model: 'getRootModel'
     })
-  },
-  mounted () {
-    this.$store.dispatch('fetchModel', this.$session.get('user')).then(res => {
-      this.$toast.open({
-        message: 'Succès: ' + res.data.message,
-        type: 'is-success'
-      })
-    })
   }
 }
 </script>

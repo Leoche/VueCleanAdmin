@@ -41,6 +41,20 @@
         this.$session.destroy()
         this.$router.push('/login')
       }
+    },
+    mounted () {
+      this.$store.dispatch('fetchModel', this.$session.get('user')).then(res => {
+        this.$toast.open({
+          message: 'Succès: ' + res.data.message,
+          type: 'is-success'
+        })
+      })
+      this.$store.dispatch('fetchContent', this.$session.get('user')).then(res => {
+        this.$toast.open({
+          message: 'Succès: ' + res.data.message,
+          type: 'is-success'
+        })
+      })
     }
   }
 </script>
