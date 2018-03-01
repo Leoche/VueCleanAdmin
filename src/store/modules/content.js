@@ -4,7 +4,7 @@ const state = {
   content: {}
 }
 const actions = {
-  getContents (store, payload) {
+  fetchContent (store, payload) {
     let api = document.querySelector('meta[name=api]').content
     return new Promise((resolve, reject) => {
       return Vue.http.post(api, {
@@ -20,8 +20,35 @@ const actions = {
         }
       ).then(res => {
         if (res.data.state === 'success') {
-          resolve(res.data.body)
+          resolve(res)
           store.commit('SET_CONTENT', res.data.body)
+        } else {
+          reject(new Error('bad.credentials'))
+        }
+      }, res => {
+        reject(new Error('unreachable'))
+      })
+    })
+  },
+  saveContent (store, payload) {
+    let api = document.querySelector('meta[name=api]').content
+    return new Promise((resolve, reject) => {
+      return Vue.http.post(api, {
+        action: 'setcontent',
+        email: payload.user.email,
+        password: payload.user.password,
+        body: JSON.stringify(payload.content)
+      },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          emulateJSON: true
+        }
+      ).then(res => {
+        if (res.data.state === 'success') {
+          resolve(res.data.body)
+          store.commit('EDIT_CONTENT', payload.content)
         } else {
           reject(new Error('bad.credentials'))
         }
@@ -32,13 +59,17 @@ const actions = {
   }
 }
 const getters = {
-  getUser: state => { return state.informations },
+  getContent: state => { return state.content },
+  getContentByLabel: state => label => {
+    return state.content[label] || ''
+  }
 }
 const mutations = {
   SET_CONTENT (state, res) {
     state.content = res
   },
-  ADD_CONTENT (store, payload) {
+  EDIT_CONTENT (store, payload) {
+    state.content[payload.name] = payload.value
   }
 }
 

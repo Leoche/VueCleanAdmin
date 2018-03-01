@@ -2,7 +2,7 @@
 <script>
 export default {
   name: 'InputBase',
-  props: ['name', 'label', 'defaultvalue', 'options', 'parent', 'issettings'],
+  props: ['name', 'label', 'defaultvalue', 'options', 'parent', 'issettings', 'placeholder'],
   data () {
     return {
       value: null
@@ -17,6 +17,8 @@ export default {
         let op = {}
         op[this.name] = this.value
         this.$emit('setOptions', op)
+      } else {
+        this.$emit('changeContent', this.value)
       }
     }
   }
