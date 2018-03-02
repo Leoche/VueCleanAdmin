@@ -36,7 +36,7 @@
           </p>
         </div>
         <div class="modal-card-body">
-          <pre>
+          <pre class="code">
             <blockquote>{{ users }}</blockquote>
           </pre>
         </div>

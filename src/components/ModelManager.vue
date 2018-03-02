@@ -25,7 +25,7 @@
     <!-- Liste des inputs -->
     <draggable v-model="inputs" @end="onDrag" :options="dragOptions">
       <transition-group appear name="slide">
-        <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
+        <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="input.name+'-'+i" :class="'card--'+input.type">
           <div class="card-header">
             <p class="card-header-title" v-if="input.type !== 'sub'">
               <IconInput :icon="input.type"></IconInput> {{ input.label }}
@@ -81,7 +81,7 @@
           </p>
         </div>
         <div class="modal-card-body">
-          <pre>
+          <pre class="code">
             <blockquote>{{ rootinputs }}</blockquote>
           </pre>
         </div>
@@ -230,7 +230,7 @@ export default {
   padding-bottom:30px;
   box-shadow: inset 5px 0 0 #ffb52a;
 }
-pre{
+pre.code{
   background: #333;
   color:#EEE;
   padding: 0 30px;
