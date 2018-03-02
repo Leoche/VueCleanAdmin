@@ -23,4 +23,11 @@
 
 .slide-enter, .slide-leave-to {
     opacity: 0;
+    transform: translateX(100%);
+}
+
+@for $i from 0 through 9 {
+    .columns .column .card--list:nth-child(#{$i}), .columns .column--card:nth-child(#{$i}) .card--list {
+        transition: all 0.5s ease #{$i / 10}s;
+    }
 }
