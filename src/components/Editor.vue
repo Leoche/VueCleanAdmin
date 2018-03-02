@@ -1,7 +1,7 @@
 <template>
   <div>
    <section class="content" v-if="input && (oldvalue || oldvalue === '')">
-      <h1>Édition: {{ input.label }}</h1>
+      <h1>Édition</h1>
       <component
         issettings="false"
         :key="input.label"
