@@ -1,7 +1,7 @@
 <template>
  <section class="content">
   <b-field :label="label">
-    <b-input v-model="value" @input.native="change" :placeholder="placeholder"/>
+    <b-input v-model="value" @input.native="change" :placeholder="placeholder" :type="options.length === 'line' ? 'text' : 'textarea'"/>
   </b-field>
 </section>
 </template>
