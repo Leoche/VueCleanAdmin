@@ -4,6 +4,7 @@
       <h1>Édition: {{ input.label }}</h1>
       <component
         issettings="false"
+        :key="input-label"
         :is="'input-' + input.type"
         :label="input.label"
         :placeholder="input.label + '...'"
@@ -24,6 +25,7 @@
   export default {
     name: 'Editor',
     props: ['slug'],
+
     components: {
       InputText
     },
