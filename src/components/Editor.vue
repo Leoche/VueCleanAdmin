@@ -4,11 +4,12 @@
       <h1>Édition: {{ input.label }}</h1>
       <component
         issettings="false"
-        :key="input-label"
+        :key="input.label"
         :is="'input-' + input.type"
         :label="input.label"
         :placeholder="input.label + '...'"
         :defaultvalue="oldvalue"
+        :options="input.options"
         v-on:changeContent="change"
         ></component>
    </section>
@@ -20,6 +21,7 @@
 <script>
   /* eslint-disable no-unused-vars */
   import InputText from '@/components/inputs/InputText'
+  import InputTags from '@/components/inputs/InputTags'
   import debounce from 'lodash/debounce'
   /* eslint-enable no-unused-vars */
   export default {
@@ -27,7 +29,8 @@
     props: ['slug'],
 
     components: {
-      InputText
+      InputText,
+      InputTags
     },
     computed: {
       input () {
