@@ -15,8 +15,12 @@ class VueCleanServer
       // GET CONFIG
       $this->response = new Message();
       $this->ressource = new Ressource();
-      $this->configuration = $this->ressource->getJSON('config');
-      $this->auth = new Auth($this->configuration);
+      try {
+        $this->configuration = $this->ressource->getJSON('config');
+        $this->auth = new Auth($this->configuration);
+      } catch (Exception $error) {
+        $this->response->error("Installation of vAdmin not completed");
+      }
 
       // PROCEED ACTION
       if (!isset($_POST) || !isset($_POST["action"])){

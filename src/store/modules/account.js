@@ -28,7 +28,7 @@ const actions = {
           resolve(res.data.body)
           store.commit('SET_ACCOUNT', res.data.body)
         } else {
-          reject(new Error('bad.credentials'))
+          reject(res.data.message)
         }
       }, res => {
         reject(new Error('unreachable'))

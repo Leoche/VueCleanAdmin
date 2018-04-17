@@ -62,10 +62,9 @@ export default {
         })
         this.$router.go('/')
       }).catch((err) => {
-        console.log('err', err)
         vm.isLoading = false
         vm.$toast.open({
-          message: 'ERROR:' + err,
+          message: err,
           type: 'is-danger'
         })
       })

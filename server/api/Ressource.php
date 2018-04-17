@@ -2,7 +2,11 @@
 class Ressource{
    public function getJSON($filename) {
       $json = @file_get_contents("../".$filename.".json");
-      if ($json === FALSE) throw new Exception("Can't access to the ".$filename.".json");
+      if ($json === FALSE){
+        if(file_put_contents("../".$filename.".json", "{}")) {
+          return "{}";
+        } throw new Exception("Can't access to the ".$filename.".json, can't create it either (wrong permissions)");
+      }
       else return json_decode($json);
    }
    public function saveJSON($filename, $body) {
