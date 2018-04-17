@@ -14,6 +14,7 @@
     <ul class="menu-list">
       <li><router-link to="/model" exact-active-class="is-active"><b-icon icon="file-tree" size="is-small"></b-icon> Model Manager</router-link></li>
       <li><router-link to="/users" exact-active-class="is-active"><b-icon icon="account-multiple" size="is-small"></b-icon> Users Manager</router-link></li>
+      <li><router-link to="/medias" exact-active-class="is-active"><b-icon icon="image-multiple" size="is-small"></b-icon> Medias Manager</router-link></li>
     </ul>
     </template>
   </aside>

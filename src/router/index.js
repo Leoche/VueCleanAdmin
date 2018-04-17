@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
 import Editor from '@/components/Editor'
+import MediasManager from '@/components/MediasManager'
 import ModelManager from '@/components/ModelManager'
 import UserManager from '@/components/UserManager'
 
@@ -26,6 +27,15 @@ let router = new Router({
       component: ModelManager,
       meta: {
         title: 'Model Editor',
+        auth: true
+      }
+    },
+    {
+      path: '/medias',
+      name: 'MediasManager',
+      component: MediasManager,
+      meta: {
+        title: 'Medias Manager',
         auth: true
       }
     },
