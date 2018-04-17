@@ -1,9 +1,11 @@
 .DS_Store
 node_modules/
 /dist/
-/server/config.json
-/server/model.json
-/server/content.json
+/server/storage/config/config.json
+/server/storage/config/model.json
+/server/storage/config/content.json
+/server/storage/uploads/*
+!/server/storage/uploads/.gitkeep
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
