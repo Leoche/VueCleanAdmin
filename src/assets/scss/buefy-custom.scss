@@ -152,3 +152,7 @@ body {
         background: linear-gradient(-20deg, $color-invert, $color);
     }
 }
+
+.upload .upload-draggable {
+    display: block;
+}
