@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CleanAdmin</title>
+  <title>vAdmin</title>
   <style>
   *{
     margin:0;
@@ -79,7 +79,7 @@
       </g>
     </svg>
     <div class="infos">
-      <h2>CleanAdmin Server</h2>
+      <h2>vAdmin Server</h2>
       <p>Version: <?= $version ?></p>
     </div>
   </div>
