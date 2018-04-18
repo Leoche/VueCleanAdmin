@@ -5,7 +5,7 @@
         <figure class="image is-4by1">
             <UserAvatar :user="user"/>
             <div>
-              <a v-if="user.role!=='usser'">
+              <a v-if="user.role!=='user'">
                 <b-dropdown position="is-bottom-left">
                   <b-Icon icon="settings" slot="trigger"></b-Icon>
                   <b-dropdown-item @click="action('edit', index)">

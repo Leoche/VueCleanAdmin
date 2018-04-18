@@ -43,6 +43,12 @@
       }
     },
     mounted () {
+      this.$store.dispatch('fetchMedias', this.$session.get('user')).then(res => {
+        this.$toast.open({
+          message: 'Succès: ' + res.data.message,
+          type: 'is-success'
+        })
+      })
       this.$store.dispatch('fetchModel', this.$session.get('user')).then(res => {
         this.$toast.open({
           message: 'Succès: ' + res.data.message,

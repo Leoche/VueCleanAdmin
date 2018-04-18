@@ -7,5 +7,6 @@
       }
    ],
    "salt":"change_this_salt",
+   "max_upload":"80000",
    "ip":""
 }

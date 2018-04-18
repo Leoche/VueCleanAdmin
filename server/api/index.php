@@ -12,6 +12,20 @@ class VueCleanServer
 
    public function __construct()
    {
+
+      if (isset($_GET["asset"])){
+        $file =  '../storage/uploads/' . $_GET["asset"];
+        if ( file_exists($file) ) {
+          $fp = fopen($file, 'rb');
+
+          header("Content-Type: " . mime_content_type($file));
+          header("Content-Length: " . filesize($file));
+
+          fpassthru($fp);
+        }
+        exit;
+
+      }
       // GET CONFIG
       $this->response = new Message();
       $this->ressource = new Ressource();
@@ -83,6 +97,37 @@ class VueCleanServer
                     if ($this->ressource->saveJSON("content", $oldcontent)) $this->response->success("Content saved");
                   }
                break;
+               case "addmedias":
+                  if ($this->auth->admin()) {
+                    $succededFiles = [];
+                    foreach ($_FILES as $key => $file) {
+                      if($file['size'] > $this->configuration->max_upload || $file['error'] != 0) continue;
+                      $newName = uniqid() . "_" . $file['name'];
+                      if (move_uploaded_file($file['tmp_name'], '../storage/uploads/' . $newName)) {
+                        $newFile = array(
+                          'name' => $newName,
+                          'type' => $file['type'],
+                          'size' => $file['size']
+                        );
+                        $medias = $this->ressource->getJSON('medias');
+                        if (!isset($medias->files)){
+                          $medias->files = array();
+                        }
+                        array_push($medias->files, $newFile);
+                        $this->ressource->saveJSON('medias', $medias);
+
+                        array_push($succededFiles, $newFile);
+                      }
+                    }
+                    if(count($succededFiles) != count($_FILES)){
+                      print_r($_FILES);
+                      exit();
+                    }
+                    if(count($succededFiles) != 0){
+                      $this->response->print_json('success', json_encode($succededFiles), count($succededFiles) . '/' . count($_FILES) . ' files uploaded' );
+                    }
+                  }
+               break;
 
                /*---------------------------------------------------------------------------------------------
                               UPDATE
@@ -114,6 +159,21 @@ class VueCleanServer
                         }
                      }
                      throw new Exception("User not found");
+                  } else throw new Exception('Invalid permissions');
+               break;
+               case "deletemedia":
+                  if ($this->auth->admin()){
+                    $filename = $_POST["filename"];
+                    $path = '../storage/uploads/' . $filename;
+                    $medias = $this->ressource->getJSON('medias');
+                    foreach ($medias->files as $key => $media) {
+                      if ($media->name === $filename) {
+                        if ( file_exists($path) ) unlink($path);
+                        array_splice($medias->files, $key, 1);
+                        $this->ressource->saveJSON('medias', $medias);
+                        $this->response->success($medias);
+                      }
+                    }
                   } else throw new Exception('Invalid permissions');
                break;
 

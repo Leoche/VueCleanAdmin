@@ -2,9 +2,8 @@
   <section>
     <div class="columns">
       <div class="column">
-        <h2>Upload</h2>
         <b-field>
-          <b-upload v-model="dropFiles" multiple drag-drop @input="addDropFile">
+          <b-upload v-model="dropFiles" multiple drag-drop :disabled="uploading">
             <section class="section section-upload">
               <div class="content has-text-centered">
                 <p>
@@ -30,12 +29,13 @@
     </div>
     <div class="columns">
       <div class="column">
-        <h6>Avancement: {{ progress }}%</h6>
-        <progress class="progress is-info is-small" :value="progress" max="100">{{ progress }}%</progress>
+        <h6 v-if="uploading">Avancement: {{ getProgress }}%</h6>
+        <h6 v-else>Prêt à uploader</h6>
+        <progress class="progress is-info is-small" :value="getProgress" max="100">{{ getProgress }}%</progress>
       </div>
       <div class="column is-narrow">
         <div class="upload-button-container">
-          <button class="button is-primary" :disabled="dropFiles.length === 0" @click.prevent="startUpload">
+          <button class="button is-primary" :disabled="uploading || dropFiles.length === 0" @click.prevent="startUpload">
             <b-icon icon="upload"></b-icon>
             <span>Uploader</span>
           </button>
@@ -46,20 +46,38 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Uploader',
   data () {
     return {
       dropFiles: [],
-      progress: 45
+      uploading: false,
+      progress: 0
     }
+  },
+  computed: {
+    ...mapGetters({
+      getProgress: 'getProgress'
+    })
   },
   methods: {
     startUpload () {
+      this.uploading = true
+      this.$store.dispatch('resetProgress')
+      let formData = new FormData()
+      this.dropFiles.forEach((file, index) => formData.append('file' + index, file))
 
-    },
-    addDropFile (args) {
-      console.log('args', args)
+      this.$store.dispatch('addMedias', {user: this.$session.get('user'), formData: formData}).then(res => {
+        this.$toast.open({
+          message: 'Succès: ' + res.data.message,
+          type: 'is-success'
+        })
+        this.uploading = false
+        this.dropFiles = []
+        this.$emit('close')
+      })
     },
     deleteDropFile (index) {
       this.dropFiles.splice(index, 1)

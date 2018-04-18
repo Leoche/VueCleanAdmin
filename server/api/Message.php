@@ -8,7 +8,7 @@ class Message{
    {
       return $this->print_json("error", null, $message);
    }
-   private function print_json($state, $body, $message)
+   public function print_json($state, $body, $message)
    {
       echo json_encode(array(
          "state"=>$state,
