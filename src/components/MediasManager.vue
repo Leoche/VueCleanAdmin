@@ -20,18 +20,9 @@
       <AssetBox v-on:deleteAsset="deleteAsset" v-for="media in medias.files" :key="media.name" :asset="media"></AssetBox>
     </div>
     <b-modal :active.sync="isUploaderActive" has-modal-card>
-      <div class="modal-card card--json">
-        <div class="modal-card-head">
-          <p class="modal-card-title has-text-centered">
-            <b-Icon icon="json"></b-Icon> Uploader
-          </p>
-        </div>
-        <div class="modal-card-body">
-          <Uploader v-on:close="isUploaderActive = false"></Uploader>
-        </div>
-        <footer class="modal-card-foot"></footer>
-      </div>
+      <Uploader :multiple='true' v-on:close="isUploaderActive = false"></Uploader>
     </b-modal>
+    {{ medias.files }}
   </div>
 </template>
 
@@ -81,5 +72,6 @@ export default {
 .assets-container{
   display: flex;
   flex-wrap: wrap;
+    justify-content: space-around;
 }
 </style>

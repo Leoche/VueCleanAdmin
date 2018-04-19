@@ -17,8 +17,8 @@ class VueCleanServer
         $file =  '../storage/uploads/' . $_GET["asset"];
         if ( file_exists($file) ) {
           $fp = fopen($file, 'rb');
-
-          header("Content-Type: " . mime_content_type($file));
+          if (mime_content_type($file) === "image/svg") header("Content-Type: image/svg+xml");
+          else header("Content-Type: " . mime_content_type($file));
           header("Content-Length: " . filesize($file));
 
           fpassthru($fp);

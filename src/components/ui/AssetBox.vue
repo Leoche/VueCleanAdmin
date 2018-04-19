@@ -3,7 +3,20 @@
     <div class="card card--asset card--list">
       <div class="card-image">
         <figure class="image is-4by3">
-          <img class="asset-image" :src="url" :alt="asset.name">
+          <template v-if="type === 'image'">
+            <img class="asset-image" :src="url" :alt="asset.name">
+          </template>
+          <template v-else>
+            <div class="asset-file">
+              <b-Icon v-if='type==="video"' icon="file-video" size="is-large"></b-Icon>
+              <b-Icon v-else-if='type==="audio"' icon="file-audio" size="is-large"></b-Icon>
+              <b-Icon v-else-if='type==="text"' icon="file-document" size="is-large"></b-Icon>
+              <b-Icon v-else-if='extension==="pdf"' icon="file-pdf" size="is-large"></b-Icon>
+              <b-Icon v-else-if='extension==="vnd.rar" || extension==="x-rar" || extension==="zip"' icon="package-variant-closed" size="is-large"></b-Icon>
+              <b-Icon v-else-if='extension==="zip"' icon="file-pdf" size="is-large"></b-Icon>
+              <b-Icon v-else icon="file" size="is-large"></b-Icon>
+            </div>
+          </template>
         </figure>
       </div>
       <div class="card-content">
@@ -11,7 +24,7 @@
           <div class="level-left">
             <div class="level-item">
               <p><strong>{{ name }}</strong></p>
-              <p class="is-small">{{ size }}</p>
+              <p class="is-small">{{ size }} {{extension}} {{type}}</p>
             </div>
           </div>
           <div class="level-right">
@@ -49,7 +62,21 @@ export default {
       return document.querySelector('meta[name=api]').content + '?asset=' + this.asset.name
     },
     name () {
-      return this.asset.name.substring(800, 14)
+      let fullName = this.asset.name.substring(800, 14)
+      let ext = fullName.split('.')[fullName.split('.').length - 1]
+      let shortName = fullName.split('.').shift()
+      if (fullName.length > 15) fullName = shortName.substring(15, 0) + '(...).' + ext
+      return fullName
+    },
+    isImage () {
+      let imageTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/bmp', 'image/gif', 'image/svg']
+      return imageTypes.indexOf(this.asset.type) !== -1
+    },
+    type () {
+      return this.asset.type.split('/')[0]
+    },
+    extension () {
+      return this.asset.type.split('/')[1]
     }
   },
   methods: {
@@ -62,9 +89,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-p.is-small{
-  color:#888;
-  font-size:12px;
+p{
+  font-size:14px;
+  &.is-small{
+    color:#888;
+    font-size:12px;
+  }
 }
 .card--asset{
   box-shadow: 0 2px 6px rgba(10, 10, 10, 0.1), 0 10px 6px 1px rgba(10, 10, 10, 0.03);
@@ -89,13 +119,26 @@ p.is-small{
   }
   .card-image{
     overflow: hidden;
+
     & .image{
       height: 150px;
       padding-top: 0;
+      width: 235px;
+      display: inline-block;
+
       & img.asset-image{
         object-fit: cover;
       }
     }
+  }
+  .asset-file{
+    width: 100%;
+    height: 150px;
+    background: #e6e6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#c1c1c1;
   }
 }
 </style>
