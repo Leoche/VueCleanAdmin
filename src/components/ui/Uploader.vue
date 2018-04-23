@@ -27,7 +27,7 @@
           <div class="tags">
             <span v-for="(file, index) in dropFiles" :key="index" class="tag is-primary" >
               {{file.name}}
-              <button class="delete is-small" type="button" @click="deleteDropFile(index)">
+              <button class="delete is-small" type="button" :disabled="uploading" @click="deleteDropFile(index)">
               </button>
             </span>
           </div>
