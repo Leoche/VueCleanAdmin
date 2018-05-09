@@ -6,6 +6,7 @@
         issettings="false"
         :key="input.label"
         :is="'input-' + input.type"
+        :type="input.type"
         :label="input.label"
         :placeholder="input.label + '...'"
         :defaultvalue="oldvalue"

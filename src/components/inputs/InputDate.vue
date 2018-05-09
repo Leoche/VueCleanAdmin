@@ -21,9 +21,6 @@ export default {
     return {
       value: new Date()
     }
-  },
-  mounted () {
-    this.value = new Date(this.defaultvalue)
   }
 }
 </script>

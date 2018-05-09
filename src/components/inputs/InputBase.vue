@@ -2,14 +2,23 @@
 <script>
 export default {
   name: 'InputBase',
-  props: ['name', 'label', 'defaultvalue', 'options', 'parent', 'issettings', 'placeholder'],
+  props: ['name', 'label', 'defaultvalue', 'type', 'options', 'parent', 'issettings', 'placeholder'],
   data () {
     return {
       value: null
     }
   },
   mounted () {
-    this.value = this.defaultvalue
+    if (this.type === 'date') {
+      console.log('this.defaultvalue', this.defaultvalue)
+      if (this.defaultvalue === 'null' || this.defaultvalue === '' || this.defaultvalue === null) {
+        this.value = new Date()
+      } else {
+        this.value = new Date(this.defaultvalue)
+      }
+    } else {
+      this.value = this.defaultvalue
+    }
   },
   methods: {
     change () {
