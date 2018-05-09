@@ -4,6 +4,7 @@ node_modules/
 /server/storage/config/config.json
 /server/storage/config/model.json
 /server/storage/config/content.json
+/server/storage/config/medias.json
 /server/storage/uploads/*
 !/server/storage/uploads/.gitkeep
 npm-debug.log*
