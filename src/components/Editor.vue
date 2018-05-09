@@ -25,6 +25,7 @@
   import InputTags from '@/components/inputs/InputTags'
   import InputDate from '@/components/inputs/InputDate'
   import InputBoolean from '@/components/inputs/InputBoolean'
+  import InputLocation from '@/components/inputs/InputLocation'
   import InputImage from '@/components/inputs/InputImage'
   import debounce from 'lodash/debounce'
   /* eslint-enable no-unused-vars */
@@ -37,6 +38,7 @@
       InputTags,
       InputDate,
       InputBoolean,
+      InputLocation,
       InputImage
     },
     computed: {

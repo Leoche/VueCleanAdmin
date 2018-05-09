@@ -10,6 +10,7 @@ import Buefy from 'buefy'
 import Auth from './plugins/Auth'
 import Server from './plugins/Server'
 import store from './store/index'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.use(Buefy)
 Vue.use(VueSession)
@@ -19,7 +20,11 @@ Vue.use(Server)
 Vue.use(Auth, {
   router: router
 })
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyBzlLYISGjL_ovJwAehh6ydhB56fCCpPQw'
+  }
+})
 global.store = store
 
 window['env'] = process.env.NODE_ENV
