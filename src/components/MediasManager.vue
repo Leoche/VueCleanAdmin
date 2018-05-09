@@ -11,7 +11,7 @@
       <div class="level-right">
         <button class="button is-info is-rounded is-shadowed" @click.prevent="isUploaderActive = true">
           <b-Icon icon="plus"></b-Icon>
-          <span>Ajouter un média</span>
+          <span>Ajouter une photo</span>
         </button>
       </div>
     </nav>
@@ -72,6 +72,5 @@ export default {
 .assets-container{
   display: flex;
   flex-wrap: wrap;
-    justify-content: space-around;
 }
 </style>

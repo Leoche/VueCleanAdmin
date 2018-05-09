@@ -37,7 +37,22 @@
    },
    {
       "name":"image",
-      "label":"Image"
+      "label":"Image",
+      "settings":[
+         {
+            "name":"length",
+            "label":"Nombre d'images",
+            "component":"input-group-radio",
+            "default":"one",
+            "options":[{
+               "name":"one",
+               "label":"Unique"
+            },{
+               "name":"multiple",
+               "label":"Multiples"
+            }]
+         }
+      ]
    },
    {
       "name":"numeric",

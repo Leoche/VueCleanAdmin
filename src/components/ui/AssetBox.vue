@@ -29,7 +29,7 @@
           </div>
           <div class="level-right">
             <div class="level-item content">
-              <div>
+              <div v-if="canDelete">
                 <button @click="remove()" class="button button-blank" :class="{'is-loading': pending}">
                   <b-Icon icon="delete" size="is-small"></b-Icon>
                 </button>
@@ -48,7 +48,7 @@ import prettyBytes from 'pretty-bytes'
 
 export default {
   name: 'AssetBox',
-  props: ['asset'],
+  props: ['asset', 'canDelete'],
   data () {
     return {
       pending: false
@@ -140,5 +140,9 @@ p{
     align-items: center;
     color:#c1c1c1;
   }
+}
+.content figure{
+  margin-left: 0;
+  margin-right: 0;
 }
 </style>

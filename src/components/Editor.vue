@@ -22,6 +22,8 @@
   /* eslint-disable no-unused-vars */
   import InputText from '@/components/inputs/InputText'
   import InputTags from '@/components/inputs/InputTags'
+  import InputDate from '@/components/inputs/InputDate'
+  import InputImage from '@/components/inputs/InputImage'
   import debounce from 'lodash/debounce'
   /* eslint-enable no-unused-vars */
   export default {
@@ -30,7 +32,9 @@
 
     components: {
       InputText,
-      InputTags
+      InputTags,
+      InputDate,
+      InputImage
     },
     computed: {
       input () {

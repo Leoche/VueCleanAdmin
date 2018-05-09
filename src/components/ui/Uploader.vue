@@ -86,8 +86,8 @@ export default {
           type: 'is-success'
         })
         this.uploading = false
+        this.$emit('close', res.body.body)
         this.dropFiles = []
-        this.$emit('close')
       })
     },
     deleteDropFile (index) {
