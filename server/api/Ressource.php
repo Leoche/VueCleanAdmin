@@ -11,7 +11,7 @@ class Ressource{
    }
    public function saveJSON($filename, $body) {
       if (is_object($body))
-         $body = json_encode($body);
+         $body = json_encode($body, JSON_PRETTY_PRINT);
       $json = json_decode($body);
       if (json_last_error() !== JSON_ERROR_NONE)  throw new Exception("Can't save a non JSON file");
       if (@file_put_contents("../storage/config/".$filename.".json", $body) === FALSE) throw new Exception("Can't save to ".$filename.".json");
