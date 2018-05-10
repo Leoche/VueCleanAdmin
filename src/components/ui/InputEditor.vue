@@ -23,11 +23,24 @@
         <!-- Options -->
         <div v-else>
           <!-- Name input -->
-          <b-field label="Nom du champ">
-            <b-input v-model="selected.name" placeholder="Nom..."></b-input>
-          </b-field>
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <b-field label="Nom du champ">
+                  <b-input expanded v-model="selected.name" placeholder="Nom..."></b-input>
+                </b-field>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <b-field label="Icone">
+                <InputMaterialDesign @select='iconpicked'></InputMaterialDesign>
+                </b-field>
+              </div>
+            </div>
+          </div>
           <div class="content" v-if="inputsTypes[selectedType].settings">
-            <h6>Options</h6>
+            <b-field label="Options"></b-field>
             <component
             v-for="setting in inputsTypes[selectedType].settings"
             issettings="true"
@@ -60,13 +73,15 @@
 <script>
 import IconInput from '@/components/inputs/IconInput'
 import InputGroupRadio from '@/components/inputs/InputGroupRadio'
+import InputMaterialDesign from '@/components/inputs/InputMaterialDesign'
 
 export default {
-  name: 'InputPicker',
+  name: 'InputEditor',
   props: ['fromsub', 'editable'],
   components: {
     IconInput,
-    InputGroupRadio
+    InputGroupRadio,
+    InputMaterialDesign
   },
   data () {
     return {
@@ -94,6 +109,7 @@ export default {
         finalInput.index = this.editable.index
         this.$emit('editInput', finalInput)
       }
+      console.log('finalInput', finalInput)
       this.$parent.close()
     },
     canSub (input) {
@@ -109,6 +125,10 @@ export default {
         let setting = this.inputsTypes[this.selectedType].settings[index]
         setting.default = jsonData.options[setting.name]
       }
+    },
+    iconpicked (icon) {
+      console.log('icon', icon)
+      this.selected.icon = 'mdi-' + icon.name.replace('.svg', '')
     }
   },
   computed: {
@@ -155,5 +175,14 @@ export default {
   .tag{
     margin-left: 10px;
   }
+}
+.level-item{
+  width: 120%;
+  & .field{
+        width: 100%;
+  }
+}
+.modal-card-body{
+  min-height: 40vh;
 }
 </style>

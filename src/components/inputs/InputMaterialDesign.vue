@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-field label="Find a movie">
+    <b-field>
       <b-autocomplete
         v-model="name"
         :data="filteredDataObj"
@@ -8,7 +8,7 @@
         field="name"
         expanded
         :class="{'is-disable': disabled}"
-        @select="option => selected = option">
+        @select="onSelect">
 
         <template slot-scope="props">
           <div class="media">
@@ -32,6 +32,7 @@
 
 <script>
   export default {
+    name: 'InputMaterialDesign',
     data () {
       return {
         data: [],
@@ -59,6 +60,12 @@
             .toLowerCase()
             .indexOf(this.name.toLowerCase()) >= 0 : ''
         })
+      }
+    },
+    methods: {
+      onSelect (option) {
+        this.selected = option
+        this.$emit('select', option)
       }
     },
     mounted () {

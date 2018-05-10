@@ -72,6 +72,10 @@
    },
    {
       "name":"sub",
-      "label":"Sous Champ"
+      "label":"Multiples"
+   },
+   {
+      "name":"group",
+      "label":"Groupe"
    }
 ]
