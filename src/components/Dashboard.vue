@@ -17,7 +17,7 @@
 <script>
   import Sidebar from './ui/Sidebar'
   import Navbar from './ui/Navbar'
-  import MaterialDesign from './inputs/MaterialDesign'
+  import InputMaterialDesign from './inputs/InputMaterialDesign'
   import ModelManager from './ModelManager'
 
   export default {
@@ -30,7 +30,7 @@
     components: {
       Sidebar,
       Navbar,
-      MaterialDesign,
+      InputMaterialDesign,
       ModelManager
     },
     methods: {

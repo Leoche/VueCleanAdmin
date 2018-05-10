@@ -15,6 +15,7 @@
         ></component>
    </section>
    <pre>
+     {{ typeof oldvalue }}
      {{ oldvalue }}
    </pre>
   </div>
@@ -24,6 +25,7 @@
   import InputText from '@/components/inputs/InputText'
   import InputTags from '@/components/inputs/InputTags'
   import InputDate from '@/components/inputs/InputDate'
+  import InputNumeric from '@/components/inputs/InputNumeric'
   import InputBoolean from '@/components/inputs/InputBoolean'
   import InputLocation from '@/components/inputs/InputLocation'
   import InputImage from '@/components/inputs/InputImage'
@@ -38,6 +40,7 @@
       InputTags,
       InputDate,
       InputBoolean,
+      InputNumeric,
       InputLocation,
       InputImage
     },
@@ -46,7 +49,8 @@
         return this.$store.getters.getInputByLabel(this.slug)
       },
       oldvalue () {
-        return this.$store.getters.getContentByLabel(this.slug)
+        let content = this.$store.getters.getContentByLabel(this.slug)
+        return content
       }
     },
     methods: {
