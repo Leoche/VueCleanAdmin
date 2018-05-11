@@ -3,6 +3,7 @@
     <b-field>
       <b-autocomplete
         v-model="name"
+        ref="autoMdi"
         :data="filteredDataObj"
         placeholder="e.g. account-circle"
         field="name"
@@ -21,9 +22,9 @@
           </div>
         </template>
       </b-autocomplete>
-      <p class="control" v-if="selected">
+      <p class="control" v-if="selected !== null">
         <span class="button is-static">
-            <i class="mdi mdi-24px" :class="selected.name | iconName"></i>
+            <i class="mdi mdi-24px" :class="selected | iconName"></i>
         </span>
       </p>
     </b-field>
@@ -41,8 +42,10 @@
         disabled: false
       }
     },
+    props: ['default'],
     filters: {
       iconName: function (value) {
+        console.log('value', value)
         if (!value || value === '') return 'mdi-help'
         return 'mdi-' + value.replace('.svg', '')
       },
@@ -64,14 +67,19 @@
     },
     methods: {
       onSelect (option) {
-        this.selected = option
-        this.$emit('select', option)
+        if (option !== null) {
+          console.log('option', option)
+          this.selected = option.name
+          this.$emit('select', option.name)
+        }
       }
     },
     mounted () {
       this.$http.get(`https://api.github.com/repos/Templarian/MaterialDesign/contents/icons/svg`)
       .then(({ data }) => {
         this.data = data
+        this.selected = this.default
+        this.$refs.autoMdi.setSelected(this.default)
       })
     }
   }

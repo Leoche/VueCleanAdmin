@@ -8,6 +8,7 @@ let generateInput = (input) => {
     'name': slug(input.name),
     'label': input.name,
     'type': input.type,
+    'icon': input.icon,
     'options': input.options
   }
   if (input.type === 'sub') {

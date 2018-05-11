@@ -22,6 +22,7 @@ export default {
   },
   methods: {
     change () {
+      console.log('change', this.label, this.value)
       if (this.issettings === 'true') {
         let op = {}
         op[this.name] = this.value

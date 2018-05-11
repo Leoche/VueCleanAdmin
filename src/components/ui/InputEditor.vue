@@ -14,7 +14,7 @@
           <div v-for="(set, i) in inputsTypesChunked" class="column">
             <a v-for="(input, j) in set" class="button button-large" @click.prevent="selectInput(input.name, i*2 + j)" v-if="canSub(input)">
               <div>
-                <div><IconInput :icon="input.name" size="is-medium"></IconInput></div>
+                <div><b-icon :icon="input.name" size="is-medium"></b-icon></div>
                 <div>{{ input.label }}</div>
               </div>
             </a>
@@ -34,11 +34,12 @@
             <div class="level-right">
               <div class="level-item">
                 <b-field label="Icone">
-                <InputMaterialDesign @select='iconpicked'></InputMaterialDesign>
+                <InputMaterialDesign :default="selected.icon" @select='iconpicked'></InputMaterialDesign>
                 </b-field>
               </div>
             </div>
           </div>
+          {{ selected.icon }}
           <div class="content" v-if="inputsTypes[selectedType].settings">
             <b-field label="Options"></b-field>
             <component
@@ -109,7 +110,6 @@ export default {
         finalInput.index = this.editable.index
         this.$emit('editInput', finalInput)
       }
-      console.log('finalInput', finalInput)
       this.$parent.close()
     },
     canSub (input) {
@@ -120,6 +120,7 @@ export default {
       let index = this.inputsTypes.findIndex((input) => input.name === jsonData.type)
       this.selected = jsonData
       this.selected.name = jsonData.label
+      this.selected.icon = (!jsonData.icon) ? 'help.svg' : jsonData.icon.replace('mdi-', '')
       this.selectedType = index
       for (let index in this.inputsTypes[this.selectedType].settings) {
         let setting = this.inputsTypes[this.selectedType].settings[index]
@@ -127,8 +128,10 @@ export default {
       }
     },
     iconpicked (icon) {
-      console.log('icon', icon)
-      this.selected.icon = 'mdi-' + icon.name.replace('.svg', '')
+      if (icon) {
+        console.log('icon', icon)
+        this.selected.icon = 'mdi-' + icon.replace('.svg', '')
+      }
     }
   },
   computed: {
@@ -142,6 +145,7 @@ export default {
     this.inputsTypesChunked = chunk(this.inputsTypes, 2)
 
     if (this.editable !== null) this.setValue()
+    console.log('selected', this.selected)
   }
 }
 </script>

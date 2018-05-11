@@ -1,15 +1,9 @@
 <template>
  <section class="content">
   <b-field :label="label">
-    <b-switch
-      v-model="value"
-      @change.native="change"
-      :false-value="false"
-      :true-value="true"
-      >
-      {{ actived }}
-    </b-switch>
+    <b-input v-model="value" @blur="change" type="number" :placeholder="placeholder"/>
   </b-field>
+  {{ value }}
 </section>
 </template>
 
@@ -17,22 +11,8 @@
 import InputBase from '@/components/inputs/InputBase'
 
 export default {
-  name: 'InputBoolean',
+  name: 'InputNumeric',
   extends: InputBase,
-  data () {
-    return {
-      value: false
-    }
-  },
-  computed: {
-    actived () {
-      if (this.value) {
-        return 'Activé'
-      } else {
-        return 'Désactivé'
-      }
-    }
-  },
   methods: {
     change () {
       console.log('change', this.label, this.value)
@@ -41,7 +21,7 @@ export default {
         op[this.name] = this.value
         this.$emit('setOptions', op)
       } else {
-        this.$emit('changeContent', !this.value)
+        this.$emit('changeContent', this.value.toString())
       }
     }
   }

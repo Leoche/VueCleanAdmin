@@ -28,12 +28,12 @@
         <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
           <div class="card-header">
             <p class="card-header-title" v-if="input.type !== 'sub'">
-              <IconInput :icon="input.type"></IconInput> {{ input.label }}
+              <b-Icon :icon="input.icon.replace('mdi-','')"></b-Icon> {{ input.label }}
               <b-tag rounded>{{ input.name }}</b-tag>
             </p>
             <p class="card-header-title" v-else>
               <a href="#" @click.prevent="setPath(input.name)">
-                <IconInput :icon="input.type"></IconInput> {{ input.label }}
+                <b-Icon :icon="input.icon.replace('mdi-','')"></b-Icon> {{ input.label }}
                 <b-tag rounded>{{ input.name }}</b-tag>
               </a>
             </p>

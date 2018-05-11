@@ -17,9 +17,10 @@
           case 'numeric': return 'numeric'
           case 'location': return 'map-marker'
           case 'image': return 'image'
+          case 'group': return 'note'
           case 'boolean': return 'toggle-switch-off'
           case 'tags': return 'tag'
-          case 'sub': return 'subdirectory-arrow-right'
+          case 'sub': return 'note-multiple'
           default: return 'help'
         }
       }

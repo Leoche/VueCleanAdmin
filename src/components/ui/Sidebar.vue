@@ -5,7 +5,8 @@
     </p>
     <ul class="menu-list">
       <li v-for="input in model">
-        <router-link :to="'/edit/' + input.name" exact-active-class="is-active"><IconInput :icon='input.type' size="is-small"></IconInput> {{ input.label }}</router-link></li>
+        <router-link :to="((input.type === 'sub') ? '/show/' : '/edit/') + input.name" exact-active-class="is-active"><IconInput :icon='input.type' size="is-small"></IconInput> {{ input.label }}</router-link>
+      </li>
     </ul>
     <template v-if="user.role === 'admin'">
     <p class="menu-label">
