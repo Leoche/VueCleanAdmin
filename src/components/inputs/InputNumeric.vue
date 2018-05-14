@@ -1,7 +1,7 @@
 <template>
  <section class="content">
   <b-field :label="label">
-    <b-input v-model="value" @blur="change" type="number" :placeholder="placeholder"/>
+    <b-input v-model="value" @input="change" type="number" :placeholder="placeholder"/>
   </b-field>
   {{ value }}
 </section>
@@ -15,13 +15,16 @@ export default {
   extends: InputBase,
   methods: {
     change () {
+      if (!this.initialized) {
+        return false
+      }
       console.log('change', this.label, this.value)
       if (this.issettings === 'true') {
         let op = {}
         op[this.name] = this.value
         this.$emit('setOptions', op)
       } else {
-        this.$emit('changeContent', this.value.toString())
+        this.$emit('changeContent', {value: this.value.toString(), name: this.name})
       }
     }
   }

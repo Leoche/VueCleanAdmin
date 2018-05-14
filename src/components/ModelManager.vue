@@ -1,7 +1,7 @@
 <template>
   <section>
 
-    <nav class="level">
+    <nav class="level level-header">
       <div class="level-left">
         <nav class="breadcrumb" aria-label="breadcrumbs">
           <ul>
@@ -27,13 +27,15 @@
       <transition-group appear name="fadeup">
         <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
           <div class="card-header">
-            <p class="card-header-title" v-if="input.type !== 'sub'">
-              <b-Icon :icon="input.icon.replace('mdi-','')"></b-Icon> {{ input.label }}
+            <p class="card-header-title" v-if="input.type !== 'sub' && input.type !== 'group'">
+              <b-Icon :icon="(input.icon) ? input.icon.replace('mdi-','') : 'help'"></b-Icon>
+              <IconInput :icon='input.type' size="is-small"></IconInput> {{ input.label }}
               <b-tag rounded>{{ input.name }}</b-tag>
             </p>
             <p class="card-header-title" v-else>
               <a href="#" @click.prevent="setPath(input.name)">
-                <b-Icon :icon="input.icon.replace('mdi-','')"></b-Icon> {{ input.label }}
+                <b-Icon :icon="(input.icon) ? input.icon.replace('mdi-','') : 'help'"></b-Icon>
+                <IconInput :icon='input.type' size="is-small"></IconInput> {{ input.label }}
                 <b-tag rounded>{{ input.name }}</b-tag>
               </a>
             </p>
@@ -52,7 +54,7 @@
               </b-dropdown>
             </div>
           </div>
-          <div class="card-content" v-if="input.type === 'sub' && input.inputs.length !== 0">
+          <div class="card-content" v-if="(input.type === 'sub' || input.type === 'group') && input.inputs.length !== 0">
             <div class="content is-small">
               <ul class="">
                 <li v-for="subinput in input.inputs"><IconInput size="is-small" :icon="subinput.type"></IconInput> {{ subinput.name }}</li>
@@ -221,9 +223,6 @@ export default {
 }
 .tab-content{
   padding-bottom: 150px !important;
-}
-.level-right .button{
-  margin-left: 16px;
 }
 .ghost .card-header-title{
   padding-top:30px;

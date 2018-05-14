@@ -52,6 +52,9 @@ export default {
   },
   methods: {
     addedImage (value) {
+      if (!this.initialized) {
+        return false
+      }
       this.isUploaderActive = false
       this.isAssetPickerActive = false
       let newValue = []
@@ -63,26 +66,23 @@ export default {
       } else if (typeof value === 'object') {
         newValue = [value]
       }
-      console.log('newValue', newValue)
       if (this.options.length !== 'one') {
         this.value = this.value.concat(newValue)
       } else {
         this.value = newValue
       }
-      this.$emit('changeContent', this.value)
+      this.$emit('changeContent', {value: this.value, name: this.name})
     },
     deleteAsset (filename) {
-      console.log('filename', filename)
       for (var i in this.value) {
         if (this.value[i].name === filename) {
           this.value.splice(i, 1)
-          this.$emit('changeContent', this.value)
+          this.$emit('changeContent', {value: this.value, name: this.name})
         }
       }
     }
   },
   mounted () {
-    console.log('this.defaultvalue', this.defaultvalue)
     this.value = Array.isArray(this.defaultvalue) ? this.defaultvalue : []
   }
 }

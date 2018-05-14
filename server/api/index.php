@@ -93,7 +93,12 @@ class VueCleanServer
                     // Todo: check model
                     $oldcontent = $this->ressource->getJSON('content');
                     $content = json_decode(Validator::content());
-                    $oldcontent->{$content->name} = $content->value;
+                    if(property_exists($content, 'sub')) {
+                      if (!property_exists($oldcontent, $content->name)) $oldcontent->{$content->name} = new stdClass();
+                      $oldcontent->{$content->name}->{$content->sub} = $content->value;
+                    } else {
+                      $oldcontent->{$content->name} = $content->value;
+                    }
                     if ($this->ressource->saveJSON("content", $oldcontent)) $this->response->success("Content saved");
                   }
                break;

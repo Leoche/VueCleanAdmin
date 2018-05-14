@@ -1,6 +1,6 @@
 <template>
   <section>
-    <nav class="level">
+    <nav class="level level-header">
       <div class="level-left">
         <nav class="breadcrumb" aria-label="breadcrumbs">
           <ul>

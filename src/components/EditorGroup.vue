@@ -4,30 +4,20 @@
       <h1>Édition</h1>
       <component
         issettings="false"
-        v-for="subinput in input.inputs"
-        :key="subinput.label"
-        :is="'input-' + subinput.type"
-        :type="subinput.type"
-        :label="subinput.label"
-        :name="subinput.name"
-        :placeholder="subinput.label + '...'"
-        :defaultvalue="oldvalue(subinput.name)"
-        :options="subinput.options"
-        v-on:changeContent="save"
-        v-if="input.type === 'group'"></component>
-      <component
-        issettings="false"
         :key="input.label"
         :is="'input-' + input.type"
         :type="input.type"
         :label="input.label"
-        :name="input.name"
         :placeholder="input.label + '...'"
-        :defaultvalue="oldvalue(input.name)"
+        :defaultvalue="oldvalue"
         :options="input.options"
-        v-on:changeContent="save"
-        v-else></component>
+        v-on:changeContent="change"
+        ></component>
    </section>
+   <pre>
+     {{ typeof oldvalue }}
+     {{ oldvalue }}
+   </pre>
   </div>
 </template>
 <script>
@@ -42,7 +32,7 @@
   import debounce from 'lodash/debounce'
   /* eslint-enable no-unused-vars */
   export default {
-    name: 'Editor',
+    name: 'EditorGroup',
     props: ['slug'],
 
     components: {
@@ -57,26 +47,18 @@
     computed: {
       input () {
         return this.$store.getters.getInputByLabel(this.slug)
+      },
+      oldvalue () {
+        let content = this.$store.getters.getContentByLabel(this.slug)
+        return content
       }
     },
     methods: {
-      oldvalue (label) {
-        let content = null
-        if (this.input.type === 'group') {
-          content = this.$store.getters.getContentByLabel(this.slug + '/' + label)
-        } else {
-          content = this.$store.getters.getContentByLabel(this.slug)
-        }
-        console.log('label + / content', label, content)
-        return content
-      },
+      change: debounce(function (value) {
+        this.save(value)
+      }, 500),
       save (value) {
-        if (!this.$store.getters.isContentFetched) return false
-        let toSave = {name: this.input.name, value: value}
-        if (this.input.type === 'group') toSave = {name: this.input.name, value: value.value, sub: value.name}
-        console.log('toSave', toSave)
-        console.log('value', value)
-        this.$store.dispatch('saveContent', {user: this.$session.get('user'), content: toSave}).then(res => {
+        this.$store.dispatch('saveContent', {user: this.$session.get('user'), content: {name: this.input.name, value: value}}).then(res => {
           this.$toast.open({
             message: 'Succès: ' + res,
             type: 'is-success'

@@ -2,7 +2,8 @@ import Vue from 'vue'
 
 const state = {
   medias: {},
-  progress: 0
+  progress: 0,
+  fetched: false
 }
 const actions = {
   fetchMedias (store, payload) {
@@ -95,11 +96,13 @@ const actions = {
 }
 const getters = {
   getMedias: state => { return state.medias },
-  getProgress: state => { return state.progress }
+  getProgress: state => { return state.progress },
+  isMediasFetched: state => { return state.fetched }
 }
 const mutations = {
   SET_MEDIAS (state, medias) {
     state.medias = medias
+    state.fetched = true
   },
   ADD_MEDIAS (state, medias) {
     state.medias.files = state.medias.files.concat(JSON.parse(medias))

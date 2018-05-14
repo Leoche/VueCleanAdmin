@@ -6,6 +6,12 @@ body {
     min-height: 100vh;
 }
 
+.level-header {
+    & .level-right .button {
+        margin-left: 16px;
+    }
+}
+
 .button.is-shadowed {
     $color: #fff;
     $color-invert: rgba(0, 0, 0, 0.2);

@@ -11,7 +11,7 @@ let generateInput = (input) => {
     'icon': input.icon,
     'options': input.options
   }
-  if (input.type === 'sub') {
+  if (input.type === 'sub' || input.type === 'group') {
     newInput.inputs = []
   }
   return newInput
@@ -19,7 +19,8 @@ let generateInput = (input) => {
 
 const state = {
   model: [],
-  path: ''
+  path: '',
+  fetched: false
 }
 const actions = {
   fetchModel (state, user) {
@@ -80,7 +81,8 @@ const getters = {
   getModel: state => (state.path === '') ? state.model : state.model.filter(input => input.name === state.path)[0].inputs,
   getModelPath: state => state.path,
   getModelPathLabel: state => (state.path === '') ? '' : state.model.filter(input => input.name === state.path)[0].label,
-  getInputByLabel: state => name => state.model.filter(input => input.name === name)[0]
+  getInputByLabel: state => name => state.model.filter(input => input.name === name)[0],
+  isModelFetched: state => { return state.fetched }
 }
 const mutations = {
   SET_ROOT_MODEL (state, data) {
@@ -95,6 +97,7 @@ const mutations = {
     } else {
       state.model.filter(input => input.name === state.path)[0].inputs = data
     }
+    state.fetched = true
   },
   ADD_INPUT_TO_MODEL (state, input) {
     getInputs(state).push(generateInput(input))

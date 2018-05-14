@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="level">
+    <nav class="level level-header">
       <div class="level-left">
         <nav class="breadcrumb" aria-label="breadcrumbs">
           <ul>
@@ -9,6 +9,10 @@
         </nav>
       </div>
       <div class="level-right">
+        <button class="button is-rounded" @click.prevent="isJsonActive = true" v-if="$session.get('user').role === 'admin'">
+          <b-Icon icon="code-tags"></b-Icon>
+          <span>JSON</span>
+        </button>
         <button class="button is-info is-rounded is-shadowed" @click.prevent="isUploaderActive = true">
           <b-Icon icon="plus"></b-Icon>
           <span>Ajouter une photo</span>
@@ -17,12 +21,27 @@
     </nav>
 
     <div class="assets-container">
-      <AssetBox v-on:deleteAsset="deleteAsset" v-for="media in medias.files" :key="media.name" :asset="media"></AssetBox>
+      <AssetBox :canDelete='true' v-on:deleteAsset="deleteAsset" v-for="media in medias.files" :key="media.name" :asset="media"></AssetBox>
     </div>
     <b-modal :active.sync="isUploaderActive" has-modal-card>
       <Uploader :multiple='true' v-on:close="isUploaderActive = false"></Uploader>
     </b-modal>
-    {{ medias.files }}
+
+    <b-modal :active.sync="isJsonActive" has-modal-card>
+      <div class="modal-card card--json">
+        <div class="modal-card-head">
+          <p class="modal-card-title has-text-centered">
+            <b-Icon icon="json"></b-Icon> Code Json
+          </p>
+        </div>
+        <div class="modal-card-body">
+          <pre class="code">
+            <blockquote>{{ medias }}</blockquote>
+          </pre>
+        </div>
+        <footer class="modal-card-foot"></footer>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -41,7 +60,8 @@ export default {
     return {
       dropFiles: [],
       progress: 45,
-      isUploaderActive: false
+      isUploaderActive: false,
+      isJsonActive: false
     }
   },
   computed: {

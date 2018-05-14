@@ -14,7 +14,7 @@
           <div v-for="(set, i) in inputsTypesChunked" class="column">
             <a v-for="(input, j) in set" class="button button-large" @click.prevent="selectInput(input.name, i*2 + j)" v-if="canSub(input)">
               <div>
-                <div><b-icon :icon="input.name" size="is-medium"></b-icon></div>
+                <div><IconInput :icon="input.name" size="is-medium"></IconInput></div>
                 <div>{{ input.label }}</div>
               </div>
             </a>
@@ -39,7 +39,6 @@
               </div>
             </div>
           </div>
-          {{ selected.icon }}
           <div class="content" v-if="inputsTypes[selectedType].settings">
             <b-field label="Options"></b-field>
             <component
@@ -120,7 +119,11 @@ export default {
       let index = this.inputsTypes.findIndex((input) => input.name === jsonData.type)
       this.selected = jsonData
       this.selected.name = jsonData.label
-      this.selected.icon = (!jsonData.icon) ? 'help.svg' : jsonData.icon.replace('mdi-', '')
+      if (!jsonData.icon) {
+        this.selected.icon = 'help'
+      } else {
+        this.selected.icon = (!jsonData.icon) ? 'help' : jsonData.icon
+      }
       this.selectedType = index
       for (let index in this.inputsTypes[this.selectedType].settings) {
         let setting = this.inputsTypes[this.selectedType].settings[index]
@@ -129,8 +132,7 @@ export default {
     },
     iconpicked (icon) {
       if (icon) {
-        console.log('icon', icon)
-        this.selected.icon = 'mdi-' + icon.replace('.svg', '')
+        this.selected.icon = icon.value
       }
     }
   },
@@ -145,7 +147,6 @@ export default {
     this.inputsTypesChunked = chunk(this.inputsTypes, 2)
 
     if (this.editable !== null) this.setValue()
-    console.log('selected', this.selected)
   }
 }
 </script>
@@ -181,7 +182,7 @@ export default {
   }
 }
 .level-item{
-  width: 120%;
+  width: 100%;
   & .field{
         width: 100%;
   }

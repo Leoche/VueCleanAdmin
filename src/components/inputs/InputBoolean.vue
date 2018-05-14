@@ -35,13 +35,15 @@ export default {
   },
   methods: {
     change () {
-      console.log('change', this.label, this.value)
+      if (!this.initialized) {
+        return false
+      }
       if (this.issettings === 'true') {
         let op = {}
         op[this.name] = this.value
         this.$emit('setOptions', op)
       } else {
-        this.$emit('changeContent', !this.value)
+        this.$emit('changeContent', {value: !this.value, name: this.name})
       }
     }
   }

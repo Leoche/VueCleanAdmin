@@ -1,7 +1,8 @@
 import Vue from 'vue'
 
 const state = {
-  users: []
+  users: [],
+  fetched: false
 }
 const actions = {
   fetchUsers (state, user) {
@@ -107,11 +108,13 @@ const actions = {
   }
 }
 const getters = {
-  getUsers: state => state.users
+  getUsers: state => state.users,
+  isUsersFetched: state => state.fetched
 }
 const mutations = {
   SET_USERS (state, users) {
     state.users = users
+    state.fetched = true
   },
   ADD_USER (state, user) {
     state.users.push(user)

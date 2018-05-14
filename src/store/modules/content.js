@@ -1,7 +1,8 @@
 import Vue from 'vue'
 
 const state = {
-  content: {}
+  content: {},
+  fetched: false
 }
 const actions = {
   fetchContent (store, payload) {
@@ -61,12 +62,19 @@ const actions = {
 const getters = {
   getContent: state => { return state.content },
   getContentByLabel: state => label => {
-    return state.content[label] || ''
-  }
+    if (label.indexOf('/') !== -1 && state.fetched) {
+      console.log('label', label)
+      return state.content[label.split('/')[0]][label.split('/')[1]] || ''
+    } else {
+      return state.content[label] || ''
+    }
+  },
+  isContentFetched: state => { return state.fetched }
 }
 const mutations = {
   SET_CONTENT (state, res) {
     state.content = res
+    state.fetched = true
   },
   EDIT_CONTENT (store, payload) {
     state.content[payload.name] = payload.value

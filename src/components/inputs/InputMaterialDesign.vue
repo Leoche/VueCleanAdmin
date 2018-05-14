@@ -14,10 +14,10 @@
         <template slot-scope="props">
           <div class="media">
             <div class="media-left">
-              <i class="mdi mdi-16px" :class="props.option.name | iconName"></i>
+              <i class="mdi mdi-16px" :class="props.option | iconName"></i>
             </div>
             <div class="media-content">
-              {{ props.option.name | readeableName}}
+              {{ props.option | readeableName}}
             </div>
           </div>
         </template>
@@ -45,9 +45,8 @@
     props: ['default'],
     filters: {
       iconName: function (value) {
-        console.log('value', value)
         if (!value || value === '') return 'mdi-help'
-        return 'mdi-' + value.replace('.svg', '')
+        return 'mdi-' + value
       },
       readeableName: function (value) {
         if (!value) return ''
@@ -58,26 +57,35 @@
     computed: {
       filteredDataObj () {
         return this.data.filter((option) => {
-          return (this.name) ? option.name
+          return (this.name) ? option
             .toString()
             .toLowerCase()
             .indexOf(this.name.toLowerCase()) >= 0 : ''
         })
+      },
+      initialized () {
+        return this.$store.getters.isContentFetched
       }
     },
     methods: {
       onSelect (option) {
+        if (!this.initialized) {
+          return false
+        }
         if (option !== null) {
-          console.log('option', option)
-          this.selected = option.name
-          this.$emit('select', option.name)
+          this.selected = option
+          this.$emit('select', {value: option, name: this.name})
         }
       }
     },
     mounted () {
       this.$http.get(`https://api.github.com/repos/Templarian/MaterialDesign/contents/icons/svg`)
       .then(({ data }) => {
-        this.data = data
+        let newData = []
+        for (let index in data) {
+          newData.push(data[index].name.replace('.svg', ''))
+        }
+        this.data = newData
         this.selected = this.default
         this.$refs.autoMdi.setSelected(this.default)
       })

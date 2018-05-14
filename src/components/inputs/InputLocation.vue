@@ -109,7 +109,7 @@ export default {
       this.changingCenter = this.mapCenter
     },
     change () {
-      this.$emit('changeContent', this.location)
+      this.$emit('changeContent', {value: this.location, name: this.name})
     }
   },
   mounted () {
