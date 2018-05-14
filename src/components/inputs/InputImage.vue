@@ -2,14 +2,6 @@
  <section>
   <b-field :label="label">
   </b-field>
-    <div class="assets-container">
-      <template v-if="value.length != 0">
-        <AssetBox :canDelete="true" v-on:deleteAsset="deleteAsset" v-for="media in value" :key="media.name" :asset="media"></AssetBox>
-      </template>
-      <template v-else>
-       <div class="empty">Aucune images séléctionné</div>
-      </template>
-    </div>
     <div class="buttons" v-if="(value.length === 0) || this.options.length !== 'one'">
       <button class="button is-blank is-rounded is-shadowed" @click.prevent="isAssetPickerActive = true">
         <span>Choisir dans les images existantes</span>
@@ -20,12 +12,21 @@
         <span v-else>Ajouter une image</span>
       </button>
     </div>
+    <div class="assets-container">
+      <template v-if="value.length != 0">
+        <AssetBox :canDelete="true" v-on:deleteAsset="deleteAsset" v-for="media in value" :key="media.name" :asset="media"></AssetBox>
+      </template>
+      <template v-else>
+       <div class="empty">Aucune images séléctionné</div>
+      </template>
+    </div>
     <b-modal :active.sync="isUploaderActive" has-modal-card>
       <Uploader :multiple='this.options.length !== "one"' v-on:close="addedImage"></Uploader>
     </b-modal>
     <b-modal :active.sync="isAssetPickerActive" has-modal-card>
       <InputAsset :multiple='this.options.length !== "one"' v-on:close="addedImage"></InputAsset>
     </b-modal>
+    <div class="spacer"></div>
 </section>
 </template>
 
@@ -52,7 +53,8 @@ export default {
   },
   methods: {
     addedImage (value) {
-      if (!this.initialized) {
+      if (!this.initialized || !this.fetchedData) {
+        this.fetchedData = true
         return false
       }
       this.isUploaderActive = false
@@ -88,6 +90,10 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.spacer{
+  width: 100%;
+  height: 32px;
+}
 .empty{
   height:235px;
   width: 210px;

@@ -15,10 +15,10 @@ export default {
   extends: InputBase,
   methods: {
     change () {
-      if (!this.initialized) {
+      if (!this.initialized || !this.fetchedData) {
+        this.fetchedData = true
         return false
       }
-      console.log('change', this.label, this.value)
       if (this.issettings === 'true') {
         let op = {}
         op[this.name] = this.value

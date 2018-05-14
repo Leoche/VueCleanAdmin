@@ -5,18 +5,17 @@ export default {
   props: ['name', 'label', 'defaultvalue', 'type', 'options', 'parent', 'issettings', 'placeholder'],
   computed: {
     initialized () {
-      console.log('this.$store.getters', this.$store.getters)
       return this.$store.getters.isContentFetched
     }
   },
   data () {
     return {
-      value: null
+      value: null,
+      fetchedData: false
     }
   },
   mounted () {
     if (this.type === 'date') {
-      console.log('this.defaultvalue', this.defaultvalue)
       if (this.defaultvalue === 'null' || this.defaultvalue === '' || this.defaultvalue === null) {
         this.value = new Date()
       } else {
@@ -27,17 +26,17 @@ export default {
     }
   },
   methods: {
-    change () {
-      if (!this.initialized) {
+    change (newValue) {
+      if (!this.initialized || !this.fetchedData) {
+        this.fetchedData = true
         return false
       }
       if (this.issettings === 'true') {
         let op = {}
-        op[this.name] = this.value
+        op[this.name] = newValue
         this.$emit('setOptions', op)
       } else {
-        console.log('this.name', this)
-        this.$emit('changeContent', {value: this.value, name: this.name})
+        this.$emit('changeContent', {value: newValue, name: this.name})
       }
     }
   }

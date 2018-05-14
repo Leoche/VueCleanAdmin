@@ -24,6 +24,7 @@ export default {
     }
   },
   mounted () {
+    this.fetchedData = true
     this.value = Array.isArray(this.defaultvalue) ? this.defaultvalue : []
   }
 }

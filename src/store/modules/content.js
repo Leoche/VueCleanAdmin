@@ -49,6 +49,7 @@ const actions = {
       ).then(res => {
         if (res.data.state === 'success') {
           resolve(res.data.body)
+          console.log('payload', payload)
           store.commit('EDIT_CONTENT', payload.content)
         } else {
           reject(new Error('bad.credentials'))
@@ -63,7 +64,6 @@ const getters = {
   getContent: state => { return state.content },
   getContentByLabel: state => label => {
     if (label.indexOf('/') !== -1 && state.fetched) {
-      console.log('label', label)
       return state.content[label.split('/')[0]][label.split('/')[1]] || ''
     } else {
       return state.content[label] || ''
@@ -77,7 +77,11 @@ const mutations = {
     state.fetched = true
   },
   EDIT_CONTENT (store, payload) {
-    state.content[payload.name] = payload.value
+    if (payload.sub) {
+      state.content[payload.name][payload.sub] = payload.value
+    } else {
+      state.content[payload.name] = payload.value
+    }
   }
 }
 

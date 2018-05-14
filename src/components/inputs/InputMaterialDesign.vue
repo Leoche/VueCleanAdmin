@@ -56,12 +56,14 @@
     },
     computed: {
       filteredDataObj () {
-        return this.data.filter((option) => {
+        let results = this.data.filter((option) => {
           return (this.name) ? option
             .toString()
             .toLowerCase()
-            .indexOf(this.name.toLowerCase()) >= 0 : ''
+            .match(new RegExp('(.*)' + this.name.toLowerCase().replace(' ', '-') + '(.*)', 'g')) !== null : false
         })
+        console.log('results', results)
+        return results
       },
       initialized () {
         return this.$store.getters.isContentFetched

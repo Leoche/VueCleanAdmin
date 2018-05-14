@@ -3,18 +3,20 @@
    <section class="content" v-if="input && (oldvalue || oldvalue === '')">
       <h1>Édition: {{ input.label }}</h1>
       <template v-if="input.type === 'group'">
-        <component
-          issettings="false"
-          v-for="subinput in input.inputs"
-          :key="subinput.label"
-          :is="'input-' + subinput.type"
-          :type="subinput.type"
-          :label="subinput.label"
-          :name="subinput.name"
-          :placeholder="subinput.label + '...'"
-          :defaultvalue="oldvalue(subinput.name)"
-          :options="subinput.options"
-          v-on:changeContent="save"></component>
+        <template v-for="subinput in input.inputs">
+          <component
+            issettings="false"
+            :key="subinput.label"
+            :is="'input-' + subinput.type"
+            :type="subinput.type"
+            :label="subinput.label | ucfirst"
+            :name="subinput.name"
+            :placeholder="subinput.label + '...'"
+            :defaultvalue="oldvalue(subinput.name)"
+            :options="subinput.options"
+            v-on:changeContent="save"></component>
+            <div class="spacer"></div>
+        </template>
 
         <div v-if="input.inputs.length === 0">
           <div class="notification has-text-centered">
@@ -62,6 +64,11 @@
       InputLocation,
       InputImage
     },
+    filters: {
+      ucfirst (string) {
+        return string.charAt(0).toUpperCase() + string.slice(1)
+      }
+    },
     computed: {
       input () {
         return this.$store.getters.getInputByLabel(this.slug)
@@ -75,12 +82,11 @@
         } else {
           content = this.$store.getters.getContentByLabel(this.slug)
         }
-        console.log('label + / content', label, content)
         return content
       },
-      save (value) {
+      save (value, oldvalue) {
         if (!this.$store.getters.isContentFetched) return false
-        let toSave = {name: this.input.name, value: value}
+        let toSave = {name: this.input.name, value: value.value}
         if (this.input.type === 'group') toSave = {name: this.input.name, value: value.value, sub: value.name}
         console.log('toSave', toSave)
         console.log('value', value)
@@ -100,5 +106,8 @@
   }
 </script>
 <style lang="scss" scoped>
-
+.spacer{
+  width: 100%;
+  height: 32px;
+}
 </style>
