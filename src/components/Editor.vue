@@ -1,20 +1,28 @@
 <template>
   <div>
    <section class="content" v-if="input && (oldvalue || oldvalue === '')">
-      <h1>Édition</h1>
-      <component
-        issettings="false"
-        v-for="subinput in input.inputs"
-        :key="subinput.label"
-        :is="'input-' + subinput.type"
-        :type="subinput.type"
-        :label="subinput.label"
-        :name="subinput.name"
-        :placeholder="subinput.label + '...'"
-        :defaultvalue="oldvalue(subinput.name)"
-        :options="subinput.options"
-        v-on:changeContent="save"
-        v-if="input.type === 'group'"></component>
+      <h1>Édition: {{ input.label }}</h1>
+      <template v-if="input.type === 'group'">
+        <component
+          issettings="false"
+          v-for="subinput in input.inputs"
+          :key="subinput.label"
+          :is="'input-' + subinput.type"
+          :type="subinput.type"
+          :label="subinput.label"
+          :name="subinput.name"
+          :placeholder="subinput.label + '...'"
+          :defaultvalue="oldvalue(subinput.name)"
+          :options="subinput.options"
+          v-on:changeContent="save"></component>
+
+        <div v-if="input.inputs.length === 0">
+          <div class="notification has-text-centered">
+            <b-Icon icon="emoticon-poop" custom-size="mdi-48px"></b-Icon><br/>
+            Il n'y a rien dans ce groupe!
+          </div>
+        </div>
+      </template>
       <component
         issettings="false"
         :key="input.label"
