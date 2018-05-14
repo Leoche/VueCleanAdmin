@@ -55,4 +55,5 @@ $colors: (
 @import "assets/scss/transitions";
 @import "assets/scss/autofill-fix";
 @import "assets/scss/buefy-custom";
+@import "assets/scss/spinner";
 </style>
