@@ -1,7 +1,6 @@
 <template>
  <section class="content">
-  <b-field :label="label">
-  </b-field>
+  <b-field :label="label" :message="help">
   <div class="level">
     <div class="level-left">
       <div class="level-item">
@@ -50,6 +49,7 @@
     </div>
   </div>
 </div>
+  </b-field>
 </section>
 </template>
 

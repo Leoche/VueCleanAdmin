@@ -1,6 +1,6 @@
 <template>
  <section class="content">
-  <b-field :label="label">
+  <b-field :label="label" :message="help">
         <b-taginput
             maxtags="5"
             v-model="value"

@@ -20,6 +20,7 @@
        <div class="empty">Aucune images séléctionné</div>
       </template>
     </div>
+    <p v-if="help !== ''" class="help">{{ help }}</p>
     <b-modal :active.sync="isUploaderActive" has-modal-card>
       <Uploader :multiple='this.options.length !== "one"' v-on:close="addedImage"></Uploader>
     </b-modal>

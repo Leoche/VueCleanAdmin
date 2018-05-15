@@ -1,6 +1,6 @@
 <template>
  <section class="content">
-  <b-field :label="label">
+  <b-field :label="label" :message="help">
     <b-input v-model="value" @input="change" type="number" :placeholder="placeholder"/>
   </b-field>
 </section>

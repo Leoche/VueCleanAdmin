@@ -1,6 +1,6 @@
 <template>
  <section class="content">
-  <b-field :label="label">
+  <b-field :label="label" :message="help">
         <b-datepicker
             v-model="value"
             placeholder="Ajouter une Date"
