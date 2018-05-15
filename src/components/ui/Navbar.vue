@@ -69,7 +69,8 @@ export default {
   margin-right:8px;
 }
 nav{
-  box-shadow:0 10px 35px rgba(0,0,0,.1), 0 2px 5px rgba(0,0,0,.1)
+  box-shadow:0 10px 35px rgba(0,0,0,.1), 0 2px 5px rgba(0,0,0,.1);
+  flex-shrink:1;
 }
 .navbar-brand img{
   height: 40px;
