@@ -2,12 +2,12 @@
 
 - [ ] i18n
 - [ ] resize images
-- [ ] better navbar
+- [x] better navbar
 - [ ] admin can change server options
 - [ ] better success responses
-- [ ] show versions of client & version of server
+- [x] show versions of client & version of server
 - [ ] Dark theme
-- [ ] Media & uploads
+- [x] Media & uploads
 - [ ] User settings
 - [x] Move tab json to modal
-- [ ] Change enter events of form to match submiting form on editors
+- [x] Change enter events of form to match submiting form on editors

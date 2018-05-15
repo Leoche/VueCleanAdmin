@@ -94,6 +94,7 @@
       display: flex;
       flex-direction: column;
       flex-grow: 1;
+      margin-top: 56px;
 
         & .columns {
           flex: 1;
