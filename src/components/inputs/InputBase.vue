@@ -27,15 +27,15 @@ export default {
   },
   methods: {
     change (newValue) {
-      if (!this.initialized || !this.fetchedData) {
-        this.fetchedData = true
-        return false
-      }
       if (this.issettings === 'true') {
         let op = {}
         op[this.name] = newValue
         this.$emit('setOptions', op)
       } else {
+        if (!this.initialized || !this.fetchedData) {
+          this.fetchedData = true
+          return false
+        }
         this.$emit('changeContent', {value: newValue, name: this.name})
       }
     }
