@@ -31,6 +31,11 @@ export default {
 </script>
 
 <style lang="scss">
+#app{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 @import "~bulma/sass/utilities/_all";
 
 $primary: #167df0;

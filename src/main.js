@@ -25,6 +25,15 @@ Vue.use(VueGoogleMaps, {
     key: 'AIzaSyBzlLYISGjL_ovJwAehh6ydhB56fCCpPQw'
   }
 })
+Vue.mixin({
+  data () {
+    return {
+      get version () {
+        return process.env.VERSION
+      }
+    }
+  }
+})
 global.store = store
 
 window['env'] = process.env.NODE_ENV

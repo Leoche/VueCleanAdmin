@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <section>
     <Navbar></Navbar>
     <div class="container is-widescreen is-fluid">
       <div class="columns" v-if='loaded === 3'>
-        <div class="column is-one-fifth">
+        <div class="column column-sidebar is-one-fifth">
           <Sidebar :model="model"></Sidebar>
+          <footer><b-Icon icon="bug" size="is-small"></b-Icon> Version: {{ version }}</footer>
         </div>
         <div class="column column-content">
           <router-view :model="model"></router-view>
@@ -25,7 +26,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -84,6 +85,28 @@
 </script>
 
 <style scoped lang="scss">
+  section {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+      & .container {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+
+        & .columns {
+          flex: 1;
+          margin:0;
+
+          & footer {
+            font-size: 12px;
+            line-height: 36px;
+            color: rgba(0,0,0,.5);
+          }
+        }
+      }
+  }
   .column-content {
     margin-top: 16px
   }
@@ -95,5 +118,10 @@
     color: #333;
     justify-content: center;
     align-items: center;
+  }
+  .column-sidebar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 </style>
