@@ -56,7 +56,6 @@
   export default {
     name: 'Editor',
     props: ['slug'],
-
     components: {
       InputText,
       InputTags,
