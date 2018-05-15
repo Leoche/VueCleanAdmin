@@ -10,6 +10,7 @@
       </header>
       <section class="modal-card-body">
         <!-- Boxes -->
+        <form v-on:submit="pick">
         <div v-if="selectedType === null" class="columns">
           <div v-for="(set, i) in inputsTypesChunked" class="column">
             <a v-for="(input, j) in set" class="button button-large" @click.prevent="selectInput(input.name, i*2 + j)" v-if="canSub(input)">
@@ -27,7 +28,7 @@
             <div class="level-left">
               <div class="level-item">
                 <b-field label="Nom du champ">
-                  <b-input expanded v-model="selected.name" placeholder="Nom..."></b-input>
+                  <b-input expanded v-model="selected.name" @keyup.enter.prevent="pick" placeholder="Nom..."></b-input>
                 </b-field>
               </div>
             </div>
@@ -40,7 +41,7 @@
             </div>
           </div>
           <b-field label="Aide">
-            <b-input expanded v-model="selected.help" placeholder="Description ou description..."></b-input>
+            <b-input expanded v-model="selected.help" @keyup.enter.prevent="pick" placeholder="Description ou description..."></b-input>
           </b-field>
           <div class="content" v-if="inputsTypes[selectedType].settings">
             <b-field label="Options"></b-field>
@@ -58,6 +59,7 @@
             ></component>
           </div>
         </div>
+      </form>
       </section>
       <footer class="modal-card-foot">
         <button class="button" type="button" @click.prevent="selectedType = null" v-show="selectedType !== null">
@@ -102,6 +104,7 @@ export default {
       this.selectedType = i
     },
     setOptions (args) {
+      console.log('args', args)
       this.selected.options = Object.assign(this.selected.options, args)
     },
     pick () {
