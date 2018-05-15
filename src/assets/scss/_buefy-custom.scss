@@ -172,14 +172,14 @@ body {
 
 .notices {
     padding: 0 2em;
-    height: 56px;
+    height: 52px;
     z-index: 39;
 
     & .toast {
         padding: 0;
         margin: 0;
-        height: 56px;
-        line-height: 56px;
+        height: 52px;
+        line-height: 52px;
         font-size: 14px;
 
         &:before {

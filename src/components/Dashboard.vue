@@ -3,7 +3,7 @@
     <Navbar></Navbar>
     <div class="container is-widescreen is-fluid">
       <div class="columns" v-if='loaded === 3'>
-        <div class="column column-sidebar is-one-fifth">
+        <div class="column column-sidebar is-one-fifth-desktop is-one-third-tablet is-hidden-touch">
           <Sidebar :model="model"></Sidebar>
           <footer><b-Icon icon="bug" size="is-small"></b-Icon> Version: {{ version }}</footer>
         </div>
@@ -85,6 +85,7 @@
 </script>
 
 <style scoped lang="scss">
+@import "../assets/scss/responsive";
   section {
     display: flex;
     flex-direction: column;
@@ -94,7 +95,8 @@
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      margin-top: 56px;
+      margin: 52px 32px 0 32px;
+      width: calc(100% - 64px);
 
         & .columns {
           flex: 1;
@@ -107,6 +109,14 @@
           }
         }
       }
+  }
+  @media #{$tablet-down} {
+    section{
+      .container {
+        margin: 0 16px 0 16px;
+        width: calc(100% - 32px);
+      }
+    }
   }
   .column-content {
     margin-top: 16px

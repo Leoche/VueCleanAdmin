@@ -56,7 +56,6 @@ $colors: (
   );
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
-
 @import "assets/scss/transitions";
 @import "assets/scss/autofill-fix";
 @import "assets/scss/buefy-custom";

@@ -1,0 +1,14 @@
+$gap: 32px !default
+$tablet: 769px !default
+$desktop: 960px + (2 * $gap) !default
+$widescreen: 1152px + (2 * $gap) !default
+$fullhd: 1344px + (2 * $gap) !default
+
+$tablet-up: "only screen and (min-width: #{$tablet})" !default;
+$tablet-down: "only screen and (max-width: #{$tablet - 1})" !default;
+$desktop-up: "only screen and (min-width: #{$desktop})" !default;
+$desktop-down: "only screen and (max-width: #{$desktop - 1})" !default;
+$widescreen-up: "only screen and (min-width: #{$widescreen})" !default;
+$widescreen-down: "only screen and (max-width: #{$widescreen - 1})" !default;
+$fullhd-up: "only screen and (min-width: #{$fullhd})" !default;
+$fullhd-down: "only screen and (max-width: #{$fullhd - 1})" !default;

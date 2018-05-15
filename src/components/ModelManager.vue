@@ -25,7 +25,7 @@
     <!-- Liste des inputs -->
     <draggable v-model="inputs" @end="onDrag" :options="dragOptions">
       <transition-group appear name="fadeup">
-        <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="i" :class="'card--'+input.type">
+        <div class="card card--list" v-for="(input, i) in inputs" v-bind:key="input.label" :class="'card--'+input.type">
           <div class="card-header">
             <p class="card-header-title" v-if="input.type !== 'sub' && input.type !== 'group'">
               <b-Icon :icon="(input.icon) ? input.icon.replace('mdi-','') : 'help'"></b-Icon>
