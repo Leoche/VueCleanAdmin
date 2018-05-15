@@ -166,6 +166,7 @@ body {
 .notices {
     padding: 0 2em;
     height: 56px;
+    z-index: 39;
 
     & .toast {
         padding: 0;
