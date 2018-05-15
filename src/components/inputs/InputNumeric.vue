@@ -3,7 +3,6 @@
   <b-field :label="label">
     <b-input v-model="value" @input="change" type="number" :placeholder="placeholder"/>
   </b-field>
-  {{ value }}
 </section>
 </template>
 

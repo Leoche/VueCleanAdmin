@@ -162,3 +162,94 @@ body {
 .upload .upload-draggable {
     display: block;
 }
+
+.notices {
+    padding: 0 2em;
+    height: 56px;
+
+    & .toast {
+        padding: 0;
+        margin: 0;
+        height: 56px;
+        line-height: 56px;
+        font-size: 14px;
+
+        &:before {
+            display: inline-block;
+            font: normal normal normal 24px/1 "Material Design Icons";
+            font-size: 24px;
+            text-rendering: auto;
+            line-height: inherit;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin-right: 8px;
+        }
+
+        &.is-success {
+            &:before {
+                content: "\f5e0";
+            }
+        }
+
+        &.is-warning {
+            &:before {
+                content: "\f028";
+            }
+        }
+
+        &.is-danger {
+            &:before {
+                content: "\f159";
+            }
+        }
+
+        &.is-info {
+            &:before {
+                content: "\f2d7";
+            }
+        }
+
+        @each $name, $pair in $colors {
+            $color: nth($pair, 1);
+            $color-invert: nth($pair, 2);
+
+            &.is-#{$name} {
+                color: #222;
+                background: none;
+                box-shadow: none;
+
+                &:before {
+                    color: $color;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        transform: translate3d(0, -100%, 0);
+    }
+
+    to {
+        transform: none;
+    }
+}
+
+.fadeInDown {
+    animation-name: fadeInDown;
+}
+
+@keyframes fadeOut {
+    from {
+        transform: none;
+    }
+
+    to {
+        transform: translate3d(0, 100%, 0);
+    }
+}
+
+.fadeOut {
+    animation-name: fadeOut;
+}
