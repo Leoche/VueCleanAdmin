@@ -1,17 +1,19 @@
 <template>
  <section class="content">
-  <b-field :label="label" :message="help">
+  <InputField :label="label" :message="help" icon="numeric">
     <b-input v-model="value" @input="change" type="number" :placeholder="placeholder"/>
-  </b-field>
+  </InputField>
 </section>
 </template>
 
 <script>
 import InputBase from '@/components/inputs/InputBase'
+import InputField from '@/components/ui/InputField'
 
 export default {
   name: 'InputNumeric',
   extends: InputBase,
+  components: {InputField},
   methods: {
     change () {
       if (!this.initialized || !this.fetchedData) {

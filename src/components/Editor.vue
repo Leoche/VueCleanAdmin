@@ -1,6 +1,6 @@
 <template>
   <div>
-   <section class="content" v-if="input && (oldvalue || oldvalue === '')">
+   <section class="content editor-fields" v-if="input && (oldvalue || oldvalue === '')">
       <h1>Édition: {{ input.label }}</h1>
       <template v-if="input.type === 'group'">
         <template v-for="subinput in input.inputs">

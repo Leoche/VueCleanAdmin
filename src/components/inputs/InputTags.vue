@@ -1,6 +1,6 @@
 <template>
  <section class="content">
-  <b-field :label="label" :message="help">
+  <InputField :label="label" :message="help" icon="tags">
         <b-taginput
             maxtags="5"
             v-model="value"
@@ -8,16 +8,18 @@
             icon="label"
             @input="change">
         </b-taginput>
-  </b-field>
+</InputField>
 </section>
 </template>
 
 <script>
 import InputBase from '@/components/inputs/InputBase'
+import InputField from '@/components/ui/InputField'
 
 export default {
   name: 'InputTags',
   extends: InputBase,
+  components: {InputField},
   data () {
     return {
       value: []

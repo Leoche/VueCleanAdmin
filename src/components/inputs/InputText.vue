@@ -1,16 +1,18 @@
 <template>
  <section class="content">
-  <b-field :label="label" :message="help">
+  <InputField :label="label" :message="help" :icon="options.length === 'line' ? 'text' : 'textarea'">
     <b-input v-model="value" @input="change" :placeholder="placeholder" :type="options.length === 'line' ? 'text' : 'textarea'"/>
-  </b-field>
+  </InputField>
 </section>
 </template>
 
 <script>
 import InputBase from '@/components/inputs/InputBase'
+import InputField from '@/components/ui/InputField'
 
 export default {
   name: 'InputText',
+  components: {InputField},
   extends: InputBase
 }
 </script>

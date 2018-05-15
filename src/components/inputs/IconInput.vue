@@ -12,11 +12,13 @@
     computed: {
       customSizeByPack () {
         switch (this.icon) {
-          case 'text': return 'view-headline'
+          case 'textarea': return 'view-headline'
+          case 'text': return 'format-text'
           case 'date': return 'calendar-clock'
           case 'numeric': return 'numeric'
           case 'location': return 'map-marker'
           case 'image': return 'image'
+          case 'images': return 'image-multiple'
           case 'group': return 'note'
           case 'boolean': return 'toggle-switch-off'
           case 'tags': return 'tag'

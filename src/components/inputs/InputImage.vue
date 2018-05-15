@@ -1,7 +1,6 @@
 <template>
  <section>
-  <b-field :label="label">
-  </b-field>
+  <InputField :label="label" :icon="(this.options.length !== 'one') ? 'images' : 'image'"></InputField>
     <div class="buttons" v-if="(value.length === 0) || this.options.length !== 'one'">
       <button class="button is-blank is-rounded is-shadowed" @click.prevent="isAssetPickerActive = true">
         <span>Choisir dans les images existantes</span>
@@ -20,7 +19,10 @@
        <div class="empty">Aucune images séléctionné</div>
       </template>
     </div>
-    <p v-if="help !== ''" class="help">{{ help }}</p>
+    <p v-if="help !== ''" class="help">
+      <i class="mdi mdi-help-circle"></i>
+      {{ help }}
+    </p>
     <b-modal :active.sync="isUploaderActive" has-modal-card>
       <Uploader :multiple='this.options.length !== "one"' v-on:close="addedImage"></Uploader>
     </b-modal>
@@ -34,6 +36,7 @@
 <script>
 import InputBase from '@/components/inputs/InputBase'
 import InputAsset from '@/components/inputs/InputAsset'
+import InputField from '@/components/ui/InputField'
 import Uploader from '../ui/Uploader'
 import AssetBox from '../ui/AssetBox'
 
@@ -43,7 +46,8 @@ export default {
   components: {
     Uploader,
     InputAsset,
-    AssetBox
+    AssetBox,
+    InputField
   },
   data () {
     return {
@@ -117,5 +121,10 @@ export default {
 .assets-container{
   display: flex;
   flex-wrap: wrap;
+}
+.help{
+  font-size: 13px;
+  color:rgba(0,0,0,.5);
+  padding-top: 4px;
 }
 </style>
