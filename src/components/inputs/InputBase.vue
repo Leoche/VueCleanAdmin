@@ -2,7 +2,7 @@
 <script>
 export default {
   name: 'InputBase',
-  props: ['name', 'label', 'defaultvalue', 'type', 'options', 'parent', 'issettings', 'placeholder'],
+  props: ['name', 'help', 'label', 'defaultvalue', 'type', 'options', 'parent', 'issettings', 'placeholder'],
   computed: {
     initialized () {
       return this.$store.getters.isContentFetched

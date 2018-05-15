@@ -8,6 +8,7 @@ let generateInput = (input) => {
     'name': slug(input.name),
     'label': input.name,
     'type': input.type,
+    'help': input.help,
     'icon': input.icon,
     'options': input.options
   }

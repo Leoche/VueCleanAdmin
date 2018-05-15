@@ -1,6 +1,6 @@
 <template>
  <section class="content">
-  <b-field :label="label">
+  <b-field :label="label" :message="help">
     <b-input v-model="value" @input="change" :placeholder="placeholder" :type="options.length === 'line' ? 'text' : 'textarea'"/>
   </b-field>
 </section>

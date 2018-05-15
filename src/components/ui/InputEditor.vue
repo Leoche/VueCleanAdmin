@@ -39,6 +39,9 @@
               </div>
             </div>
           </div>
+          <b-field label="Aide">
+            <b-input expanded v-model="selected.help" placeholder="Description ou description..."></b-input>
+          </b-field>
           <div class="content" v-if="inputsTypes[selectedType].settings">
             <b-field label="Options"></b-field>
             <component
@@ -119,6 +122,7 @@ export default {
       let index = this.inputsTypes.findIndex((input) => input.name === jsonData.type)
       this.selected = jsonData
       this.selected.name = jsonData.label
+      this.selected.help = jsonData.help || ''
       if (!jsonData.icon) {
         this.selected.icon = 'help'
       } else {
