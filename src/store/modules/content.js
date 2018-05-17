@@ -90,7 +90,7 @@ const getters = {
   getContent: state => { return state.content },
   getContentByLabel: state => label => {
     if (label.indexOf('/') !== -1 && state.fetched) {
-      return state.content[label.split('/')[0]][label.split('/')[1]] || ''
+      return (!state.content[label.split('/')[0]]) ? '' : state.content[label.split('/')[0]][label.split('/')[1]] || ''
     } else {
       return state.content[label] || ''
     }
@@ -104,6 +104,7 @@ const mutations = {
   },
   EDIT_CONTENT (store, payload) {
     if (payload.group) {
+      if (!state.content[payload.name]) state.content[payload.name] = {}
       state.content[payload.name][payload.subname] = payload.value
     } else if (payload.sub) {
       if (payload.index !== -1 && state.content[payload.name][payload.index]) {
