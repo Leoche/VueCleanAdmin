@@ -2,6 +2,7 @@
    {
       "name":"text",
       "label":"Texte",
+      "default":"",
       "settings":[
          {
             "name":"length",
@@ -33,11 +34,13 @@
    },
    {
       "name":"date",
+      "default":"01/01/2017",
       "label":"Date"
    },
    {
       "name":"image",
       "label":"Image",
+      "default":[],
       "settings":[
          {
             "name":"length",
@@ -56,18 +59,26 @@
    },
    {
       "name":"numeric",
+      "default":0,
       "label":"Nombre"
    },
    {
       "name":"location",
+      "default":{
+          "lat": 48,
+          "lng": 10,
+          "zoom": 6
+      },
       "label":"Emplacement"
    },
    {
       "name":"boolean",
+      "default":false,
       "label":"Boolean"
    },
    {
       "name":"tags",
+      "default":[],
       "label":"Tags"
    },
    {
