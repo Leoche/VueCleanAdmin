@@ -58,7 +58,7 @@
           :type="subinput.type"
           :label="subinput.label | ucfirst"
           :name="subinput.name"
-          :defaultvalue="subinput.default"
+          :defaultvalue="(selected === null) ? subinput.default : selected[subinput.name]"
           :help="subinput.help"
           :placeholder="subinput.label + '...'"
           :options="subinput.options"
@@ -85,12 +85,6 @@
         </div>
       </div>
     </section>
-    <hr>
-    {{ input }}
-    <hr>
-    {{ newContent }}
-    <hr>
-    {{ selected }}
   </div>
 </template>
 <script>
@@ -165,6 +159,10 @@ export default {
       this.data = tmpdata
     },
     editContent (id) {
+      this.selected = this.data[id]
+      this.newContent = this.data[id]
+      this.newContent.id = id
+      this.tableActive = false
       console.log('de')
     },
     tryDeleteContent (id) {
@@ -196,6 +194,11 @@ export default {
     },
     save () {
       let toSave = {name: this.input.name, value: JSON.parse(JSON.stringify(this.newContent)), sub: true, index: -1}
+      if (typeof this.newContent.id != 'undefined' && this.newContent.id > -1) {
+        toSave.index = this.newContent.id
+        delete this.newContent['id']
+        toSave.value = JSON.parse(JSON.stringify(this.newContent))
+      }
       this.$store.dispatch('saveContent', {user: this.$session.get('user'), content: toSave}).then(res => {
         this.$toast.open({
           message: 'Succès: ' + res,
