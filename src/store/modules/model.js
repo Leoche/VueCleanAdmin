@@ -10,6 +10,7 @@ let generateInput = (input) => {
     'type': input.type,
     'help': input.help,
     'icon': input.icon,
+    'default': input.default,
     'options': input.options
   }
   if (input.type === 'sub' || input.type === 'group') {
