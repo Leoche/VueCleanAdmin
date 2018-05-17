@@ -143,21 +143,21 @@ export default {
   methods: {
     // DATA
     newInput (input) {
+      input.default = this.getDefaultByName(input.type)
       this.$store.commit('ADD_INPUT_TO_MODEL', input)
       this.saved = false
-      this.save()
+      this.save(input)
     },
     editInput (input) {
       this.$store.commit('EDIT_INPUT_TO_MODEL', {input})
       this.saved = false
-      this.save()
+      this.save(input)
     },
     removeInput (index) {
       this.$store.commit('REMOVE_INPUT_TO_MODEL', index)
       this.saved = false
-      this.save()
     },
-    save () {
+    save (input) {
       this.$store.dispatch('saveModel', this.$session.get('user')).then(res => {
         this.$toast.open({
           message: 'Succès: ' + res,
@@ -171,6 +171,31 @@ export default {
       })
       this.saved = true
     },
+    getDefaultByName (type) {
+      let inputs = require('@/input_types.json')
+      for (let i in inputs) {
+        if (inputs[i].name === type) return inputs[i].default
+      }
+      return null
+    },
+      //     save (value, oldvalue) {
+      //   if (!this.$store.getters.isContentFetched) return false
+      //   let toSave = {name: this.input.name, value: value.value}
+      //   if (this.input.type === 'group') toSave = {name: this.input.name, value: value.value, sub: value.name}
+      //   console.log('toSave', toSave)
+      //   console.log('value', value)
+      //   this.$store.dispatch('saveContent', {user: this.$session.get('user'), content: toSave}).then(res => {
+      //     this.$toast.open({
+      //       message: 'Succès: ' + res,
+      //       type: 'is-success'
+      //     })
+      //   }).catch(err => {
+      //     this.$toast.open({
+      //       message: 'Error: ' + err,
+      //       type: 'is-danger'
+      //     })
+      //   })
+      // }
 
     // UI
     launchEdit (index) {
