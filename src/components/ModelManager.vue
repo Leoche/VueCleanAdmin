@@ -178,24 +178,24 @@ export default {
       }
       return null
     },
-      //     save (value, oldvalue) {
-      //   if (!this.$store.getters.isContentFetched) return false
-      //   let toSave = {name: this.input.name, value: value.value}
-      //   if (this.input.type === 'group') toSave = {name: this.input.name, value: value.value, sub: value.name}
-      //   console.log('toSave', toSave)
-      //   console.log('value', value)
-      //   this.$store.dispatch('saveContent', {user: this.$session.get('user'), content: toSave}).then(res => {
-      //     this.$toast.open({
-      //       message: 'Succès: ' + res,
-      //       type: 'is-success'
-      //     })
-      //   }).catch(err => {
-      //     this.$toast.open({
-      //       message: 'Error: ' + err,
-      //       type: 'is-danger'
-      //     })
-      //   })
-      // }
+    //     save (value, oldvalue) {
+    //   if (!this.$store.getters.isContentFetched) return false
+    //   let toSave = {name: this.input.name, value: value.value}
+    //   if (this.input.type === 'group') toSave = {name: this.input.name, value: value.value, sub: value.name}
+    //   console.log('toSave', toSave)
+    //   console.log('value', value)
+    //   this.$store.dispatch('saveContent', {user: this.$session.get('user'), content: toSave}).then(res => {
+    //     this.$toast.open({
+    //       message: 'Succès: ' + res,
+    //       type: 'is-success'
+    //     })
+    //   }).catch(err => {
+    //     this.$toast.open({
+    //       message: 'Error: ' + err,
+    //       type: 'is-danger'
+    //     })
+    //   })
+    // }
 
     // UI
     launchEdit (index) {
