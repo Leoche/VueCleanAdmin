@@ -32,6 +32,9 @@ export default {
         return 'Désactivé'
       }
     }
+  },
+  mounted () {
+    this.fetchedData = true
   }
 }
 </script>
