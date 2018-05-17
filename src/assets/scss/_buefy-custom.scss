@@ -19,6 +19,11 @@ body {
     }
 }
 
+.button.is-icon {
+    padding-left: .75em;
+    padding-right: .75em;
+}
+
 .button.is-shadowed {
     $color: #fff;
     $color-invert: rgba(0, 0, 0, 0.2);
