@@ -11,3 +11,4 @@
 - [ ] User settings
 - [x] Move tab json to modal
 - [x] Change enter events of form to match submiting form on editors
+- [ ] Remove content when removing input in model
