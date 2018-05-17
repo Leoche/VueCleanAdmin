@@ -27,9 +27,9 @@ export default {
   computed: {
     actived () {
       if (this.value) {
-        return "Activé"
+        return 'Activé'
       } else {
-        return "Désactivé"
+        return 'Désactivé'
       }
     }
   }
