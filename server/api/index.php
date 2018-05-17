@@ -93,11 +93,37 @@ class VueCleanServer
                     // Todo: check model
                     $oldcontent = $this->ressource->getJSON('content');
                     $content = json_decode(Validator::content());
-                    if(property_exists($content, 'sub')) {
-                      if (!property_exists($oldcontent, $content->name)) $oldcontent->{$content->name} = new stdClass();
-                      $oldcontent->{$content->name}->{$content->sub} = $content->value;
+
+                    if(property_exists($content, 'group')) {
+                      if (!property_exists($oldcontent, $content->name))
+                        $oldcontent->{$content->name} = new stdClass();
+                      $oldcontent->{$content->name}->{$content->subname} = $content->value;
+
+                    } else if(property_exists($content, 'sub')) {
+                      if (!property_exists($oldcontent, $content->name))
+                        $oldcontent->{$content->name} = array();
+                      if ($content->index != -1 && isset($oldcontent->{$content->name}[$content->index])) {
+                        $oldcontent->{$content->name}[$content->index] = $content->value;
+                      }else {
+                        array_push($oldcontent->{$content->name}, $content->value);
+                      }
+
                     } else {
                       $oldcontent->{$content->name} = $content->value;
+                    }
+                    if ($this->ressource->saveJSON("content", $oldcontent)) $this->response->success("Content saved");
+                  }
+               break;
+               case "deletecontent":
+                  if ($this->auth->user()) {
+                    // Todo: check model
+                    $oldcontent = $this->ressource->getJSON('content');
+                    $content = json_decode(Validator::content());
+
+                    if (property_exists($oldcontent, $content->name)) {
+                      if (is_array($oldcontent->{$content->name})) {
+                        array_splice($oldcontent->{$content->name}, $content->index, 1);
+                      }
                     }
                     if ($this->ressource->saveJSON("content", $oldcontent)) $this->response->success("Content saved");
                   }
