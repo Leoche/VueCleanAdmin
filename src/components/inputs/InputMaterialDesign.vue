@@ -62,7 +62,6 @@
             .toLowerCase()
             .match(new RegExp('(.*)' + this.name.toLowerCase().replace(' ', '-') + '(.*)', 'g')) !== null : false
         })
-        console.log('results', results)
         return results
       },
       initialized () {
