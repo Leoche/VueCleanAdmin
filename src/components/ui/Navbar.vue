@@ -36,18 +36,20 @@
         <span>{{ input.label }}</span>
         <b-Icon :icon="(input.icon) ? input.icon.replace('mdi-','') : 'help'" size="is-small"></b-Icon>
       </router-link>
-      <hr class="navbar-divider is-hidden-desktop" style="display: block;">
-      <div class="navbar-item is-subitem is-hidden-desktop">
-          Administration
-      </div>
-      <router-link @click.native="toggle" to="/model" class="navbar-item navbar-flex is-hidden-desktop" exact-active-class="is-active"><span>Model Manager</span><b-icon icon="file-tree" size="is-small"></b-icon></router-link>
-      <router-link @click.native="toggle" to="/users" class="navbar-item navbar-flex is-hidden-desktop" exact-active-class="is-active"><span>Users Manager</span><b-icon icon="account-multiple" size="is-small"></b-icon></router-link>
-      <router-link @click.native="toggle" to="/medias" class="navbar-item navbar-flex is-hidden-desktop" exact-active-class="is-active"><span>Medias Manager</span><b-icon icon="image-multiple" size="is-small"></b-icon></router-link>
+      <template v-if="user.role === 'admin'">
+        <hr class="navbar-divider is-hidden-desktop" style="display: block;">
+        <div class="navbar-item is-subitem is-hidden-desktop">
+            Administration
+        </div>
+        <router-link @click.native="toggle" to="/model" class="navbar-item navbar-flex is-hidden-desktop" exact-active-class="is-active"><span>Model Manager</span><b-icon icon="file-tree" size="is-small"></b-icon></router-link>
+        <router-link @click.native="toggle" to="/users" class="navbar-item navbar-flex is-hidden-desktop" exact-active-class="is-active"><span>Users Manager</span><b-icon icon="account-multiple" size="is-small"></b-icon></router-link>
+        <router-link @click.native="toggle" to="/medias" class="navbar-item navbar-flex is-hidden-desktop" exact-active-class="is-active"><span>Medias Manager</span><b-icon icon="image-multiple" size="is-small"></b-icon></router-link>
+      </template>
       <hr class="navbar-divider is-hidden-desktop" style="display: block;">
       <div class="navbar-item is-subitem is-hidden-desktop">
           Autres
       </div>
-      <a href="#/" @click.native="toggle" class="navbar-item  navbar-flex is-hidden-desktop">
+      <a href="/" @click.native="toggle" class="navbar-item  navbar-flex is-hidden-desktop">
           <span>Retour au site</span>
           <b-icon icon="arrow-left" size="is-small"></b-icon>
       </a>
@@ -74,6 +76,7 @@ export default {
       return this.$store.getters.getUser
     },
     ...mapGetters({
+      user: 'getUser',
       model: 'getRootModel'
     })
   },

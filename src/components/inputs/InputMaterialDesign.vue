@@ -80,13 +80,15 @@
       }
     },
     mounted () {
-      this.$http.get(`https://api.github.com/repos/Templarian/MaterialDesign/contents/icons/svg`)
+      this.$http.get(`https://api.github.com/repos/Templarian/MaterialDesign-SVG/contents/meta.json`)
       .then(({ data }) => {
         let newData = []
-        for (let index in data) {
-          newData.push(data[index].name.replace('.svg', ''))
+        let icons = JSON.parse(atob(data.content))
+        for (let index in icons) {
+          newData.push(icons[index].name)
         }
         this.data = newData
+        console.log('this.data', this.data)
         this.selected = this.default
         this.$refs.autoMdi.setSelected(this.default)
       })

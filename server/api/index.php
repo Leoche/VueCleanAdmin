@@ -52,9 +52,7 @@ class VueCleanServer
                               READ
                ---------------------------------------------------------------------------------------------*/
                case "getmodel":
-                  if ($this->auth->admin()) {
-                     $this->response->success($this->ressource->getJSON('model'));
-                  } else throw new Exception('Invalid permissions');
+                  $this->response->success($this->ressource->getJSON('model'));
                break;
                case "getcontent":
                      $this->response->success($this->ressource->getJSON('content'));
@@ -129,34 +127,32 @@ class VueCleanServer
                   }
                break;
                case "addmedias":
-                  if ($this->auth->admin()) {
-                    $succededFiles = [];
-                    foreach ($_FILES as $key => $file) {
-                      if($file['size'] > $this->configuration->max_upload || $file['error'] != 0) continue;
-                      $newName = uniqid() . "_" . $file['name'];
-                      if (move_uploaded_file($file['tmp_name'], '../storage/uploads/' . $newName)) {
-                        $newFile = array(
-                          'name' => $newName,
-                          'type' => $file['type'],
-                          'size' => $file['size']
-                        );
-                        $medias = $this->ressource->getJSON('medias');
-                        if (!isset($medias->files)){
-                          $medias->files = array();
-                        }
-                        array_push($medias->files, $newFile);
-                        $this->ressource->saveJSON('medias', $medias);
-
-                        array_push($succededFiles, $newFile);
+                  $succededFiles = [];
+                  foreach ($_FILES as $key => $file) {
+                    if($file['size'] > $this->configuration->max_upload || $file['error'] != 0) continue;
+                    $newName = uniqid() . "_" . $file['name'];
+                    if (move_uploaded_file($file['tmp_name'], '../storage/uploads/' . $newName)) {
+                      $newFile = array(
+                        'name' => $newName,
+                        'type' => $file['type'],
+                        'size' => $file['size']
+                      );
+                      $medias = $this->ressource->getJSON('medias');
+                      if (!isset($medias->files)){
+                        $medias->files = array();
                       }
+                      array_push($medias->files, $newFile);
+                      $this->ressource->saveJSON('medias', $medias);
+
+                      array_push($succededFiles, $newFile);
                     }
-                    if(count($succededFiles) != count($_FILES)){
-                      print_r($_FILES);
-                      exit();
-                    }
-                    if(count($succededFiles) != 0){
-                      $this->response->print_json('success', json_encode($succededFiles), count($succededFiles) . '/' . count($_FILES) . ' files uploaded' );
-                    }
+                  }
+                  if(count($succededFiles) != count($_FILES)){
+                    print_r($_FILES);
+                    exit();
+                  }
+                  if(count($succededFiles) != 0){
+                    $this->response->print_json('success', json_encode($succededFiles), count($succededFiles) . '/' . count($_FILES) . ' files uploaded' );
                   }
                break;
 

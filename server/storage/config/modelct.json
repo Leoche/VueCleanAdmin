@@ -1,0 +1,219 @@
+[
+    {
+        "name": "page-daccueil",
+        "label": "Page d'accueil",
+        "type": "group",
+        "icon": "home",
+        "options": {},
+        "inputs": [
+            {
+                "name": "texte-de-presentation",
+                "label": "Texte de pr\u00e9sentation",
+                "type": "text",
+                "help": "Petit paragraphe de pr\u00e9sentation",
+                "icon": "account-box",
+                "default": "",
+                "options": {
+                    "length": "multiline",
+                    "test": "1"
+                }
+            },
+            {
+                "name": "image-de-fond",
+                "label": "Image de fond",
+                "type": "image",
+                "icon": "image-area",
+                "help": "Photo de fond du site",
+                "default": [],
+                "options": {
+                    "length": "one"
+                }
+            },
+            {
+                "name": "photo-personnelle",
+                "label": "Photo personnelle",
+                "type": "image",
+                "help": "Pr\u00e9f\u00e9rablement une photo carr\u00e9 de vous-m\u00eame",
+                "icon": "account-circle",
+                "default": [],
+                "options": {
+                    "length": "one"
+                }
+            },
+            {
+                "name": "informations-entreprise",
+                "label": "Informations entreprise",
+                "type": "text",
+                "help": "Ce texte sera affich\u00e9 en bas \u00e0 gauche du site, (num siret etc)",
+                "icon": "information-variant",
+                "default": "",
+                "options": {
+                    "length": "line",
+                    "test": "1"
+                }
+            },
+            {
+                "name": "informations-supplementaires",
+                "label": "Informations suppl\u00e9mentaires",
+                "type": "text",
+                "help": "Ce texte sera affich\u00e9 en bas \u00e0 droite du site",
+                "icon": "information-variant",
+                "default": "",
+                "options": {
+                    "length": "line",
+                    "test": "1"
+                }
+            }
+        ]
+    },
+    {
+        "name": "gallerie-photo",
+        "label": "Gallerie Photo",
+        "type": "sub",
+        "help": "",
+        "icon": "folder-multiple-image",
+        "options": {},
+        "inputs": [
+            {
+                "name": "titre-du-chantier",
+                "label": "Titre du chantier",
+                "type": "text",
+                "icon": "format-text",
+                "default": "",
+                "options": {
+                    "length": "line",
+                    "test": "1"
+                }
+            },
+            {
+                "name": "description",
+                "label": "Description",
+                "type": "text",
+                "help": "Petite description du chantier et des photos",
+                "icon": "sign-text",
+                "default": "",
+                "options": {
+                    "length": "multiline",
+                    "test": "1"
+                }
+            },
+            {
+                "name": "images",
+                "label": "Images",
+                "type": "image",
+                "help": "Une ou plusieurs images du chantier",
+                "icon": "image-filter",
+                "default": [],
+                "options": {
+                    "length": "multiple"
+                }
+            },
+            {
+                "name": "date-de-debut",
+                "label": "Date de D\u00e9but",
+                "type": "date",
+                "help": "Date du d\u00e9but de chantier, (seul le mois compte)",
+                "icon": "arrow-collapse-left",
+                "default": "2018-01-01T00:00:00.000Z",
+                "options": {}
+            },
+            {
+                "name": "date-de-fin",
+                "label": "Date de Fin",
+                "type": "date",
+                "help": "Date de la fin du chantier, (seul le mois compte)",
+                "icon": "arrow-collapse-right",
+                "default": "2018-01-01T00:00:00.000Z",
+                "options": {}
+            }
+        ]
+    },
+    {
+        "name": "coordonnees",
+        "label": "Coordonn\u00e9es",
+        "type": "group",
+        "icon": "account-card-details",
+        "options": {},
+        "inputs": [
+            {
+                "name": "nom-de-rue",
+                "label": "Nom de rue",
+                "type": "text",
+                "icon": "sign-direction",
+                "default": "",
+                "options": {
+                    "length": "line",
+                    "test": "1"
+                }
+            },
+            {
+                "name": "ville",
+                "label": "Ville",
+                "type": "text",
+                "icon": "city",
+                "default": "",
+                "options": {
+                    "length": "line",
+                    "test": "1"
+                }
+            },
+            {
+                "name": "code-postal",
+                "label": "Code Postal",
+                "type": "numeric",
+                "icon": "numeric",
+                "default": 0,
+                "options": {
+                    "length": "line",
+                    "test": "1"
+                }
+            },
+            {
+                "name": "telephone-fixe",
+                "label": "T\u00e9l\u00e9phone fixe",
+                "type": "text",
+                "icon": "cellphone-basic",
+                "default": "",
+                "options": {
+                    "length": "line",
+                    "test": "1"
+                }
+            },
+            {
+                "name": "telephone-portable",
+                "label": "T\u00e9l\u00e9phone portable",
+                "type": "text",
+                "icon": "cellphone",
+                "default": "",
+                "options": {
+                    "length": "line",
+                    "test": "1"
+                }
+            },
+            {
+                "name": "emplacement",
+                "label": "Emplacement",
+                "type": "location",
+                "help": "Emplacement pour afficher la carte",
+                "icon": "map",
+                "default": {
+                    "lat": 48,
+                    "lng": 10,
+                    "zoom": 6
+                },
+                "options": {}
+            },
+            {
+                "name": "email",
+                "label": "Email",
+                "type": "text",
+                "icon": "at",
+                "default": "",
+                "options": {
+                    "length": "line",
+                    "test": "1"
+                }
+            }
+        ]
+    }
+]

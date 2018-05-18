@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     addedImage (value) {
-      if (!this.initialized || !this.fetchedData) {
+      if (!this.initialized) {
         this.fetchedData = true
         return false
       }
