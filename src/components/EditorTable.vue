@@ -194,7 +194,7 @@ export default {
     },
     save () {
       let toSave = {name: this.input.name, value: JSON.parse(JSON.stringify(this.newContent)), sub: true, index: -1}
-      if (typeof this.newContent.id != 'undefined' && this.newContent.id > -1) {
+      if (typeof this.newContent.id !== 'undefined' && this.newContent.id > -1) {
         toSave.index = this.newContent.id
         delete this.newContent['id']
         toSave.value = JSON.parse(JSON.stringify(this.newContent))

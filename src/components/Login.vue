@@ -6,7 +6,7 @@
           <div class="card">
             <div class="card-content">
               <div class="content">
-                <img src="/src/assets/imgs/newlogo/logo-color-dark.svg" alt="Vuecleanadmin logo">
+                <img src="/static/img/logo-color-dark.svg" alt="Vuecleanadmin logo">
                 <b-field>
                   <b-input placeholder="Email" type="email" icon="email-outline" v-model="vemail"></b-input>
                 </b-field>

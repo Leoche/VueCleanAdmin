@@ -2,7 +2,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">
-        <img src="/src/assets/imgs/newlogo/logo-color-dark.svg" alt="Vuecleanadmin logo">
+        <img src="/static/img/logo-color-dark.svg" alt="Vuecleanadmin logo">
       </a>
       <a class="navbar-item is-hidden-touch" href="/">
         <b-icon icon="arrow-left" size="is-small"></b-icon> Retour au site
